@@ -18,6 +18,7 @@
 		FE877256282AA1B1006111CB /* strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE877255282AA1B1006111CB /* strings.swift */; };
 		FE877259282AA288006111CB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE877257282AA288006111CB /* Localizable.strings */; };
 		FE87725B282AA382006111CB /* assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE87725A282AA382006111CB /* assets.swift */; };
+		FE87725D282AA4F6006111CB /* YouTubeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE87725C282AA4F6006111CB /* YouTubeAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		FE877255282AA1B1006111CB /* strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = strings.swift; sourceTree = "<group>"; };
 		FE877258282AA288006111CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = YouTubeAPI/Base.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		FE87725A282AA382006111CB /* assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = assets.swift; sourceTree = "<group>"; };
+		FE87725C282AA4F6006111CB /* YouTubeAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YouTubeAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 		FE877239282A84BE006111CB /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				FE87725C282AA4F6006111CB /* YouTubeAPI.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				FE877229282A830A006111CB /* ViewController.swift in Sources */,
 				FE877225282A830A006111CB /* AppDelegate.swift in Sources */,
 				FE877256282AA1B1006111CB /* strings.swift in Sources */,
+				FE87725D282AA4F6006111CB /* YouTubeAPI.swift in Sources */,
 				FE877227282A830A006111CB /* SceneDelegate.swift in Sources */,
 				FE87725B282AA382006111CB /* assets.swift in Sources */,
 			);

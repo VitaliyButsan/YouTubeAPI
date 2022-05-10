@@ -10,8 +10,12 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
-  /// Welcome
-  internal static let welcomeTitle = L10n.tr("Localizable", "welcomeTitle")
+  /// AIzaSyBxF4G3kTicXsQwmzspB1yVlMwfMSZDivk
+  internal static let apiKey = L10n.tr("Localizable", "apiKey")
+  /// https://www.googleapis.com/youtube/v3
+  internal static let baseURL = L10n.tr("Localizable", "baseURL")
+  /// brandingSettings, statistics
+  internal static let requestChannelsParts = L10n.tr("Localizable", "requestChannelsParts")
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

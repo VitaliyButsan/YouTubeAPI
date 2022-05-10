@@ -5,3 +5,12 @@
   Created by VitaliyButsan on 10.05.2022.
   
 */
+
+// API_KEY
+"apiKey" = "AIzaSyBxF4G3kTicXsQwmzspB1yVlMwfMSZDivk";
+
+// urls
+"baseURL" = "https://www.googleapis.com/youtube/v3";
+
+// API request params
+"requestChannelsParts" = "brandingSettings, statistics";
