@@ -1,0 +1,12 @@
+strings:
+  inputs: YouTubeAPI/Base.lproj
+  filter: .+\.strings$
+  outputs:
+    - templateName: structured-swift5
+      output: YouTubeAPI/Generated/strings.swift
+xcassets:
+  inputs:
+    - YouTubeAPI/Resources/Assets.xcassets
+  outputs:
+    - templateName: swift5
+      output: YouTubeAPI/Generated/assets.swift

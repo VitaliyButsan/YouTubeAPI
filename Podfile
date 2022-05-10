@@ -7,5 +7,6 @@ target 'YouTubeAPI' do
 
   # Pods for YouTubeAPI
   pod 'Moya/RxSwift', '~> 15.0'
-
+  pod 'SwiftGen', '~> 6.0'
+  
 end

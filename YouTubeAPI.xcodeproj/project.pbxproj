@@ -14,6 +14,10 @@
 		FE87722C282A830A006111CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE87722A282A830A006111CB /* Main.storyboard */; };
 		FE87722E282A830D006111CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE87722D282A830D006111CB /* Assets.xcassets */; };
 		FE877231282A830D006111CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE87722F282A830D006111CB /* LaunchScreen.storyboard */; };
+		FE877252282A9F10006111CB /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = FE87723F282A943B006111CB /* swiftgen.yml */; };
+		FE877256282AA1B1006111CB /* strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE877255282AA1B1006111CB /* strings.swift */; };
+		FE877259282AA288006111CB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE877257282AA288006111CB /* Localizable.strings */; };
+		FE87725B282AA382006111CB /* assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE87725A282AA382006111CB /* assets.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +31,11 @@
 		FE87722B282A830A006111CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FE87722D282A830D006111CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FE877230282A830D006111CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		FE877232282A830D006111CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FE877232282A830D006111CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = YouTubeAPI/Resources/Info.plist; sourceTree = SOURCE_ROOT; };
+		FE87723F282A943B006111CB /* swiftgen.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
+		FE877255282AA1B1006111CB /* strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = strings.swift; sourceTree = "<group>"; };
+		FE877258282AA288006111CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = YouTubeAPI/Base.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		FE87725A282AA382006111CB /* assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = assets.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +70,7 @@
 		FE877218282A830A006111CB = {
 			isa = PBXGroup;
 			children = (
+				FE87723F282A943B006111CB /* swiftgen.yml */,
 				FE877223282A830A006111CB /* YouTubeAPI */,
 				FE877222282A830A006111CB /* Products */,
 				09BC7DE499D15402B8420F26 /* Pods */,
@@ -80,9 +89,10 @@
 		FE877223282A830A006111CB /* YouTubeAPI */ = {
 			isa = PBXGroup;
 			children = (
+				FE877242282A9568006111CB /* Generated */,
 				FE87723C282A84F8006111CB /* Storyboards */,
 				FE87723B282A84E5006111CB /* SupportigFiles */,
-				FE87723A282A84C5006111CB /* Managers */,
+				FE87723A282A84C5006111CB /* Services */,
 				FE877239282A84BE006111CB /* Modules */,
 				FE877238282A84A2006111CB /* Resources */,
 				FE877228282A830A006111CB /* ViewController.swift */,
@@ -93,8 +103,9 @@
 		FE877238282A84A2006111CB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FE877232282A830D006111CB /* Info.plist */,
 				FE87722D282A830D006111CB /* Assets.xcassets */,
+				FE877232282A830D006111CB /* Info.plist */,
+				FE877257282AA288006111CB /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -106,11 +117,11 @@
 			path = Modules;
 			sourceTree = "<group>";
 		};
-		FE87723A282A84C5006111CB /* Managers */ = {
+		FE87723A282A84C5006111CB /* Services */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = Managers;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		FE87723B282A84E5006111CB /* SupportigFiles */ = {
@@ -131,6 +142,15 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
+		FE877242282A9568006111CB /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				FE87725A282AA382006111CB /* assets.swift */,
+				FE877255282AA1B1006111CB /* strings.swift */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -139,6 +159,7 @@
 			buildConfigurationList = FE877235282A830D006111CB /* Build configuration list for PBXNativeTarget "YouTubeAPI" */;
 			buildPhases = (
 				CB58331EDFB82D6723822877 /* [CP] Check Pods Manifest.lock */,
+				FE877251282A9E2D006111CB /* SwiftGen */,
 				FE87721D282A830A006111CB /* Sources */,
 				FE87721E282A830A006111CB /* Frameworks */,
 				FE87721F282A830A006111CB /* Resources */,
@@ -191,6 +212,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE877259282AA288006111CB /* Localizable.strings in Resources */,
+				FE877252282A9F10006111CB /* swiftgen.yml in Resources */,
 				FE877231282A830D006111CB /* LaunchScreen.storyboard in Resources */,
 				FE87722E282A830D006111CB /* Assets.xcassets in Resources */,
 				FE87722C282A830A006111CB /* Main.storyboard in Resources */,
@@ -239,6 +262,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		FE877251282A9E2D006111CB /* SwiftGen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftGen;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ -f \"${PODS_ROOT}/SwiftGen/bin/swiftgen\" ]]; then\n  \"${PODS_ROOT}/SwiftGen/bin/swiftgen\"\nelse\n  echo \"warning: SwiftGen is not installed. Run 'pod install --repo-update' to install it.\"\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -248,7 +289,9 @@
 			files = (
 				FE877229282A830A006111CB /* ViewController.swift in Sources */,
 				FE877225282A830A006111CB /* AppDelegate.swift in Sources */,
+				FE877256282AA1B1006111CB /* strings.swift in Sources */,
 				FE877227282A830A006111CB /* SceneDelegate.swift in Sources */,
+				FE87725B282AA382006111CB /* assets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +312,14 @@
 				FE877230282A830D006111CB /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		FE877257282AA288006111CB /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FE877258282AA288006111CB /* Base */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -400,7 +451,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 45JNFF5WM9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = YouTubeAPI/Info.plist;
+				INFOPLIST_FILE = YouTubeAPI/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -429,7 +480,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 45JNFF5WM9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = YouTubeAPI/Info.plist;
+				INFOPLIST_FILE = YouTubeAPI/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
