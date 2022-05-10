@@ -3,10 +3,10 @@ strings:
   filter: .+\.strings$
   outputs:
     - templateName: structured-swift5
-      output: YouTubeAPI/Generated/strings.swift
+      output: YouTubeAPI/Resources/Generated/strings.swift
 xcassets:
   inputs:
-    - YouTubeAPI/Resources/Assets.xcassets
+    - YouTubeAPI/Resources/Input/Assets.xcassets
   outputs:
     - templateName: swift5
-      output: YouTubeAPI/Generated/assets.swift
+      output: YouTubeAPI/Resources/Generated/assets.swift
