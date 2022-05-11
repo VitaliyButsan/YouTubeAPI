@@ -12,6 +12,8 @@ final class SwinjectManager {
     let assembler = Assembler([
         YouTubeServiceAssembly(),
         YouTubeViewModelAssembly(),
+        YouTubeMainViewUIFactoryAssembly(),
+        YouTubeMainViewAssembly(),
         YouTubeViewControllerAssembly(),
     ])
     

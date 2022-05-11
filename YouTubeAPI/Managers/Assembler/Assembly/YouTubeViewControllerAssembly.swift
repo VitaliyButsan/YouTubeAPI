@@ -12,7 +12,8 @@ final class YouTubeViewControllerAssembly: Assembly {
     func assemble(container: Container) {
         container.register(YouTubeViewController.self) { r in
             let viewModel = r.resolve(YouTubeViewModel.self)
-            let viewController = YouTubeViewController(viewModel: viewModel)
+            let mainView = r.resolve(MainView.self)
+            let viewController = YouTubeViewController(viewModel: viewModel, view: mainView)
             return viewController
         }
     }

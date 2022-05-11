@@ -10,3 +10,8 @@ xcassets:
   outputs:
     - templateName: swift5
       output: YouTubeAPI/Resources/Generated/assets.swift
+fonts:
+  inputs: YouTubeAPI/Resources/Input/Fonts
+  outputs:
+    templateName: swift5
+    output: YouTubeAPI/Resources/Generated/fonts.swift
