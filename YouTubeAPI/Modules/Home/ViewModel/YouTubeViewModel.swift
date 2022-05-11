@@ -159,7 +159,7 @@ class YouTubeViewModel {
                             case let .success(videos):
                                 guard let video = videos.first else { return }
                                 let videoViewCount = video.statistics.viewCount
-                                self.addVideoViewCountToPlaylistItem(videoViewCount,
+                                self.addVideoViewCountToPlaylistItem(viewCount: videoViewCount,
                                                                      with: playlistItem.id,
                                                                      by: playlist.id,
                                                                      in: channel.id)
@@ -176,9 +176,9 @@ class YouTubeViewModel {
         }
     }
     
-    private func addVideoViewCountToPlaylistItem(_ viewCount: String, with playlistItemsItemId: String, by playlistId: String, in channelId: String) {
-        guard let channelIndex = channels.value.firstIndex(where: { $0.id == channelId }) else { return }
+    private func addVideoViewCountToPlaylistItem(viewCount: String, with playlistItemsItemId: String, by playlistId: String, in channelId: String) {
         var tempChannels = channels.value
+        guard let channelIndex = channels.value.firstIndex(where: { $0.id == channelId }) else { return }
         guard let playlistIndex = tempChannels[channelIndex].playlists?.firstIndex(where: { $0.id == playlistId }) else { return }
         guard let playlistItemIndex = tempChannels[channelIndex].playlists?[playlistIndex].playlistItems?.firstIndex(where: { $0.id == playlistItemsItemId }) else { return }
         tempChannels[channelIndex].playlists?[playlistIndex].playlistItems?[playlistItemIndex].snippet.viewCount = viewCount

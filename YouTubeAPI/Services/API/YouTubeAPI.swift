@@ -51,19 +51,19 @@ extension YouTubeAPI: TargetType {
                 "key" : L10n.apiKey,
                 "id" : "\(id)",
             ]
-        case let .getPlaylists(channelId: id):
+        case let .getPlaylists(id):
             return [
                 "part" : L10n.playlistsRequestParts,
                 "key" : L10n.apiKey,
                 "channelId" : "\(id)",
             ]
-        case let .getPlaylistItems(playlistId: id):
+        case let .getPlaylistItems(id):
             return [
                 "part" : L10n.playlistItemsRequestParts,
                 "key" : L10n.apiKey,
                 "playlistId" : "\(id)",
             ]
-        case let .getVideos(videoId: id):
+        case let .getVideos(id):
             return [
                 "part" : L10n.videosRequestParts,
                 "key" : L10n.apiKey,
