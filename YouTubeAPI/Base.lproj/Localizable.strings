@@ -13,4 +13,11 @@
 "baseURL" = "https://www.googleapis.com/youtube/v3";
 
 // API request params
-"requestChannelsParts" = "brandingSettings, statistics";
+"channelsRequestParts" = "brandingSettings, statistics";
+"playlistsRequestParts" = "snippet";
+
+// channels ids
+"channelId1" = "UC18bHNKD21woNT7G0F4PN7Q";
+"channelId2" = "UCqhmK0ACxRHCXcoXXaId15Q";
+"channelId3" = "UCvmxzBDt6zpM1BhZaGeiV0Q";
+"channelId4" = "UC9_DJQL7CPkR9PhjfRZAnlw";

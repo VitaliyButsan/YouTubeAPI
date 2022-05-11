@@ -5,7 +5,7 @@
 //  Created by VitaliyButsan on 10.05.2022.
 //
 
-import Foundation
+import RxDataSources
 
 struct ChannelsDataWrapper: Decodable {
     let items: [Channel]
@@ -25,5 +25,13 @@ struct Channel: Decodable {
         struct Setting: Decodable {
             let title: String
         }
+    }
+}
+
+extension Channel {
+    typealias Section = SectionModel<String, [PlaylistItem]>
+    
+    var sections: [Section] {
+        return []
     }
 }

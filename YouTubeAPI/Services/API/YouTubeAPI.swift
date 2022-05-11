@@ -9,6 +9,7 @@ import Moya
 
 enum YouTubeAPI {
     case getChannels(id: String)
+    case getPlaylists(channelId: String)
 }
 
 // MARK: - TargetType Protocol -
@@ -23,6 +24,8 @@ extension YouTubeAPI: TargetType {
         switch self {
         case .getChannels:
             return "/channels"
+        case .getPlaylists:
+            return "/playlists"
         }
     }
     
@@ -38,16 +41,22 @@ extension YouTubeAPI: TargetType {
         switch self {
         case let .getChannels(id):
             return [
-                "part" : L10n.requestChannelsParts,
+                "part" : L10n.channelsRequestParts,
                 "key" : L10n.apiKey,
                 "id" : "\(id)",
+            ]
+        case let .getPlaylists(channelId: id):
+            return [
+                "part" : L10n.playlistsRequestParts,
+                "key" : L10n.apiKey,
+                "channelId" : "\(id)",
             ]
         }
     }
     
     var task: Task {
         switch self {
-        case .getChannels:
+        case .getChannels, .getPlaylists:
             return .requestParameters(parameters: params, encoding: URLEncoding.default)
         }
     }

@@ -8,7 +8,7 @@
 import Moya
 import RxSwift
 
-class YouTubeService {
+final class YouTubeService {
     
     static let instance = YouTubeService()
     private let provider = MoyaProvider<YouTubeAPI>()
@@ -20,6 +20,14 @@ class YouTubeService {
             .request(.getChannels(id: id))
             .catch { error in .error(error) }
             .map(ChannelsDataWrapper.self)
+            .map(\.items)
+    }
+    
+    func getPlaylists(by id: String) -> Single<[PlaylistItem]> {
+        provider.rx
+            .request(.getPlaylists(channelId: id))
+            .catch { error in .error(error) }
+            .map(PlaylistDataWrapper.self)
             .map(\.items)
     }
 }

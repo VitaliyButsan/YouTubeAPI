@@ -9,7 +9,11 @@ import UIKit
 
 class YouTubeViewController: UIViewController {
     
+    // MARK: - Properties
+    
     private var youTubeViewModel: YouTubeViewModel!
+    
+    // MARK: - Lifecycle
     
     convenience init(viewModel: YouTubeViewModel?) {
         self.init(nibName: nil, bundle: nil)
@@ -21,9 +25,9 @@ class YouTubeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         view.backgroundColor = .orange
-        youTubeViewModel.getChannels(by: "UCkhh_JEXUpT9mAJHOATkIeg")
+        youTubeViewModel.getData()
     }
     
 }
