@@ -21,6 +21,7 @@
 		FE877256282AA1B1006111CB /* strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE877255282AA1B1006111CB /* strings.swift */; };
 		FE87725B282AA382006111CB /* assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE87725A282AA382006111CB /* assets.swift */; };
 		FE87725D282AA4F6006111CB /* YouTubeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE87725C282AA4F6006111CB /* YouTubeAPI.swift */; };
+		FE8F2252282BD7A600177DA9 /* PlaylistItemsDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8F2251282BD7A600177DA9 /* PlaylistItemsDataWrapper.swift */; };
 		FEA6DEF5282AAC3D00F67D61 /* YouTubeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA6DEF4282AAC3D00F67D61 /* YouTubeService.swift */; };
 		FEA6DEFC282AAFE800F67D61 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FEA6DEFA282AAFE800F67D61 /* Localizable.strings */; };
 		FEA6DF02282AB06C00F67D61 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEA6DF00282AB06C00F67D61 /* LaunchScreen.storyboard */; };
@@ -47,6 +48,7 @@
 		FE877255282AA1B1006111CB /* strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = strings.swift; sourceTree = "<group>"; };
 		FE87725A282AA382006111CB /* assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = assets.swift; sourceTree = "<group>"; };
 		FE87725C282AA4F6006111CB /* YouTubeAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YouTubeAPI.swift; sourceTree = "<group>"; };
+		FE8F2251282BD7A600177DA9 /* PlaylistItemsDataWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistItemsDataWrapper.swift; sourceTree = "<group>"; };
 		FEA6DEF4282AAC3D00F67D61 /* YouTubeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeService.swift; sourceTree = "<group>"; };
 		FEA6DEFB282AAFE800F67D61 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = YouTubeAPI/Base.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		FEA6DF01282AB06C00F67D61 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = YouTubeAPI/Base.lproj/LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
@@ -242,6 +244,7 @@
 			children = (
 				FEA6DF06282AB2BE00F67D61 /* ChannelsDataWrapper.swift */,
 				FE491B0E282BA53A00738677 /* PlaylistDataWrapper.swift */,
+				FE8F2251282BD7A600177DA9 /* PlaylistItemsDataWrapper.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -411,6 +414,7 @@
 				FE491B05282B912100738677 /* SwinjectManager.swift in Sources */,
 				FE877227282A830A006111CB /* SceneDelegate.swift in Sources */,
 				FE87725B282AA382006111CB /* assets.swift in Sources */,
+				FE8F2252282BD7A600177DA9 /* PlaylistItemsDataWrapper.swift in Sources */,
 				FEA6DF0B282AB5B800F67D61 /* YouTubeViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -22,6 +22,7 @@ class YouTubeViewModel {
     
     //state
     private(set) var isLoadedData = BehaviorRelay(value: false)
+    private(set) var errorSubject = BehaviorRelay(value: "")
     
     // storage
     private(set) var channels = BehaviorRelay(value: [Channel]())
@@ -54,13 +55,16 @@ class YouTubeViewModel {
         for id in channelsIDs {
             group.enter()
             youTubeService.getChannels(by: id)
-                .subscribe { event in
+                .subscribe { [weak self] event in
+                    guard let self = self else { return }
                     group.leave()
+                    
                     switch event {
                     case let .success(channels):
-                        print("===>", channels.first?.statistics.subscriberCount ?? 0)
+                        guard let newChannel = channels.first else { return }
+                        self.channels.accept(self.channels.value + [newChannel])
                     case let .failure(error):
-                        fatalError()
+                        self.errorSubject.accept(error.localizedDescription)
                     }
                 }
                 .disposed(by: bag)
@@ -73,22 +77,69 @@ class YouTubeViewModel {
     private func getPlaylists() {
         let group = DispatchGroup()
         
-        for id in channelsIDs {
+        for channelId in channelsIDs {
             group.enter()
-            youTubeService.getPlaylists(by: id)
-                .subscribe { event in
+            youTubeService.getPlaylists(by: channelId)
+                .subscribe { [weak self] event in
+                    guard let self = self else { return }
                     group.leave()
+                    
                     switch event {
                     case let .success(playlists):
-                        playlists.forEach { print("\n", $0.snippet.title) }
+                        let newPlaylists = Array(playlists.prefix(2))
+                        self.addPlaylistsToChannel(newPlaylists, by: channelId)
                     case let .failure(error):
-                        fatalError()
+                        self.errorSubject.accept(error.localizedDescription)
                     }
                 }
                 .disposed(by: bag)
         }
         group.notify(queue: .main) {
-            self.isLoadedData.accept(true)
+//            self.isLoadedData.accept(true)
         }
+    }
+    
+    private func addPlaylistsToChannel(_ playlists: [PlaylistItem], by channelId: String) {
+        guard let index = channels.value.firstIndex(where: { $0.id == channelId }) else { return }
+        var tmpChannels = channels.value
+        tmpChannels[index].playlists = playlists
+        channels.accept(tmpChannels)
+    }
+    
+    private func getPlaylistsItems() {
+        let group = DispatchGroup()
+        
+        for channel in channels.value {
+            guard let playlists = channel.playlists else { return }
+            
+            for playlist in playlists {
+                group.enter()
+                
+                youTubeService.getPlaylistItems(by: playlist.id)
+                    .subscribe { [weak self] event in
+                        guard let self = self else { return }
+                        group.leave()
+                        
+                        switch event {
+                        case let .success(playlistItems):
+                            self.addPlaylistsItemsToChannel(playlistItems, by: playlist.id, in: channel.id)
+                        case let .failure(error):
+                            self.errorSubject.accept(error.localizedDescription)
+                        }
+                    }
+                    .disposed(by: bag)
+                group.notify(queue: .main) {
+//                    self.addPlaylistVideosViewCount()
+                }
+            }
+        }
+    }
+    
+    private func addPlaylistsItemsToChannel(_ playlistItems: [PlaylistItemsItem], by playlistId: String, in channelId: String) {
+        guard let channelIndex = channels.value.firstIndex(where: { $0.id == channelId }) else { return }
+        var tempChannels = channels.value
+        guard let playlistIndex = tempChannels[channelIndex].playlists?.firstIndex(where: { $0.id == playlistId }) else { return }
+        tempChannels[channelIndex].playlists?[playlistIndex].playlistItems = playlistItems
+        channels.accept(tempChannels)
     }
 }

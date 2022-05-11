@@ -25,6 +25,8 @@ internal enum L10n {
   /// brandingSettings, statistics
   internal static let channelsRequestParts = L10n.tr("Localizable", "channelsRequestParts")
   /// snippet
+  internal static let playlistItemsRequestParts = L10n.tr("Localizable", "playlistItemsRequestParts")
+  /// snippet
   internal static let playlistsRequestParts = L10n.tr("Localizable", "playlistsRequestParts")
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length

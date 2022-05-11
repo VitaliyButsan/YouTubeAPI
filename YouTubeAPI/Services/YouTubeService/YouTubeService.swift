@@ -30,4 +30,12 @@ final class YouTubeService {
             .map(PlaylistDataWrapper.self)
             .map(\.items)
     }
+    
+    func getPlaylistItems(by id: String) -> Single<[PlaylistItemsItem]> {
+        provider.rx
+            .request(.getPlaylistItems(playlistId: id))
+            .catch { error in .error(error) }
+            .map(PlaylistItemsDataWrapper.self)
+            .map(\.items)
+    }
 }

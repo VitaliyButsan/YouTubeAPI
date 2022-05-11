@@ -12,8 +12,10 @@ struct ChannelsDataWrapper: Decodable {
 }
 
 struct Channel: Decodable {
+    let id: String
     let statistics: Statistics
     let brandingSettings: Settings
+    var playlists: [PlaylistItem]?
     
     struct Statistics: Decodable {
         let subscriberCount: String
@@ -29,9 +31,18 @@ struct Channel: Decodable {
 }
 
 extension Channel {
-    typealias Section = SectionModel<String, [PlaylistItem]>
-    
-    var sections: [Section] {
-        return []
+    typealias Playlist = SectionModel<String, PlaylistItem>
+
+    var rxPlaylists: [Playlist] {
+        var newPlaylists: [Playlist] = []
+        guard let playlists = playlists else { return [] }
+        
+        for playlist in playlists {
+            let title = playlist.snippet.title
+            let items = playlists
+            let newPlaylist = SectionModel(model: title, items: items)
+            newPlaylists.append(newPlaylist)
+        }
+        return newPlaylists
     }
 }
