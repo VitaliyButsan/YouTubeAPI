@@ -17,6 +17,7 @@ PODS:
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
   - SwiftGen (6.5.1)
+  - Swinject (2.8.1)
 
 DEPENDENCIES:
   - Moya/RxSwift (~> 15.0)
@@ -24,6 +25,7 @@ DEPENDENCIES:
   - RxDataSources (~> 5.0)
   - RxSwift (= 6.5.0)
   - SwiftGen (~> 6.0)
+  - Swinject
 
 SPEC REPOS:
   trunk:
@@ -35,6 +37,7 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - SwiftGen
+    - Swinject
 
 SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
@@ -45,7 +48,8 @@ SPEC CHECKSUMS:
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
+  Swinject: 97112918bd7e0785dc2df7036213f3c8cbba6586
 
-PODFILE CHECKSUM: 21a77eddb4ab87403a94af311675e2af290812aa
+PODFILE CHECKSUM: 7fe3e4cf9aa16ebfa435095a8be17dc9c3750b18
 
 COCOAPODS: 1.11.3

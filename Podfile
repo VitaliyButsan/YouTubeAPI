@@ -13,4 +13,6 @@ target 'YouTubeAPI' do
   pod 'RxCocoa', '6.5.0'
   pod 'RxDataSources', '~> 5.0'
   
+  # DI
+  pod 'Swinject'
 end

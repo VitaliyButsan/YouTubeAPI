@@ -12,11 +12,11 @@ struct ChannelsDataWrapper: Decodable {
 }
 
 struct Channel: Decodable {
-//    let statistics: Statistics
-    let settings: Settings
+    let statistics: Statistics
+    let brandingSettings: Settings
     
     struct Statistics: Decodable {
-        let subscriberCount: Int
+        let subscriberCount: String
     }
     
     struct Settings: Decodable {
