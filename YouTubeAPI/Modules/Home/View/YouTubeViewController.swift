@@ -13,6 +13,19 @@ class YouTubeViewController: UIViewController {
     
     private var youTubeViewModel: YouTubeViewModel!
     
+    // MARK: - UI Elements
+    
+    private lazy var pageViewController: UIPageViewController = {
+        let viewController = UIPageViewController()
+        viewController.dataSource = self
+        return viewController
+    }()
+    
+    private lazy var orderedViewControllers: [UIViewController] = {
+        let count = youTubeViewModel.channelsIdsCount()
+        return Array(repeating: UIViewController(), count: count)
+    }()
+    
     // MARK: - Lifecycle
     
     convenience init(viewModel: YouTubeViewModel?) {
@@ -26,9 +39,39 @@ class YouTubeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .orange
-        youTubeViewModel.getData()
+        setup()
+    }
+    
+    private func setup() {
+        setupNavBar()
+        setupLayout()
+    }
+    
+    private func setupNavBar() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = "YouTubeAPI"
+    }
+    
+    private func setupLayout() {
+        view.backgroundColor = .white
+        
+        
     }
     
 }
 
+// MARK: - UIPageViewControllerDataSource
+
+extension YouTubeViewController: UIPageViewControllerDataSource {
+    
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        return nil
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        return nil
+    }
+    
+}

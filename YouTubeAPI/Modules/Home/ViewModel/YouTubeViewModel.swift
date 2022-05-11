@@ -40,6 +40,10 @@ class YouTubeViewModel {
         self.bag = DisposeBag()
     }
     
+    func channelsIdsCount() -> Int {
+        return channelsIDs.count
+    }
+    
     func getData() {
         getChannels()
     }
