@@ -16,6 +16,7 @@
 "channelsRequestParts" = "brandingSettings, statistics";
 "playlistsRequestParts" = "snippet";
 "playlistItemsRequestParts" = "snippet";
+"videosRequestParts" = "statistics";
 
 // channels ids
 "channelId1" = "UC18bHNKD21woNT7G0F4PN7Q";

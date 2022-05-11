@@ -28,6 +28,8 @@ internal enum L10n {
   internal static let playlistItemsRequestParts = L10n.tr("Localizable", "playlistItemsRequestParts")
   /// snippet
   internal static let playlistsRequestParts = L10n.tr("Localizable", "playlistsRequestParts")
+  /// statistics
+  internal static let videosRequestParts = L10n.tr("Localizable", "videosRequestParts")
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

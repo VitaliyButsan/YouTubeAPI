@@ -7,14 +7,10 @@
 
 import RxCocoa
 import RxSwift
-//import RxDataSources
 
 class YouTubeViewModel {
     
     // MARK: - Properties
-    
-//    // typealiases
-//    typealias Section = SectionModel<String, PlaylistItem>
     
     // managers
     private let youTubeService: YouTubeService
@@ -26,7 +22,6 @@ class YouTubeViewModel {
     
     // storage
     private(set) var channels = BehaviorRelay(value: [Channel]())
-//    private(set) var sections = BehaviorRelay(value: [Section]())
     
     private let channelsIDs = [
         L10n.channelId1,
@@ -95,7 +90,7 @@ class YouTubeViewModel {
                 .disposed(by: bag)
         }
         group.notify(queue: .main) {
-//            self.isLoadedData.accept(true)
+            self.getPlaylistsItems()
         }
     }
     
@@ -128,10 +123,10 @@ class YouTubeViewModel {
                         }
                     }
                     .disposed(by: bag)
-                group.notify(queue: .main) {
-//                    self.addPlaylistVideosViewCount()
-                }
             }
+        }
+        group.notify(queue: .main) {
+            self.addPlaylistVideosViewCount()
         }
     }
     
@@ -140,6 +135,53 @@ class YouTubeViewModel {
         var tempChannels = channels.value
         guard let playlistIndex = tempChannels[channelIndex].playlists?.firstIndex(where: { $0.id == playlistId }) else { return }
         tempChannels[channelIndex].playlists?[playlistIndex].playlistItems = playlistItems
+        channels.accept(tempChannels)
+    }
+    
+    private func addPlaylistVideosViewCount() {
+        let group = DispatchGroup()
+        
+        for channel in channels.value {
+            guard let playlists = channel.playlists else { return }
+            
+            for playlist in playlists {
+                guard let playlistItems = playlist.playlistItems else { return }
+                
+                for playlistItem in playlistItems {
+                    group.enter()
+                    
+                    youTubeService.getVideos(by: playlistItem.snippet.resourceId.videoId)
+                        .subscribe { [weak self] event in
+                            guard let self = self else { return }
+                            group.leave()
+                            
+                            switch event {
+                            case let .success(videos):
+                                guard let video = videos.first else { return }
+                                let videoViewCount = video.statistics.viewCount
+                                self.addVideoViewCountToPlaylistItem(videoViewCount,
+                                                                     with: playlistItem.id,
+                                                                     by: playlist.id,
+                                                                     in: channel.id)
+                            case let .failure(error):
+                                self.errorSubject.accept(error.localizedDescription)
+                            }
+                        }
+                        .disposed(by: bag)
+                }
+            }
+        }
+        group.notify(queue: .main) {
+            self.isLoadedData.accept(true)
+        }
+    }
+    
+    private func addVideoViewCountToPlaylistItem(_ viewCount: String, with playlistItemsItemId: String, by playlistId: String, in channelId: String) {
+        guard let channelIndex = channels.value.firstIndex(where: { $0.id == channelId }) else { return }
+        var tempChannels = channels.value
+        guard let playlistIndex = tempChannels[channelIndex].playlists?.firstIndex(where: { $0.id == playlistId }) else { return }
+        guard let playlistItemIndex = tempChannels[channelIndex].playlists?[playlistIndex].playlistItems?.firstIndex(where: { $0.id == playlistItemsItemId }) else { return }
+        tempChannels[channelIndex].playlists?[playlistIndex].playlistItems?[playlistItemIndex].snippet.viewCount = viewCount
         channels.accept(tempChannels)
     }
 }

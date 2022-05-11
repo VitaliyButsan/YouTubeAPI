@@ -11,6 +11,7 @@ enum YouTubeAPI {
     case getChannels(id: String)
     case getPlaylists(channelId: String)
     case getPlaylistItems(playlistId: String)
+    case getVideos(videoId: String)
 }
 
 // MARK: - TargetType Protocol -
@@ -29,6 +30,8 @@ extension YouTubeAPI: TargetType {
             return "/playlists"
         case .getPlaylistItems:
             return "/playlistItems"
+        case .getVideos:
+            return "/videos"
         }
     }
     
@@ -60,12 +63,18 @@ extension YouTubeAPI: TargetType {
                 "key" : L10n.apiKey,
                 "playlistId" : "\(id)",
             ]
+        case let .getVideos(videoId: id):
+            return [
+                "part" : L10n.videosRequestParts,
+                "key" : L10n.apiKey,
+                "id" : "\(id)",
+            ]
         }
     }
     
     var task: Task {
         switch self {
-        case .getChannels, .getPlaylists, .getPlaylistItems:
+        case .getChannels, .getPlaylists, .getPlaylistItems, .getVideos:
             return .requestParameters(parameters: params, encoding: URLEncoding.default)
         }
     }

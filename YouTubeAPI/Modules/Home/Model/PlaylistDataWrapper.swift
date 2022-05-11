@@ -9,7 +9,7 @@ import Foundation
 
 struct PlaylistDataWrapper: Decodable {
     let items: [PlaylistItem]
-}
+} 
 
 struct PlaylistItem: Decodable {
     let id: String

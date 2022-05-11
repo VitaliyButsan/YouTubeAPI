@@ -31,10 +31,10 @@ struct Channel: Decodable {
 }
 
 extension Channel {
-    typealias Playlist = SectionModel<String, PlaylistItem>
+    typealias Section = SectionModel<String, PlaylistItem>
 
-    var rxPlaylists: [Playlist] {
-        var newPlaylists: [Playlist] = []
+    var rxPlaylists: [Section] {
+        var newPlaylists: [Section] = []
         guard let playlists = playlists else { return [] }
         
         for playlist in playlists {

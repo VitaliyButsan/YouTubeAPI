@@ -12,11 +12,13 @@ struct PlaylistItemsDataWrapper: Decodable {
 }
 
 struct PlaylistItemsItem: Decodable {
-    let snippet: Snippet
+    let id: String
+    var snippet: Snippet
     
     struct Snippet: Decodable {
         let title: String
         let resourceId: Resource
+        var viewCount: String?
         
         struct Resource: Decodable {
             let videoId: String
