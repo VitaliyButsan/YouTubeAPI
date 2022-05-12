@@ -60,24 +60,16 @@ class MainView: UIView {
     }
     
     private func setup() {
-        setupNavBar()
-        setupLayout()
+        setupViews()
+        setupPageViewController()
+        addConstraints()
     }
     
-    private func setupNavBar() {
-        
-    }
-    
-    private func setupLayout() {
+    private func setupViews() {
         backgroundColor = .white
-        
         topBarView.addSubview(topBarTitleLabel)
-        
         addSubview(topBarView)
         addSubview(pageViewController.view)
-        
-        setupPageControl()
-        addConstraints()
     }
     
     private func addConstraints() {
@@ -90,14 +82,14 @@ class MainView: UIView {
             $0.bottom.equalTo(topBarView)
         }
         pageViewController.view.snp.makeConstraints {
-            $0.top.equalTo(snp.topMargin).offset(defaultPadding * 2)
+            $0.top.equalTo(snp.topMargin).offset(32)
             $0.leading.equalTo(defaultPadding)
             $0.trailing.equalTo(-defaultPadding)
             $0.height.equalTo(200)
         }
     }
     
-    private func setupPageControl() {
+    private func setupPageViewController() {
         if let firstViewController = orderedViewControllers.first {
             pageViewController.setViewControllers(
                 [firstViewController],
@@ -116,38 +108,34 @@ extension MainView: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
-            return nil
+        if let index = orderedViewControllers.firstIndex(of: viewController) {
+            if index > 0 {
+                return orderedViewControllers[index - 1]
+            } else {
+                return nil
+            }
         }
-        let previousIndex = viewControllerIndex - 1
-        
-        guard previousIndex >= 0 else {
-            return nil
-        }
-        guard orderedViewControllers.count > previousIndex else {
-            return nil
-        }
-        return orderedViewControllers[previousIndex]
+        return nil
     }
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
-            return nil
+        if let index = orderedViewControllers.firstIndex(of: viewController) {
+            if index < orderedViewControllers.count - 1 {
+                return orderedViewControllers[index + 1]
+            } else {
+                return nil
+            }
         }
-        
-        let nextIndex = viewControllerIndex + 1
-        let orderedViewControllersCount = orderedViewControllers.count
-        
-        guard orderedViewControllersCount != nextIndex else {
-            return nil
-        }
-        
-        guard orderedViewControllersCount > nextIndex else {
-            return nil
-        }
-        
-        return orderedViewControllers[nextIndex]
+        return nil
+    }
+    
+    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+        return orderedViewControllers.count
+    }
+
+    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+        return 0
     }
     
 }
