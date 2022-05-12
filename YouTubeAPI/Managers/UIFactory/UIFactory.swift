@@ -15,10 +15,11 @@ final class UIFactory {
         return vc
     }
     
-    func newLabel(text: String, font: UIFont) -> UILabel {
+    func newLabel(text: String, font: UIFont, textColor: UIColor = .black) -> UILabel {
         let label = UILabel()
         label.text = text
         label.font = font
+        label.textColor = textColor
         return label
     }
     

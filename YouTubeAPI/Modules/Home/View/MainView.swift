@@ -19,8 +19,13 @@ class MainView: UIView {
     
     // MARK: - UI Elements
     
-    private lazy var topBarView = uiFactory.newView()
-    private lazy var topBarTitleLabel = uiFactory.newLabel(text: "YouTubeAPI", font: .SFPro.Display.Bold(size: 34).font)
+    private lazy var topBarView = uiFactory.newView(color: .clear)
+    private lazy var topBarTitleLabel = uiFactory
+        .newLabel(
+            text: "YouTubeAPI",
+            font: .SFPro.Display.Bold(size: 34).font,
+            textColor: .white
+        )
     
     private lazy var pageViewController: UIPageViewController = {
         let viewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
@@ -66,7 +71,7 @@ class MainView: UIView {
     }
     
     private func setupViews() {
-        backgroundColor = .white
+        backgroundColor = Asset.Colors.background.color
         topBarView.addSubview(topBarTitleLabel)
         addSubview(topBarView)
         addSubview(pageViewController.view)
