@@ -27,6 +27,13 @@ class MainView: UIView {
             textColor: .white
         )
     
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseID)
+        return tableView
+    }()
+    
     private lazy var pageViewController: UIPageViewController = {
         let viewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         viewController.dataSource = self

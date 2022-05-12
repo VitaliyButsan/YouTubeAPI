@@ -17,6 +17,7 @@
 		FE491B0D282B91EC00738677 /* YouTubeServiseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE491B0C282B91EC00738677 /* YouTubeServiseAssembly.swift */; };
 		FE491B0F282BA53A00738677 /* PlaylistDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE491B0E282BA53A00738677 /* PlaylistDataWrapper.swift */; };
 		FE776C0A282D057F00F37DBF /* UIFont+CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE776C09282D057F00F37DBF /* UIFont+CustomFonts.swift */; };
+		FE776C11282D2BD400F37DBF /* PlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE776C10282D2BD400F37DBF /* PlaylistCell.swift */; };
 		FE877225282A830A006111CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE877224282A830A006111CB /* AppDelegate.swift */; };
 		FE877227282A830A006111CB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE877226282A830A006111CB /* SceneDelegate.swift */; };
 		FE877229282A830A006111CB /* YouTubeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE877228282A830A006111CB /* YouTubeViewController.swift */; };
@@ -53,6 +54,7 @@
 		FE491B0C282B91EC00738677 /* YouTubeServiseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeServiseAssembly.swift; sourceTree = "<group>"; };
 		FE491B0E282BA53A00738677 /* PlaylistDataWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistDataWrapper.swift; sourceTree = "<group>"; };
 		FE776C09282D057F00F37DBF /* UIFont+CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+CustomFonts.swift"; sourceTree = "<group>"; };
+		FE776C10282D2BD400F37DBF /* PlaylistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistCell.swift; sourceTree = "<group>"; };
 		FE877221282A830A006111CB /* YouTubeAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouTubeAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE877224282A830A006111CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FE877226282A830A006111CB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -175,6 +177,30 @@
 			children = (
 			);
 			path = Foundation;
+			sourceTree = "<group>";
+		};
+		FE776C0B282D2B5900F37DBF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FE1F31E0282C1A0C006F1360 /* MainView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FE776C0C282D2B5F00F37DBF /* ViewCotrollers */ = {
+			isa = PBXGroup;
+			children = (
+				FE877228282A830A006111CB /* YouTubeViewController.swift */,
+			);
+			path = ViewCotrollers;
+			sourceTree = "<group>";
+		};
+		FE776C0D282D2B7F00F37DBF /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FE776C10282D2BD400F37DBF /* PlaylistCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		FE877218282A830A006111CB = {
@@ -313,9 +339,10 @@
 		FEA6DF04282AB28400F67D61 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				FE776C0D282D2B7F00F37DBF /* Cells */,
+				FE776C0C282D2B5F00F37DBF /* ViewCotrollers */,
+				FE776C0B282D2B5900F37DBF /* Views */,
 				FE87723C282A84F8006111CB /* Storyboards */,
-				FE877228282A830A006111CB /* YouTubeViewController.swift */,
-				FE1F31E0282C1A0C006F1360 /* MainView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -485,6 +512,7 @@
 				FE877225282A830A006111CB /* AppDelegate.swift in Sources */,
 				FE877256282AA1B1006111CB /* strings.swift in Sources */,
 				FE8F2254282BE25B00177DA9 /* VideoDataWrapper.swift in Sources */,
+				FE776C11282D2BD400F37DBF /* PlaylistCell.swift in Sources */,
 				FEA6DF07282AB2BE00F67D61 /* ChannelsDataWrapper.swift in Sources */,
 				FECBED4A282C2E7100B57DDA /* YouTubeMainViewUIFactoryAssembly.swift in Sources */,
 				FE491B08282B917100738677 /* YouTubeViewModelAssembly.swift in Sources */,

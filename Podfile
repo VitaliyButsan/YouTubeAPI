@@ -7,6 +7,7 @@ target 'YouTubeAPI' do
   
   # Resources
   pod 'SwiftGen', '~> 6.0'
+  pod 'SDWebImage', '~> 5.0'
   
   # Rx
   pod 'RxSwift', '6.5.0'
