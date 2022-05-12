@@ -7,21 +7,27 @@
 
 import RxCocoa
 import RxSwift
+import RxDataSources
 
 class YouTubeViewModel {
     
     // MARK: - Properties
     
+    typealias ChannelSection = SectionModel<String, CellModel>
+    
+    // rx
+    let bag: DisposeBag
+    
     // managers
     private let youTubeService: YouTubeService
-    private let bag: DisposeBag
     
     //state
     private(set) var isLoadedData = BehaviorRelay(value: false)
     private(set) var errorSubject = BehaviorRelay(value: "")
     
     // storage
-    private(set) var channels = BehaviorRelay(value: [Channel]())
+    private var channels = BehaviorRelay(value: [Channel]()) ///  ??  may not BehaviorRelay()
+    private(set) var dataSource = BehaviorRelay(value: [ChannelSection]())
     
     private let channelsIDs = [
         L10n.channelId1,
@@ -38,6 +44,8 @@ class YouTubeViewModel {
         }
         self.youTubeService = service
         self.bag = DisposeBag()
+        
+        setupObservers()
     }
     
     func channelsIdsCount() -> Int {
@@ -46,6 +54,10 @@ class YouTubeViewModel {
     
     func getData() {
         getChannels()
+    }
+    
+    private func setupObservers() {
+        
     }
     
     private func getChannels() {
@@ -177,6 +189,9 @@ class YouTubeViewModel {
         }
         group.notify(queue: .main) {
             self.isLoadedData.accept(true)
+            let cells = self.createCells(by: 0)
+            let newSection = ChannelSection(model: "", items: cells)
+            self.dataSource.accept([newSection])
         }
     }
     
@@ -188,4 +203,37 @@ class YouTubeViewModel {
         tempChannels[channelIndex].playlists?[playlistIndex].playlistItems?[playlistItemIndex].snippet.viewCount = viewCount
         channels.accept(tempChannels)
     }
+    
+    private func createCells(by channelIndex: Int) -> [CellModel] {
+        guard let channel = getChannel(by: channelIndex) else { return [] }
+        var cells: [CellModel] = []
+        // add first fixed cell
+        let firstCell = CellModel(title: "", typeOfCell: .pageControl(channels: channels.value))
+        cells.append(firstCell)
+        // add cells depends of playlists count
+        for playlist in channel.playlists ?? [] {
+            let newCellModel = CellModel(title: "", typeOfCell: .playlist(playlist: playlist))
+            cells.append(newCellModel)
+        }
+        return cells
+    }
+    
+    private func getChannel(by index: Int) -> Channel? {
+        if index > channels.value.count - 1 || index < 0 {
+            return nil
+        }
+        let channel = channels.value[index]
+        return channel
+    }
+}
+
+struct CellModel {
+    
+    enum CellType {
+        case pageControl(channels: [Channel])
+        case playlist(playlist: PlaylistItem)
+    }
+    
+    let title: String
+    let typeOfCell: CellType
 }

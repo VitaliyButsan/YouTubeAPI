@@ -7,13 +7,20 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxDataSources
 
 class MainView: UIView {
     
     // MARK: - Properties
     
+    typealias ChannelSection = SectionModel<String, CellModel>
+    typealias DataSource = RxTableViewSectionedReloadDataSource<ChannelSection>
+    
     private var youTubeViewModel: YouTubeViewModel!
     private var uiFactory: UIFactory!
+    
+    private lazy var dataSource: DataSource = .init(configureCell: configureCell)
     
     private var defaultPadding: CGFloat = 18.0
     
@@ -29,7 +36,7 @@ class MainView: UIView {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(PageControlCell.self, forCellReuseIdentifier: PageControlCell.reuseID)
         tableView.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseID)
         return tableView
     }()
@@ -75,13 +82,15 @@ class MainView: UIView {
         setupViews()
         setupPageViewController()
         addConstraints()
+        bindUI()
     }
     
     private func setupViews() {
         backgroundColor = Asset.Colors.background.color
         topBarView.addSubview(topBarTitleLabel)
         addSubview(topBarView)
-        addSubview(pageViewController.view)
+        addSubview(tableView)
+//        addSubview(pageViewController.view)
     }
     
     private func addConstraints() {
@@ -93,12 +102,16 @@ class MainView: UIView {
             $0.leading.equalTo(topBarView).offset(24)
             $0.bottom.equalTo(topBarView)
         }
-        pageViewController.view.snp.makeConstraints {
-            $0.top.equalTo(snp.topMargin).offset(32)
-            $0.leading.equalTo(defaultPadding)
-            $0.trailing.equalTo(-defaultPadding)
-            $0.height.equalTo(200)
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(topBarView.snp.bottom)
+            $0.leading.trailing.bottom.equalTo(self)
         }
+//        pageViewController.view.snp.makeConstraints {
+//            $0.top.equalTo(snp.topMargin).offset(32)
+//            $0.leading.equalTo(defaultPadding)
+//            $0.trailing.equalTo(-defaultPadding)
+//            $0.height.equalTo(200)
+//        }
     }
     
     private func setupPageViewController() {
@@ -112,6 +125,13 @@ class MainView: UIView {
         }
     }
     
+    private func bindUI() {
+        
+        youTubeViewModel.dataSource
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: youTubeViewModel.bag)
+        
+    }
 }
 
 // MARK: - UIPageViewControllerDataSource
@@ -150,4 +170,24 @@ extension MainView: UIPageViewControllerDataSource {
         return 0
     }
     
+}
+
+// MARK: - DataSource Configuration
+
+extension MainView {
+    
+    private var configureCell: DataSource.ConfigureCell {
+        return { _, tableView, indexPath, dataSource in
+            switch dataSource.typeOfCell {
+            case let .pageControl(channels):
+                let cell = tableView.dequeueReusableCell(withIdentifier: PageControlCell.reuseID, for: indexPath) as! PageControlCell
+                cell.setupCell(with: channels)
+                return cell
+            case let .playlist(playlist):
+                let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistCell.reuseID, for: indexPath) as! PlaylistCell
+                cell.setupCell(with: playlist)
+                return cell
+            }
+        }
+    }
 }

@@ -36,6 +36,11 @@ class YouTubeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        getData()
+    }
+    
+    private func getData() {
+        youTubeViewModel.getData()
     }
     
 }
