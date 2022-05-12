@@ -33,7 +33,7 @@ struct Channel: Decodable {
 extension Channel {
     typealias Section = SectionModel<String, PlaylistItem>
 
-    var rxPlaylists: [Section] {
+    var dataSourcePlaylists: [Section] {
         var newPlaylists: [Section] = []
         guard let playlists = playlists else { return [] }
         

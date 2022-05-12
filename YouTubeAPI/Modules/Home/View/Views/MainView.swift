@@ -22,8 +22,6 @@ class MainView: UIView {
     
     private lazy var dataSource: DataSource = .init(configureCell: configureCell)
     
-    private var defaultPadding: CGFloat = 18.0
-    
     // MARK: - UI Elements
     
     private lazy var topBarView = uiFactory.newView(color: .clear)
@@ -36,25 +34,11 @@ class MainView: UIView {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.backgroundColor = .gray
+        tableView.estimatedSectionHeaderHeight = 0
         tableView.register(PageControlCell.self, forCellReuseIdentifier: PageControlCell.reuseID)
         tableView.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseID)
         return tableView
-    }()
-    
-    private lazy var pageViewController: UIPageViewController = {
-        let viewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        viewController.dataSource = self
-        viewController.view.backgroundColor = .black
-        return viewController
-    }()
-    
-    private lazy var orderedViewControllers: [UIViewController] = {
-        [uiFactory.getViewController(color: .red),
-         uiFactory.getViewController(color: .blue),
-         uiFactory.getViewController(color: .green),
-         uiFactory.getViewController(color: .orange)]
-//        let count = youTubeViewModel.channelsIdsCount()
-//        return Array(repeating: UIViewController(), count: count)
     }()
     
     // MARK: - Lifecycle
@@ -80,7 +64,6 @@ class MainView: UIView {
     
     private func setup() {
         setupViews()
-        setupPageViewController()
         addConstraints()
         bindUI()
     }
@@ -90,7 +73,6 @@ class MainView: UIView {
         topBarView.addSubview(topBarTitleLabel)
         addSubview(topBarView)
         addSubview(tableView)
-//        addSubview(pageViewController.view)
     }
     
     private func addConstraints() {
@@ -106,70 +88,17 @@ class MainView: UIView {
             $0.top.equalTo(topBarView.snp.bottom)
             $0.leading.trailing.bottom.equalTo(self)
         }
-//        pageViewController.view.snp.makeConstraints {
-//            $0.top.equalTo(snp.topMargin).offset(32)
-//            $0.leading.equalTo(defaultPadding)
-//            $0.trailing.equalTo(-defaultPadding)
-//            $0.height.equalTo(200)
-//        }
-    }
-    
-    private func setupPageViewController() {
-        if let firstViewController = orderedViewControllers.first {
-            pageViewController.setViewControllers(
-                [firstViewController],
-                direction: .forward,
-                animated: true,
-                completion: nil
-            )
-        }
     }
     
     private func bindUI() {
-        
         youTubeViewModel.dataSource
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: youTubeViewModel.bag)
         
+        tableView.rx
+            .setDelegate(self)
+            .disposed(by: youTubeViewModel.bag)
     }
-}
-
-// MARK: - UIPageViewControllerDataSource
-
-extension MainView: UIPageViewControllerDataSource {
-    
-    func pageViewController(_ pageViewController: UIPageViewController,
-                            viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        if let index = orderedViewControllers.firstIndex(of: viewController) {
-            if index > 0 {
-                return orderedViewControllers[index - 1]
-            } else {
-                return nil
-            }
-        }
-        return nil
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController,
-                            viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        if let index = orderedViewControllers.firstIndex(of: viewController) {
-            if index < orderedViewControllers.count - 1 {
-                return orderedViewControllers[index + 1]
-            } else {
-                return nil
-            }
-        }
-        return nil
-    }
-    
-    func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return orderedViewControllers.count
-    }
-
-    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        return 0
-    }
-    
 }
 
 // MARK: - DataSource Configuration
@@ -188,6 +117,63 @@ extension MainView {
                 cell.setupCell(with: playlist)
                 return cell
             }
+        }
+    }
+}
+
+// MARK: - table view delegate -
+
+extension MainView: UITableViewDelegate {
+    
+    private func setupSectionHeaderView(for section: Int) -> UIView {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 20))
+        headerView.backgroundColor = .gray
+        
+        let textLabel = UILabel()
+        textLabel.font = .systemFont(ofSize: 15)
+        textLabel.textColor = .black
+        textLabel.text = "Hello Header!"
+        
+        headerView.addSubview(textLabel)
+        textLabel.snp.makeConstraints { make in
+            make.height.equalTo(20)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.centerY.equalToSuperview()
+        }
+        
+        let separator = UIView()
+        separator.backgroundColor = .lightGray
+        
+        headerView.addSubview(separator)
+        separator.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalTo(headerView)
+            make.height.equalTo(1)
+        }
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section != 0 {
+            return setupSectionHeaderView(for: section)
+        } else {
+            return nil
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section != 0 {
+            return 20
+        } else {
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 0:
+            return 250
+        default:
+            return 50
         }
     }
 }

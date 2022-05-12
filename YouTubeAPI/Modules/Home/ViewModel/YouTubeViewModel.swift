@@ -44,8 +44,7 @@ class YouTubeViewModel {
         }
         self.youTubeService = service
         self.bag = DisposeBag()
-        
-        setupObservers()
+        addMockData()
     }
     
     func channelsIdsCount() -> Int {
@@ -54,10 +53,6 @@ class YouTubeViewModel {
     
     func getData() {
         getChannels()
-    }
-    
-    private func setupObservers() {
-        
     }
     
     private func getChannels() {
@@ -189,9 +184,9 @@ class YouTubeViewModel {
         }
         group.notify(queue: .main) {
             self.isLoadedData.accept(true)
-            let cells = self.createCells(by: 0)
-            let newSection = ChannelSection(model: "", items: cells)
-            self.dataSource.accept([newSection])
+//            let cells = self.createCells(by: 0)
+//            let newSection = ChannelSection(model: "", items: cells)
+//            self.dataSource.accept([newSection])
         }
     }
     
@@ -225,6 +220,23 @@ class YouTubeViewModel {
         let channel = channels.value[index]
         return channel
     }
+    
+    private func addMockData() {
+        var sections: [ChannelSection] = []
+        
+        let section1Cells = [MockCell().channelsMock]
+        let section1 = ChannelSection(model: "", items: section1Cells)
+        sections.append(section1)
+        
+        let section2Cells = [MockCell().playlistMock]
+        let section2 = ChannelSection(model: "Section 2", items: section2Cells)
+        let section3Cells = [MockCell().playlistMock]
+        let section3 = ChannelSection(model: "Section 3", items: section3Cells)
+        sections.append(section2)
+        sections.append(section3)
+        
+        self.dataSource.accept(sections)
+    }
 }
 
 struct CellModel {
@@ -236,4 +248,14 @@ struct CellModel {
     
     let title: String
     let typeOfCell: CellType
+}
+
+struct MockCell {
+    var channelsMock: CellModel {
+        CellModel(title: "", typeOfCell: .pageControl(channels: []))
+    }
+    var playlistMock: CellModel {
+        let playlist = PlaylistItem(id: "111", snippet: PlaylistItem.Snippet(title: "playlist name"))
+        return CellModel(title: "Playlist", typeOfCell: .playlist(playlist: playlist))
+    }
 }

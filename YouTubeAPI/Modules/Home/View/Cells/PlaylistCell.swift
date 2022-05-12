@@ -23,7 +23,7 @@ class PlaylistCell: UITableViewCell {
     }
     
     func setupCell(with playlistItem: PlaylistItem) {
-        print("-------->\n", playlistItem)
+        textLabel?.text = playlistItem.snippet.title
     }
     
     private func setup() {
