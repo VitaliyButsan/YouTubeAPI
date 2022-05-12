@@ -20,7 +20,7 @@ class MainView: UIView {
     // MARK: - UI Elements
     
     private lazy var topBarView = uiFactory.newView()
-    private lazy var topBarTitleLabel = uiFactory.newLabel(text: "YouTubeAPI", font: .SFProDisplayBold(size: 34))
+    private lazy var topBarTitleLabel = uiFactory.newLabel(text: "YouTubeAPI", font: .SFPro.Display.Bold(size: 34).font)
     
     private lazy var pageViewController: UIPageViewController = {
         let viewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
