@@ -9,8 +9,8 @@ import Moya
 
 enum YouTubeAPI {
     case getChannels(id: String)
-    case getPlaylists(channelId: String)
-    case getPlaylistItems(playlistId: String)
+    case getPlaylists(channelId: String, max: Int = 2)
+    case getPlaylistItems(playlistId: String, max: Int = 10)
     case getVideos(videoId: String)
 }
 
@@ -51,18 +51,19 @@ extension YouTubeAPI: TargetType {
                 "key" : L10n.apiKey,
                 "id" : "\(id)",
             ]
-        case let .getPlaylists(id):
+        case let .getPlaylists(id, max):
             return [
                 "part" : L10n.playlistsRequestParts,
                 "key" : L10n.apiKey,
                 "channelId" : "\(id)",
+                "maxResults" : "\(max)"
             ]
-        case let .getPlaylistItems(id):
+        case let .getPlaylistItems(id, max):
             return [
                 "part" : L10n.playlistItemsRequestParts,
                 "key" : L10n.apiKey,
                 "playlistId" : "\(id)",
-                "maxResults" : "10"
+                "maxResults" : "\(max)"
             ]
         case let .getVideos(id):
             return [

@@ -100,8 +100,7 @@ class YouTubeViewModel {
                     
                     switch event {
                     case let .success(playlists):
-                        let newPlaylists = Array(playlists.prefix(2))
-                        self.addPlaylistsToChannel(newPlaylists, by: channelId)
+                        self.addPlaylistsToChannel(playlists, by: channelId)
                     case let .failure(error):
                         self.errorSubject.accept(error.localizedDescription)
                     }
