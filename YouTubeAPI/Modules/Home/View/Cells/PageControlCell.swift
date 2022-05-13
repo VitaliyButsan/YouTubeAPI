@@ -13,9 +13,10 @@ class PageControlCell: UITableViewCell {
     // MARK: - Properties
     
     static let reuseID = "PageControlCell"
-    private var uiFactory = UIFactory()
     
     private var defaultPadding: CGFloat = 18.0
+    
+    private var uiFactory = UIFactory()
     
     // MARK: - UI Elements
     
@@ -26,14 +27,7 @@ class PageControlCell: UITableViewCell {
         return viewController
     }()
     
-    lazy var newLabel = uiFactory.newLabel(text: "Hello", font: .systemFont(ofSize: 40))
-    
-    private lazy var orderedViewControllers: [UIViewController] = {
-        [uiFactory.getViewController(color: .yellow),
-         uiFactory.getViewController(color: .blue),
-         uiFactory.getViewController(color: .green),
-         uiFactory.getViewController(color: .orange)]
-    }()
+    private var orderedViewControllers: [UIViewController] = []
     
     // MARK: - Lifecycle
     
@@ -48,12 +42,19 @@ class PageControlCell: UITableViewCell {
     }
     
     func setupCell(with channels: [Channel]) {
-        textLabel?.text = channels.count.description
+        addPages(by: channels.count)
+    }
+    
+    private func addPages(by channelsCount: Int) {
+        for _ in 0..<channelsCount {
+            let vc = uiFactory.newViewController()
+            orderedViewControllers.append(vc)
+        }
+        setupPageViewController()
     }
     
     private func setupLayout() {
         setupViews()
-        setupPageViewController()
         addConstraints()
     }
     

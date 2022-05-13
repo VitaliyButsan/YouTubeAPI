@@ -9,7 +9,7 @@ import UIKit
 
 final class UIFactory {
     
-    func getViewController(color: UIColor) -> UIViewController {
+    func newViewController(color: UIColor = .white) -> UIViewController {
         let vc = UIViewController()
         vc.view.backgroundColor = color
         return vc
