@@ -52,6 +52,7 @@ class YouTubeViewModel {
     }
     
     func getData() {
+//        dataSource.accept([])
         getChannels()
     }
     
@@ -230,17 +231,16 @@ class YouTubeViewModel {
         let section1Cells = [MockCell().channelsMock(4)]
         let section1 = ChannelSection(model: "Section 1", items: section1Cells)
         sections.append(section1)
-        
+
         let section2Cells = [MockCell().playlistMock]
         let section2 = ChannelSection(model: "Section 2", items: section2Cells)
+        
         let section3Cells = [MockCell().playlistMock]
         let section3 = ChannelSection(model: "Section 3", items: section3Cells)
         sections.append(section2)
         sections.append(section3)
         
         dataSource.accept(sections)
-        print(dataSource.value.count)
-        print()
     }
     
     func getSectionTitle(by sectionIndex: Int) -> String {

@@ -19,6 +19,7 @@ struct CellModel {
 }
 
 struct MockCell {
+    
     func channelsMock(_ count: Int) -> CellModel {
         var channels: [Channel] = []
         for _ in 0..<count {
@@ -28,8 +29,17 @@ struct MockCell {
         let cell = CellModel(title: "", typeOfCell: .pageControl(channels: channels))
         return cell
     }
+    
     var playlistMock: CellModel {
-        let playlist = Playlist(id: "111", snippet: Playlist.Snippet(title: "playlist name"))
+        var playlistItems: [PlaylistItem] = []
+        for x in 0..<2 {
+            let resourceId = PlaylistItem.Snippet.Resource.init(videoId: "23423423")
+            let snippet = PlaylistItem.Snippet.init(title: "title", resourceId: resourceId, viewCount: "999")
+            let playlistItem = PlaylistItem(id: "\(x)", snippet: snippet)
+            playlistItems.append(playlistItem)
+        }
+        let playlistSnippet = Playlist.Snippet(title: "playlist name")
+        let playlist = Playlist(id: "111", snippet: playlistSnippet, playlistItems: playlistItems)
         return CellModel(title: "Playlist", typeOfCell: .playlist(playlist: playlist))
     }
 }

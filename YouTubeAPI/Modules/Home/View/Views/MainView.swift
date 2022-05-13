@@ -27,7 +27,7 @@ class MainView: UIView {
     private lazy var topBarView = uiFactory.newView(color: .clear)
     private lazy var topBarTitleLabel = uiFactory
         .newLabel(
-            text: "YouTubeAPI",
+            text: "YouTube API",
             font: .SFPro.Display.Bold(size: 34).font,
             textColor: .white
         )
@@ -175,7 +175,7 @@ extension MainView: UITableViewDelegate {
         case 0:
             return 250
         default:
-            return 50
+            return 150
         }
     }
 }

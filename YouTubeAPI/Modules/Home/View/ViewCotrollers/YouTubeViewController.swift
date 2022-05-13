@@ -22,6 +22,7 @@ class YouTubeViewController: UIViewController {
     
     convenience init(viewModel: YouTubeViewModel?, view: UIView?) {
         self.init(nibName: nil, bundle: nil)
+        
         guard let viewModel = viewModel, let view = view else {
             fatalError("YouTubeViewController init")
         }
@@ -36,11 +37,6 @@ class YouTubeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        getData()
+//        youTubeViewModel.getData()
     }
-    
-    private func getData() {
-        youTubeViewModel.getData()
-    }
-    
 }

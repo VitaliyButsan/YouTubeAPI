@@ -41,6 +41,7 @@
 		FECBED46282C291200B57DDA /* SFProText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FECBED42282C291200B57DDA /* SFProText-Regular.ttf */; };
 		FECBED48282C2BA800B57DDA /* fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECBED47282C2BA800B57DDA /* fonts.swift */; };
 		FECBED4A282C2E7100B57DDA /* YouTubeMainViewUIFactoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECBED49282C2E7100B57DDA /* YouTubeMainViewUIFactoryAssembly.swift */; };
+		FED15861282E64DF00FB4664 /* PlaylistItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED15860282E64DF00FB4664 /* PlaylistItemCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +83,7 @@
 		FECBED42282C291200B57DDA /* SFProText-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Regular.ttf"; sourceTree = "<group>"; };
 		FECBED47282C2BA800B57DDA /* fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = fonts.swift; sourceTree = "<group>"; };
 		FECBED49282C2E7100B57DDA /* YouTubeMainViewUIFactoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeMainViewUIFactoryAssembly.swift; sourceTree = "<group>"; };
+		FED15860282E64DF00FB4664 /* PlaylistItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistItemCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,13 +201,14 @@
 			path = ViewCotrollers;
 			sourceTree = "<group>";
 		};
-		FE776C0D282D2B7F00F37DBF /* Cells */ = {
+		FE776C0D282D2B7F00F37DBF /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				FED1585F282E64B800FB4664 /* CollectionViewCells */,
 				FE776C10282D2BD400F37DBF /* PlaylistCell.swift */,
 				FE59F9D4282D61F000AF1505 /* PageControlCell.swift */,
 			);
-			path = Cells;
+			path = TableViewCells;
 			sourceTree = "<group>";
 		};
 		FE877218282A830A006111CB = {
@@ -345,7 +348,7 @@
 		FEA6DF04282AB28400F67D61 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				FE776C0D282D2B7F00F37DBF /* Cells */,
+				FE776C0D282D2B7F00F37DBF /* TableViewCells */,
 				FE776C0C282D2B5F00F37DBF /* ViewCotrollers */,
 				FE776C0B282D2B5900F37DBF /* Views */,
 				FE87723C282A84F8006111CB /* Storyboards */,
@@ -370,6 +373,14 @@
 				FECBED40282C291200B57DDA /* SFProText-Semibold.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		FED1585F282E64B800FB4664 /* CollectionViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				FED15860282E64DF00FB4664 /* PlaylistItemCell.swift */,
+			);
+			path = CollectionViewCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -526,6 +537,7 @@
 				FEA6DEF5282AAC3D00F67D61 /* YouTubeService.swift in Sources */,
 				FEA2F2C0282E3BA100CF531A /* CellModel.swift in Sources */,
 				FE491B0A282B91B300738677 /* YouTubeViewControllerAssembly.swift in Sources */,
+				FED15861282E64DF00FB4664 /* PlaylistItemCell.swift in Sources */,
 				FE59F9D5282D61F000AF1505 /* PageControlCell.swift in Sources */,
 				FE491B0D282B91EC00738677 /* YouTubeServiseAssembly.swift in Sources */,
 				FE87725D282AA4F6006111CB /* YouTubeAPI.swift in Sources */,

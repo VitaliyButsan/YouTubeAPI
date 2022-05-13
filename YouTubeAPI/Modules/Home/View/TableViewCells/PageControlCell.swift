@@ -47,7 +47,7 @@ class PageControlCell: UITableViewCell {
     
     private func addPages(by channelsCount: Int) {
         for _ in 0..<channelsCount {
-            let vc = uiFactory.newViewController()
+            let vc = uiFactory.newViewController(color: .random)
             orderedViewControllers.append(vc)
         }
         setupPageViewController()
@@ -120,4 +120,16 @@ extension PageControlCell: UIPageViewControllerDataSource {
         return 0
     }
     
+}
+
+extension UIColor {
+    
+    static var random: UIColor {
+        return UIColor(
+            red: .random(in: 0...1),
+            green: .random(in: 0...1),
+            blue: .random(in: 0...1),
+            alpha: 1.0
+        )
+    }
 }
