@@ -23,7 +23,7 @@ final class YouTubeService {
             .map(\.items)
     }
     
-    func getPlaylists(by id: String) -> Single<[PlaylistItem]> {
+    func getPlaylists(by id: String) -> Single<[Playlist]> {
         provider.rx
             .request(.getPlaylists(channelId: id))
             .catch { error in .error(error) }
@@ -31,7 +31,7 @@ final class YouTubeService {
             .map(\.items)
     }
     
-    func getPlaylistItems(by id: String) -> Single<[PlaylistItemsItem]> {
+    func getPlaylistItems(by id: String) -> Single<[PlaylistItem]> {
         provider.rx
             .request(.getPlaylistItems(playlistId: id))
             .catch { error in .error(error) }

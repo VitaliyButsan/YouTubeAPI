@@ -11,7 +11,7 @@ struct CellModel {
     
     enum CellType {
         case pageControl(channels: [Channel])
-        case playlist(playlist: PlaylistItem)
+        case playlist(playlist: Playlist)
     }
     
     let title: String
@@ -29,8 +29,7 @@ struct MockCell {
         return cell
     }
     var playlistMock: CellModel {
-        let playlist = PlaylistItem(id: "111", snippet: PlaylistItem.Snippet(title: "playlist name"))
+        let playlist = Playlist(id: "111", snippet: Playlist.Snippet(title: "playlist name"))
         return CellModel(title: "Playlist", typeOfCell: .playlist(playlist: playlist))
     }
 }
-

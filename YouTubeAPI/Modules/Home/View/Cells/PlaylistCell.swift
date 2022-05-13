@@ -22,8 +22,8 @@ class PlaylistCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell(with playlistItem: PlaylistItem) {
-        textLabel?.text = playlistItem.snippet.title
+    func setupCell(with playlistItem: Playlist) {
+        
     }
     
     private func setup() {

@@ -15,7 +15,7 @@ struct Channel: Decodable {
     let id: String
     let statistics: Statistics
     let brandingSettings: Settings
-    var playlists: [PlaylistItem]?
+    var playlists: [Playlist]?
     
     struct Statistics: Decodable {
         let subscriberCount: String
@@ -31,7 +31,7 @@ struct Channel: Decodable {
 }
 
 extension Channel {
-    typealias Section = SectionModel<String, PlaylistItem>
+    typealias Section = SectionModel<String, Playlist>
 
     var dataSourcePlaylists: [Section] {
         var newPlaylists: [Section] = []

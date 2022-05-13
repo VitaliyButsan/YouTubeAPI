@@ -8,10 +8,10 @@
 import Foundation
 
 struct PlaylistItemsDataWrapper: Decodable {
-    let items: [PlaylistItemsItem]
+    let items: [PlaylistItem]
 }
 
-struct PlaylistItemsItem: Decodable {
+struct PlaylistItem: Decodable {
     let id: String
     var snippet: Snippet
     

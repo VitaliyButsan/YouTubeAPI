@@ -126,13 +126,15 @@ extension MainView {
 extension MainView: UITableViewDelegate {
     
     private func setupSectionHeaderView(for section: Int) -> UIView {
+        let sectionTitle = youTubeViewModel.getSectionTitle(by: section)
+        
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 20))
         headerView.backgroundColor = .gray
         
         let textLabel = UILabel()
         textLabel.font = .systemFont(ofSize: 15)
         textLabel.textColor = .black
-        textLabel.text = "Hello Header!"
+        textLabel.text = sectionTitle
         
         headerView.addSubview(textLabel)
         textLabel.snp.makeConstraints { make in

@@ -105,7 +105,7 @@ class YouTubeViewModel {
         }
     }
     
-    private func addPlaylistsToChannel(_ playlists: [PlaylistItem], by channelId: String) {
+    private func addPlaylistsToChannel(_ playlists: [Playlist], by channelId: String) {
         guard let index = channels.firstIndex(where: { $0.id == channelId }) else { return }
         var tmpChannels = channels
         tmpChannels[index].playlists = playlists
@@ -141,7 +141,7 @@ class YouTubeViewModel {
         }
     }
     
-    private func addPlaylistsItemsToChannel(_ playlistItems: [PlaylistItemsItem], by playlistId: String, in channelId: String) {
+    private func addPlaylistsItemsToChannel(_ playlistItems: [PlaylistItem], by playlistId: String, in channelId: String) {
         guard let channelIndex = channels.firstIndex(where: { $0.id == channelId }) else { return }
         var tempChannels = channels
         guard let playlistIndex = tempChannels[channelIndex].playlists?.firstIndex(where: { $0.id == playlistId }) else { return }
@@ -209,8 +209,8 @@ class YouTubeViewModel {
         
         // add sections depends of playlists count
         for playlist in channel.playlists ?? [] {
-            let cell = CellModel(title: playlist.snippet.title, typeOfCell: .playlist(playlist: playlist))
-            let section = ChannelSection(model: "", items: [cell])
+            let cell = CellModel(title: "", typeOfCell: .playlist(playlist: playlist))
+            let section = ChannelSection(model: playlist.snippet.title, items: [cell])
             sections.append(section)
         }
         return sections
@@ -241,5 +241,13 @@ class YouTubeViewModel {
         dataSource.accept(sections)
         print(dataSource.value.count)
         print()
+    }
+    
+    func getSectionTitle(by sectionIndex: Int) -> String {
+        if sectionIndex > dataSource.value.count - 1 || sectionIndex < 0 {
+            return ""
+        }
+        let section = dataSource.value[sectionIndex]
+        return section.model
     }
 }
