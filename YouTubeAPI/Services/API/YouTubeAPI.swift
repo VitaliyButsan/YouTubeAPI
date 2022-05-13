@@ -62,6 +62,7 @@ extension YouTubeAPI: TargetType {
                 "part" : L10n.playlistItemsRequestParts,
                 "key" : L10n.apiKey,
                 "playlistId" : "\(id)",
+                "maxResults" : "10"
             ]
         case let .getVideos(id):
             return [
