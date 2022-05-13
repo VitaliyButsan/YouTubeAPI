@@ -12,6 +12,8 @@ class PageControlCell: UITableViewCell {
     
     // MARK: - Properties
     
+    private var isCellWasCreated = false
+    
     static let reuseID = "PageControlCell"
     
     private var defaultPadding: CGFloat = 18.0
@@ -42,7 +44,11 @@ class PageControlCell: UITableViewCell {
     }
     
     func setupCell(with channels: [Channel]) {
-        addPages(by: channels.count)
+        textLabel?.text = channels[0].brandingSettings.channel.title
+        if !isCellWasCreated {
+            isCellWasCreated = true
+            addPages(by: channels.count)
+        }
     }
     
     private func addPages(by channelsCount: Int) {

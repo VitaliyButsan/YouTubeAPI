@@ -8,6 +8,8 @@
 import RxCocoa
 import RxDataSources
 
+typealias Section = SectionModel<String, PlaylistItem>
+
 struct PlaylistDataWrapper: Decodable {
     let items: [Playlist]
 } 
@@ -22,22 +24,13 @@ struct Playlist: Decodable {
     }
 }
 
-// MARK: - dataSourcePlaylistItems
-
-extension Playlist {
-    typealias Section = SectionModel<String, PlaylistItem>
-
-    var dataSourcePlaylistItems: BehaviorRelay<[Section]> {
-        var newPlaylistItems: [Section] = []
-        guard let playlistItems = playlistItems else {
-            return .init(value: [])
-        }
-        for playlist in playlistItems {
-            let title = playlist.snippet.title
-            let items = playlistItems
-            let newPlaylist = SectionModel(model: title, items: items)
-            newPlaylistItems.append(newPlaylist)
-        }
-        return BehaviorRelay(value: newPlaylistItems)
+struct RxPlaylist {
+    
+    let id: String
+    let snippet: Snippet
+    var playlistItems: BehaviorRelay<[Section]>?
+    
+    struct Snippet {
+        let title: String
     }
 }

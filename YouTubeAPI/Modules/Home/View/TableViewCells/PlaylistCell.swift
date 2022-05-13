@@ -15,12 +15,14 @@ class PlaylistCell: UITableViewCell {
     
     // MARK: - Properties
     
+    private var isCellWasCreated = false
+    
     typealias PlaylistSection = SectionModel<String, PlaylistItem>
     typealias DataSource = RxCollectionViewSectionedReloadDataSource<PlaylistSection>
     
     static let reuseID = "PlaylistCell"
     private let bag = DisposeBag()
-    private var playlist: Playlist?
+    private var playlist: RxPlaylist?
     private lazy var dataSource: DataSource = .init(configureCell: configureCell)
     
     // MARK: - UI Elements
@@ -47,16 +49,17 @@ class PlaylistCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell(with playlist: Playlist) {
+    func setupCell(with playlist: RxPlaylist) {
         self.playlist = playlist
-        bindUI()
-//        playlistCollectionView.collectionViewLayout.invalidateLayout()
+        if !isCellWasCreated {
+            isCellWasCreated = true
+            bindUI()
+        }
     }
     
     private func setup() {
         setupViews()
         addConstraints()
-//        bindUI()
     }
     
     private func setupViews() {
@@ -71,7 +74,7 @@ class PlaylistCell: UITableViewCell {
     }
     
     private func bindUI() {
-        playlist?.dataSourcePlaylistItems
+        playlist?.playlistItems?
             .bind(to: playlistCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
     }
@@ -83,8 +86,6 @@ extension PlaylistCell {
     
     private var configureCell: DataSource.ConfigureCell {
         return { _, collectionView, indexPath, playlistItem in
-//            print(self.playlist?.playlistItems?.count)
-//            print(self.playlist?.dataSourcePlaylistItems.value.count)
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlaylistItemCell.reuseID, for: indexPath) as! PlaylistItemCell
             cell.setupCell(with: playlistItem)
             return cell

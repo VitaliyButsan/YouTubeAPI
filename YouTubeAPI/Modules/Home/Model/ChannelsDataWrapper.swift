@@ -29,20 +29,3 @@ struct Channel: Decodable {
         }
     }
 }
-
-extension Channel {
-    typealias Section = SectionModel<String, Playlist>
-
-    var dataSourcePlaylists: [Section] {
-        var newPlaylists: [Section] = []
-        guard let playlists = playlists else { return [] }
-        
-        for playlist in playlists {
-            let title = playlist.snippet.title
-            let items = playlists
-            let newPlaylist = SectionModel(model: title, items: items)
-            newPlaylists.append(newPlaylist)
-        }
-        return newPlaylists
-    }
-}

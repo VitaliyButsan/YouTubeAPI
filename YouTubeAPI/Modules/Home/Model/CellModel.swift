@@ -6,12 +6,14 @@
 //
 
 import Foundation
+import RxRelay
+import RxDataSources
 
 struct CellModel {
     
     enum CellType {
         case pageControl(channels: [Channel])
-        case playlist(playlist: Playlist)
+        case playlist(playlist: RxPlaylist)
     }
     
     let title: String
@@ -30,16 +32,22 @@ struct MockCell {
         return cell
     }
     
-    var playlistMock: CellModel {
+    func playlistMock(_ count: Int) -> CellModel {
         var playlistItems: [PlaylistItem] = []
-        for x in 0..<2 {
+        
+        for x in 0..<count {
             let resourceId = PlaylistItem.Snippet.Resource.init(videoId: "23423423")
             let snippet = PlaylistItem.Snippet.init(title: "title", resourceId: resourceId, viewCount: "999")
             let playlistItem = PlaylistItem(id: "\(x)", snippet: snippet)
             playlistItems.append(playlistItem)
         }
-        let playlistSnippet = Playlist.Snippet(title: "playlist name")
-        let playlist = Playlist(id: "111", snippet: playlistSnippet, playlistItems: playlistItems)
+        
+        let section = Section(model: "", items: playlistItems)
+        let playlistItemsSections = BehaviorRelay(value: [section])
+        
+        let playlistSnippet = RxPlaylist.Snippet(title: "playlist name")
+        let playlist = RxPlaylist(id: "111", snippet: playlistSnippet, playlistItems: playlistItemsSections)
+        
         return CellModel(title: "Playlist", typeOfCell: .playlist(playlist: playlist))
     }
 }

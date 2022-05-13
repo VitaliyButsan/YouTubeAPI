@@ -9,11 +9,11 @@ import RxCocoa
 import RxSwift
 import RxDataSources
 
+typealias ChannelSection = SectionModel<String, CellModel>
+
 class YouTubeViewModel {
     
     // MARK: - Properties
-    
-    typealias ChannelSection = SectionModel<String, CellModel>
     
     // rx
     let bag: DisposeBag
@@ -44,15 +44,22 @@ class YouTubeViewModel {
         }
         self.youTubeService = service
         self.bag = DisposeBag()
-        addMockData()
+        getData()
     }
     
     func channelsIdsCount() -> Int {
         return channelsIDs.count
     }
     
+    func getSectionTitle(by sectionIndex: Int) -> String {
+        if sectionIndex > dataSource.value.count - 1 || sectionIndex < 0 {
+            return ""
+        }
+        let section = dataSource.value[sectionIndex]
+        return section.model
+    }
+    
     func getData() {
-//        dataSource.accept([])
         getChannels()
     }
     
@@ -118,7 +125,6 @@ class YouTubeViewModel {
         
         for channel in channels {
             guard let playlists = channel.playlists else { return }
-            
             for playlist in playlists {
                 group.enter()
                 
@@ -129,7 +135,7 @@ class YouTubeViewModel {
                         
                         switch event {
                         case let .success(playlistItems):
-                            self.addPlaylistsItemsToChannel(playlistItems, by: playlist.id, in: channel.id)
+                            self.addPlaylistItemsToChannelPlaylist(playlistItems, by: playlist.id, in: channel.id)
                         case let .failure(error):
                             self.errorSubject.accept(error.localizedDescription)
                         }
@@ -142,7 +148,7 @@ class YouTubeViewModel {
         }
     }
     
-    private func addPlaylistsItemsToChannel(_ playlistItems: [PlaylistItem], by playlistId: String, in channelId: String) {
+    private func addPlaylistItemsToChannelPlaylist(_ playlistItems: [PlaylistItem], by playlistId: String, in channelId: String) {
         guard let channelIndex = channels.firstIndex(where: { $0.id == channelId }) else { return }
         var tempChannels = channels
         guard let playlistIndex = tempChannels[channelIndex].playlists?.firstIndex(where: { $0.id == playlistId }) else { return }
@@ -185,7 +191,7 @@ class YouTubeViewModel {
         }
         group.notify(queue: .main) {
             self.isLoadedData.accept(true)
-            let sections = self.createSections(by: 0)
+            let sections = self.createSections(for: 0)
             self.dataSource.accept(sections)
         }
     }
@@ -199,18 +205,19 @@ class YouTubeViewModel {
         channels = tempChannels
     }
     
-    private func createSections(by channelIndex: Int) -> [ChannelSection] {
+    private func createSections(for channelIndex: Int) -> [ChannelSection] {
         guard let channel = getChannel(by: channelIndex) else { return [] }
         var sections: [ChannelSection] = []
-        
+
         // add first fixed section
         let cell = CellModel(title: "", typeOfCell: .pageControl(channels: channels))
         let section = ChannelSection(model: "", items: [cell])
         sections.append(section)
-        
+
         // add sections depends of playlists count
         for playlist in channel.playlists ?? [] {
-            let cell = CellModel(title: "", typeOfCell: .playlist(playlist: playlist))
+            let rxPlaylist = rxPlaylist(from: playlist)
+            let cell = CellModel(title: "", typeOfCell: .playlist(playlist: rxPlaylist))
             let section = ChannelSection(model: playlist.snippet.title, items: [cell])
             sections.append(section)
         }
@@ -232,22 +239,36 @@ class YouTubeViewModel {
         let section1 = ChannelSection(model: "Section 1", items: section1Cells)
         sections.append(section1)
 
-        let section2Cells = [MockCell().playlistMock]
+        let section2Cells = [MockCell().playlistMock(3)]
         let section2 = ChannelSection(model: "Section 2", items: section2Cells)
-        
-        let section3Cells = [MockCell().playlistMock]
-        let section3 = ChannelSection(model: "Section 3", items: section3Cells)
         sections.append(section2)
+        
+        let section3Cells = [MockCell().playlistMock(5)]
+        let section3 = ChannelSection(model: "Section 3", items: section3Cells)
         sections.append(section3)
+        
+        let section4Cells = [MockCell().playlistMock(15)]
+        let section4 = ChannelSection(model: "Section 3", items: section4Cells)
+        sections.append(section4)
+        
+        let section5Cells = [MockCell().playlistMock(25)]
+        let section5 = ChannelSection(model: "Section 3", items: section5Cells)
+        sections.append(section5)
+        
         
         dataSource.accept(sections)
     }
     
-    func getSectionTitle(by sectionIndex: Int) -> String {
-        if sectionIndex > dataSource.value.count - 1 || sectionIndex < 0 {
-            return ""
-        }
-        let section = dataSource.value[sectionIndex]
-        return section.model
+    private func rxPlaylist(from playlist: Playlist) -> RxPlaylist {
+        let playlistId = playlist.id
+        let playlistSnippetTitle = playlist.snippet.title
+        let playlistItems = playlist.playlistItems ?? []
+        
+        let rxSection = Section(model: "", items: playlistItems)
+        let rxSections = BehaviorRelay(value: [rxSection])
+        let rxSnippet = RxPlaylist.Snippet(title: playlistSnippetTitle)
+        let rxPlaylist = RxPlaylist(id: playlistId, snippet: rxSnippet, playlistItems: rxSections)
+        
+        return rxPlaylist
     }
 }
