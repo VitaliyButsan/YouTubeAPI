@@ -42,7 +42,7 @@ struct MockCell {
             playlistItems.append(playlistItem)
         }
         
-        let section = Section(model: "", items: playlistItems)
+        let section = PlaylistItemsSection(model: "", items: playlistItems)
         let playlistItemsSections = BehaviorRelay(value: [section])
         
         let playlistSnippet = RxPlaylist.Snippet(title: "playlist name")

@@ -14,7 +14,7 @@ class MainView: UIView {
     
     // MARK: - Properties
     
-    typealias DataSource = RxTableViewSectionedReloadDataSource<ChannelSection>
+    typealias DataSource = RxTableViewSectionedReloadDataSource<ResourcesSection>
     
     private var youTubeViewModel: YouTubeViewModel!
     private var uiFactory: UIFactory!
