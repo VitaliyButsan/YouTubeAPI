@@ -15,8 +15,6 @@ class PlaylistCell: UITableViewCell {
     
     // MARK: - Properties
     
-    private var isCellWasCreated = false
-    
     typealias PlaylistSection = SectionModel<String, PlaylistItem>
     typealias DataSource = RxCollectionViewSectionedReloadDataSource<PlaylistSection>
     
@@ -50,11 +48,10 @@ class PlaylistCell: UITableViewCell {
     }
     
     func setupCell(with playlist: RxPlaylist) {
-        self.playlist = playlist
-        if !isCellWasCreated {
-            isCellWasCreated = true
+        if self.playlist == nil {
             bindUI()
         }
+        self.playlist = playlist
     }
     
     private func setup() {

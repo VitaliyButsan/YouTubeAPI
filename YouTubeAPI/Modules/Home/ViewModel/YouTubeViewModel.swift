@@ -44,7 +44,9 @@ class YouTubeViewModel {
         }
         self.youTubeService = service
         self.bag = DisposeBag()
-        getData()
+//        getData()
+        
+        addMockData()
     }
     
     func channelsIdsCount() -> Int {
