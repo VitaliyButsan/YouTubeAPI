@@ -32,9 +32,9 @@ class MainView: UIView {
         )
     
     private lazy var tableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .gray
-        tableView.estimatedSectionHeaderHeight = 0
+        tableView.separatorStyle = .none
         tableView.register(PageControlCell.self, forCellReuseIdentifier: PageControlCell.reuseID)
         tableView.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseID)
         return tableView
@@ -90,12 +90,12 @@ class MainView: UIView {
     }
     
     private func bindUI() {
-        youTubeViewModel.dataSource
-            .bind(to: tableView.rx.items(dataSource: dataSource))
-            .disposed(by: youTubeViewModel.bag)
-        
         tableView.rx
             .setDelegate(self)
+            .disposed(by: youTubeViewModel.bag)
+        
+        youTubeViewModel.dataSource
+            .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: youTubeViewModel.bag)
     }
 }
@@ -125,48 +125,49 @@ extension MainView {
 extension MainView: UITableViewDelegate {
     
     private func setupSectionHeaderView(for section: Int) -> UIView {
-        let sectionTitle = youTubeViewModel.getSectionTitle(by: section)
+        let headerWidth = tableView.frame.width
+        let headerHeight = youTubeViewModel.sectionHeaderHeight
+        let headerRect = CGRect(x: 0, y: 0, width: headerWidth, height: headerHeight)
+        let headerView = UIView(frame: headerRect)
         
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 20))
-        headerView.backgroundColor = .gray
-        
-        let textLabel = UILabel()
-        textLabel.font = .systemFont(ofSize: 15)
-        textLabel.textColor = .black
-        textLabel.text = sectionTitle
-        
+        let textLabel = uiFactory
+            .newLabel(
+                text: youTubeViewModel.getSectionTitle(by: section),
+                font: .SFPro.Display.Bold(size: 23).font,
+                textColor: .white
+            )
         headerView.addSubview(textLabel)
+        
         textLabel.snp.makeConstraints { make in
-            make.height.equalTo(20)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.centerY.equalToSuperview()
-        }
-        
-        let separator = UIView()
-        separator.backgroundColor = .lightGray
-        
-        headerView.addSubview(separator)
-        separator.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalTo(headerView)
-            make.height.equalTo(1)
+            make.height.equalTo(headerHeight)
+            make.leading.equalToSuperview().inset(16)
+            make.width.equalTo(headerWidth / 2)
         }
         return headerView
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section != 0 {
-            return setupSectionHeaderView(for: section)
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return CGFloat.leastNormalMagnitude
         } else {
-            return nil
+            return youTubeViewModel.sectionHeaderHeight
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section != 0 {
-            return 20
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 {
+            return nil
         } else {
-            return 0
+            return setupSectionHeaderView(for: section)
         }
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        nil
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -36,6 +36,8 @@ class YouTubeViewModel {
         L10n.channelId4,
     ]
     
+    let sectionHeaderHeight: CGFloat = 50.0
+    
     // MARK: - Lifecycle
     
     init(service: YouTubeService?) {
@@ -44,8 +46,6 @@ class YouTubeViewModel {
         }
         self.youTubeService = service
         self.bag = DisposeBag()
-//        getData()
-        
         addMockData()
     }
     
@@ -58,10 +58,12 @@ class YouTubeViewModel {
             return ""
         }
         let section = dataSource.value[sectionIndex]
-        return section.model
+        let sectionTitle = section.model
+        return sectionTitle
     }
     
     func getData() {
+        dataSource.accept([])
         getChannels()
     }
     
@@ -197,11 +199,11 @@ class YouTubeViewModel {
         }
     }
     
-    private func addVideoViewCountToPlaylistItem(viewCount: String, with playlistItemsItemId: String, by playlistId: String, in channelId: String) {
+    private func addVideoViewCountToPlaylistItem(viewCount: String, with playlistItemId: String, by playlistId: String, in channelId: String) {
         var tempChannels = channels
         guard let channelIndex = channels.firstIndex(where: { $0.id == channelId }) else { return }
         guard let playlistIndex = tempChannels[channelIndex].playlists?.firstIndex(where: { $0.id == playlistId }) else { return }
-        guard let playlistItemIndex = tempChannels[channelIndex].playlists?[playlistIndex].playlistItems?.firstIndex(where: { $0.id == playlistItemsItemId }) else { return }
+        guard let playlistItemIndex = tempChannels[channelIndex].playlists?[playlistIndex].playlistItems?.firstIndex(where: { $0.id == playlistItemId }) else { return }
         tempChannels[channelIndex].playlists?[playlistIndex].playlistItems?[playlistItemIndex].snippet.viewCount = viewCount
         channels = tempChannels
     }
@@ -249,13 +251,12 @@ class YouTubeViewModel {
         sections.append(section3)
         
         let section4Cells = [MockCell().playlistMock(15)]
-        let section4 = ResourcesSection(model: "Section 3", items: section4Cells)
+        let section4 = ResourcesSection(model: "Section 4", items: section4Cells)
         sections.append(section4)
         
         let section5Cells = [MockCell().playlistMock(25)]
-        let section5 = ResourcesSection(model: "Section 3", items: section5Cells)
+        let section5 = ResourcesSection(model: "Section 5", items: section5Cells)
         sections.append(section5)
-        
         
         dataSource.accept(sections)
     }
