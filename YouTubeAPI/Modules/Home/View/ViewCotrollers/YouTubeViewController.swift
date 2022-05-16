@@ -31,12 +31,23 @@ class YouTubeViewController: UIViewController {
     }
     
     override func loadView() {
+        super.loadView()
+        
         view = mainView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        youTubeViewModel.getData()
+        setupNavBar()
+//        getData()
+    }
+    
+    private func setupNavBar() {
+        navigationController?.navigationBar.isHidden = true
+    }
+    
+    private func getData() {
+        youTubeViewModel.getData()
     }
 }
