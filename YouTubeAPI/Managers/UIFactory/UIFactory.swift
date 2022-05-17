@@ -48,7 +48,7 @@ final class UIFactory {
     func newImageView(cornerRadius: CGFloat = 0.0) -> UIImageView {
         let imageView = UIImageView()
         imageView.backgroundColor = .gray
-        imageView.contentMode = .scaleToFill
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = cornerRadius
         return imageView
@@ -78,9 +78,9 @@ final class UIFactory {
             $0.width.equalTo(vc.view.frame.width / 2)
         }
         // set subscriptions counter label
-        let counter = channel.statistics.subscriberCount + " подписчика"
+        let viewsCount = channel.statistics.subscriberCount.splitIntoThounsandParts ?? "0"
         let channelSubscribersCounterLabel = newLabel(
-            text: counter,
+            text: viewsCount + " подписчика",
             font: .SFPro.Text.Regular(size: 10).font,
             textColor: .gray
         )

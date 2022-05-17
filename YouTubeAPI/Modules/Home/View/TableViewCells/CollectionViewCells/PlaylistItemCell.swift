@@ -27,14 +27,14 @@ class PlaylistItemCell: UICollectionViewCell {
     
     private lazy var titleVideoLabel = uiFactory
         .newLabel(
-            text: playlistItem?.snippet.title ?? "No title",
+            text: "No title",
             font: .SFPro.Text.Medium(size: 17).font,
             textColor: .white
         )
     
     private lazy var viewsCounterLabel = uiFactory
         .newLabel(
-            text: (playlistItem?.snippet.viewCount ?? "0") + " просмотра",
+            text: "No title",
             font: .SFPro.Text.Medium(size: 12).font,
             textColor: .gray
         )
@@ -59,8 +59,12 @@ class PlaylistItemCell: UICollectionViewCell {
     
     func setupCell(with playlistItem: PlaylistItem, indexPath: IndexPath) {
         self.playlistItem = playlistItem
+        
+        titleVideoLabel.text = playlistItem.snippet.title
+        let viewsCount = playlistItem.snippet.viewCount?.splitIntoThounsandParts ?? "0"
+        viewsCounterLabel.text = viewsCount + " просмотра"
         setupPosterHeight(by: indexPath.section)
-        let url = playlistItem.snippet.thumbnails.medium.url
+        let url = playlistItem.snippet.thumbnails.default.url
         photoImageView.sd_setImage(with: URL(string: url))
     }
     
@@ -100,11 +104,11 @@ class PlaylistItemCell: UICollectionViewCell {
             $0.leading.trailing.top.equalToSuperview()
         }
         titleVideoLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(photoImageView.snp.bottom).offset(10)
         }
         viewsCounterLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(titleVideoLabel.snp.bottom)
         }
     }

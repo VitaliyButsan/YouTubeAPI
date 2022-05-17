@@ -26,7 +26,7 @@ struct PlaylistItem: Decodable {
         }
         
         struct Thumbnail: Decodable {
-            let medium: Info
+            let `default`, medium, high: Info
             
             struct Info: Decodable {
                 let url: String

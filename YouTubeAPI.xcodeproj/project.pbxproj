@@ -12,6 +12,7 @@
 		FE1F31DF282C1241006F1360 /* UIFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1F31DE282C1241006F1360 /* UIFactory.swift */; };
 		FE1F31E1282C1A0C006F1360 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1F31E0282C1A0C006F1360 /* MainView.swift */; };
 		FE1F31E3282C1D41006F1360 /* YouTubeMainViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1F31E2282C1D41006F1360 /* YouTubeMainViewAssembly.swift */; };
+		FE2FB47828340166003F96B4 /* String+splitIntoThousandParts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2FB47728340166003F96B4 /* String+splitIntoThousandParts.swift */; };
 		FE491B05282B912100738677 /* SwinjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE491B04282B912100738677 /* SwinjectManager.swift */; };
 		FE491B08282B917100738677 /* YouTubeViewModelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE491B07282B917100738677 /* YouTubeViewModelAssembly.swift */; };
 		FE491B0A282B91B300738677 /* YouTubeViewControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE491B09282B91B300738677 /* YouTubeViewControllerAssembly.swift */; };
@@ -53,6 +54,7 @@
 		FE1F31DE282C1241006F1360 /* UIFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFactory.swift; sourceTree = "<group>"; };
 		FE1F31E0282C1A0C006F1360 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		FE1F31E2282C1D41006F1360 /* YouTubeMainViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeMainViewAssembly.swift; sourceTree = "<group>"; };
+		FE2FB47728340166003F96B4 /* String+splitIntoThousandParts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+splitIntoThousandParts.swift"; sourceTree = "<group>"; };
 		FE491B04282B912100738677 /* SwinjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwinjectManager.swift; sourceTree = "<group>"; };
 		FE491B07282B917100738677 /* YouTubeViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeViewModelAssembly.swift; sourceTree = "<group>"; };
 		FE491B09282B91B300738677 /* YouTubeViewControllerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeViewControllerAssembly.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 		FE776C08282D056100F37DBF /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				FE2FB47728340166003F96B4 /* String+splitIntoThousandParts.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -551,6 +554,7 @@
 				FED15861282E64DF00FB4664 /* PlaylistItemCell.swift in Sources */,
 				FE59F9D5282D61F000AF1505 /* PageControlCell.swift in Sources */,
 				FE491B0D282B91EC00738677 /* YouTubeServiseAssembly.swift in Sources */,
+				FE2FB47828340166003F96B4 /* String+splitIntoThousandParts.swift in Sources */,
 				FE87725D282AA4F6006111CB /* YouTubeAPI.swift in Sources */,
 				FE1F31DF282C1241006F1360 /* UIFactory.swift in Sources */,
 				FE491B05282B912100738677 /* SwinjectManager.swift in Sources */,
