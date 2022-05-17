@@ -17,6 +17,7 @@ class YouTubeViewModel {
     
     // rx
     let bag: DisposeBag
+    var timerBag: DisposeBag!
     
     // managers
     private let youTubeService: YouTubeService
@@ -24,6 +25,7 @@ class YouTubeViewModel {
     //state
     private(set) var isLoadedData = BehaviorRelay(value: false)
     private(set) var errorSubject = BehaviorRelay(value: "")
+    private(set) var timerCounter = BehaviorRelay(value: 0)
     
     // storage
     private var channels = [Channel]()
@@ -47,7 +49,20 @@ class YouTubeViewModel {
         }
         self.youTubeService = service
         self.bag = DisposeBag()
+        self.timerBag = DisposeBag()
 //        addMockData(by: 0)
+        startTimer()
+    }
+    
+    func startTimer() {
+        Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).bind { timePassed in
+            self.timerCounter.accept(timePassed)
+        }.disposed(by: timerBag)
+    }
+    
+    func stopTimer() {
+        timerBag = nil
+        timerCounter.accept(0)
     }
     
     func channelsIdsCount() -> Int {

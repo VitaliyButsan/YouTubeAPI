@@ -114,7 +114,7 @@ extension MainView {
                 let cell = tableView.dequeueReusableCell(withIdentifier: PageControlCell.reuseID, for: indexPath) as! PageControlCell
                 cell.contentView.backgroundColor = Asset.Colors.background.color
                 cell.delegate = self
-                cell.setupCell(with: channels)
+                cell.setupCell(with: channels, bind: self.youTubeViewModel.timerCounter)
                 return cell
             case let .playlist(playlist):
                 let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistCell.reuseID, for: indexPath) as! PlaylistCell
@@ -185,4 +185,7 @@ extension MainView: PageControlCellDelegate {
         youTubeViewModel.updateData(for: pageIndex)
     }
     
+    func stopTimer() {
+        youTubeViewModel.stopTimer()
+    }
 }

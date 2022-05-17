@@ -6,9 +6,12 @@
 //
 
 import SnapKit
+import RxSwift
+import RxCocoa
 
 protocol PageControlCellDelegate: AnyObject {
     func setChannel(by pageIndex: Int)
+    func stopTimer()
 }
 
 class PageControlCell: UITableViewCell {
@@ -21,6 +24,9 @@ class PageControlCell: UITableViewCell {
     
     private var currentIndex: Int?
     private var pendingIndex: Int?
+    
+    private var timerCounter = BehaviorRelay(value: 0)
+    private let bag = DisposeBag()
     
     private var defaultPadding: CGFloat {
         return Constants.defaultPadding
@@ -49,17 +55,22 @@ class PageControlCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupLayout()
+        setupObservers()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell(with channels: [Channel]) {
+    func setupCell(with channels: [Channel], bind timerCounter: BehaviorRelay<Int>) {
         if pages.isEmpty {
             setupPageViewController(with: channels)
             setupPageControl()
         }
+        
+        timerCounter
+            .bind(to: self.timerCounter)
+            .disposed(by: bag)
     }
     
     private func setupPageControl() {
@@ -117,6 +128,38 @@ class PageControlCell: UITableViewCell {
             $0.height.equalTo(30)
         }
     }
+    
+    func moveCarousel() {
+//        pageViewController.goToNextPage { completed in
+//            self.currentIndex? += 1
+//            self.pageControl.currentPage = self.currentIndex ?? 0
+//        }
+//        if currentIndex == pages.count - 1 {
+//            currentIndex = 0
+//        } else {
+//            currentIndex += 1
+//        }
+//
+//        let nextPage = pages[currentIndex]
+//
+//        pageViewController.setViewControllers([nextPage], direction: .forward, animated: true) { completed in
+//            if completed {
+////                self.delegate?.setChannel(by: self.currentIndex)
+//                self.pageControl.currentPage = self.currentIndex
+//            }
+//        }
+    }
+    
+    private func setupObservers() {
+        timerCounter
+            .subscribe(onNext: { time in
+                print("===>", time)
+                if time > 0, time % 3 == 0 {
+                    self.moveCarousel()
+                }
+            })
+            .disposed(by: bag)
+    }
 }
 
 // MARK: - UIPageViewControllerDataSource
@@ -145,7 +188,7 @@ extension PageControlCell: UIPageViewControllerDataSource, UIPageViewControllerD
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             willTransitionTo pendingViewControllers: [UIViewController]) {
-        pendingIndex = pages.firstIndex(of:pendingViewControllers.first!)
+        pendingIndex = pages.firstIndex(of: pendingViewControllers.first!)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool,
@@ -153,8 +196,18 @@ extension PageControlCell: UIPageViewControllerDataSource, UIPageViewControllerD
         if completed {
             currentIndex = pendingIndex
             if let index = currentIndex {
-                delegate?.setChannel(by: index)
                 pageControl.currentPage = index
+                delegate?.setChannel(by: index)
+            }
+        }
+    }
+}
+
+extension UIPageViewController {
+    func goToNextPage(animated: Bool = true, completion: ((Bool) -> Void)? = nil) {
+        if let currentViewController = viewControllers?[0] {
+            if let nextPage = dataSource?.pageViewController(self, viewControllerAfter: currentViewController) {
+                setViewControllers([nextPage], direction: .forward, animated: animated, completion: completion)
             }
         }
     }
