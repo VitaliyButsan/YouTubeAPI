@@ -23,9 +23,14 @@ struct Channel: Decodable {
     
     struct Settings: Decodable {
         let channel: Setting
+        let image: Image
         
         struct Setting: Decodable {
             let title: String
+        }
+        
+        struct Image: Decodable {
+            let bannerExternalUrl: String
         }
     }
 }

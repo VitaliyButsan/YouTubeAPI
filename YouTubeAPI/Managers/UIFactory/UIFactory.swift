@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 final class UIFactory {
     
@@ -52,5 +53,43 @@ final class UIFactory {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = cornerRadius
         return imageView
+    }
+    
+    func newPage(with channel: Channel) -> UIViewController {
+        let vc = UIViewController()
+        
+        // set image
+        let channelIconImageView = newImageView()
+        vc.view.addSubview(channelIconImageView)
+        let urlString = channel.brandingSettings.image.bannerExternalUrl
+        channelIconImageView.sd_setImage(with: URL(string: urlString))
+        channelIconImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        // set title label
+        let channelTitleLabel = newLabel(
+            text: channel.brandingSettings.channel.title,
+            font: .SFPro.Text.Semibold(size: 16).font,
+            textColor: Asset.Colors.channelTitleTextColor.color
+        )
+        vc.view.addSubview(channelTitleLabel)
+        channelTitleLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(10)
+            $0.bottom.equalToSuperview().inset(30)
+            $0.width.equalTo(vc.view.frame.width / 2)
+        }
+        // set subscriptions counter label
+        let counter = channel.statistics.subscriberCount + " подписчика"
+        let channelSubscribersCounterLabel = newLabel(
+            text: counter,
+            font: .SFPro.Text.Regular(size: 10).font,
+            textColor: .gray
+        )
+        vc.view.addSubview(channelSubscribersCounterLabel)
+        channelSubscribersCounterLabel.snp.makeConstraints {
+            $0.leading.equalTo(channelTitleLabel)
+            $0.top.equalTo(channelTitleLabel.snp.bottom).offset(4)
+        }
+        return vc
     }
 }

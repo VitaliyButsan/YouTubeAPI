@@ -6,7 +6,6 @@
 //
 
 import SnapKit
-import SDWebImage
 
 class PageControlCell: UITableViewCell {
     
@@ -51,25 +50,23 @@ class PageControlCell: UITableViewCell {
     }
     
     func setupCell(with channels: [Channel]) {
-        textLabel?.text = channels[0].brandingSettings.channel.title
         if pages.isEmpty {
-            addPages(by: channels.count)
-            setupPageControl(with: pages.count)
+            setupPageViewController(with: channels)
+            setupPageControl()
         }
     }
     
-    private func setupPageControl(with pagesCount: Int) {
-        pageControl.numberOfPages = pagesCount
+    private func setupPageControl() {
+        pageControl.numberOfPages = pages.count
         pageControl.currentPage = 0
-        
     }
     
-    private func addPages(by channelsCount: Int) {
-        for _ in 0..<channelsCount {
-            let vc = uiFactory.newViewController(color: .random)
-            pages.append(vc)
+    private func setupPageViewController(with channels: [Channel]) {
+        for channel in channels {
+            let newPage = uiFactory.newPage(with: channel)
+            pages.append(newPage)
         }
-        setupPageViewController()
+        addPagesToPageViewController()
     }
     
     private func setupLayout() {
@@ -83,10 +80,10 @@ class PageControlCell: UITableViewCell {
         contentView.addSubview(pageViewControllerContainer)
     }
     
-    private func setupPageViewController() {
-        if let firstViewController = pages.first {
+    private func addPagesToPageViewController() {
+        if let firstPage = pages.first {
             pageViewController.setViewControllers(
-                [firstViewController],
+                [firstPage],
                 direction: .forward,
                 animated: true,
                 completion: nil

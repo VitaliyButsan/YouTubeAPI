@@ -25,7 +25,7 @@ struct MockCell {
     func channelsMock(_ count: Int) -> CellModel {
         var channels: [Channel] = []
         for _ in 0..<count {
-            let channel = Channel(id: "", statistics: .init(subscriberCount: ""), brandingSettings: .init(channel: .init(title: "")), playlists: [])
+            let channel = Channel(id: "", statistics: .init(subscriberCount: ""), brandingSettings: .init(channel: .init(title: ""), image: .init(bannerExternalUrl: "")), playlists: [])
             channels.append(channel)
         }
         let cell = CellModel(title: "", typeOfCell: .pageControl(channels: channels))

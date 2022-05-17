@@ -246,19 +246,11 @@ class YouTubeViewModel {
         let section2Cells = [MockCell().playlistMock(3)]
         let section2 = ResourcesSection(model: "Section 2", items: section2Cells)
         sections.append(section2)
-        
-        let section3Cells = [MockCell().playlistMock(5)]
+
+        let section3Cells = [MockCell().playlistMock(15)]
         let section3 = ResourcesSection(model: "Section 3", items: section3Cells)
         sections.append(section3)
-        
-        let section4Cells = [MockCell().playlistMock(15)]
-        let section4 = ResourcesSection(model: "Section 4", items: section4Cells)
-        sections.append(section4)
-        
-        let section5Cells = [MockCell().playlistMock(25)]
-        let section5 = ResourcesSection(model: "Section 5", items: section5Cells)
-        sections.append(section5)
-        
+
         dataSource.accept(sections)
     }
     

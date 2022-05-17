@@ -40,7 +40,7 @@ class YouTubeViewController: UIViewController {
         super.viewDidLoad()
         
         setupNavBar()
-//        getData()
+        getData()
     }
     
     private func setupNavBar() {
