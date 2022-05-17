@@ -47,7 +47,7 @@ class YouTubeViewModel {
         }
         self.youTubeService = service
         self.bag = DisposeBag()
-        addMockData()
+//        addMockData(by: 0)
     }
     
     func channelsIdsCount() -> Int {
@@ -61,6 +61,12 @@ class YouTubeViewModel {
         let section = dataSource.value[sectionIndex]
         let sectionTitle = section.model
         return sectionTitle
+    }
+    
+    func updateData(for channelIndex: Int) {
+        let sections = self.createSections(for: channelIndex)
+        self.dataSource.accept(sections)
+//        addMockData(by: channelIndex)
     }
     
     func getData() {
@@ -212,12 +218,12 @@ class YouTubeViewModel {
     private func createSections(for channelIndex: Int) -> [ResourcesSection] {
         guard let channel = getChannel(by: channelIndex) else { return [] }
         var sections: [ResourcesSection] = []
-
+        
         // add first fixed section
         let cell = CellModel(title: "", typeOfCell: .pageControl(channels: channels))
         let section = ResourcesSection(model: "", items: [cell])
         sections.append(section)
-
+        
         // add sections depends of playlists count
         for playlist in channel.playlists ?? [] {
             let rxPlaylist = rxPlaylist(from: playlist)
@@ -236,18 +242,24 @@ class YouTubeViewModel {
         return channel
     }
     
-    private func addMockData() {
+    private func addMockData(by index: Int) {
         var sections: [ResourcesSection] = []
         
-        let section1Cells = [MockCell().channelsMock(4)]
+        var counter = 2
+        
+        if index > 0 {
+            counter += (index * 2)
+        }
+        
+        let section1Cells = [MockCell().channelsMock(counter)]
         let section1 = ResourcesSection(model: "Section 1", items: section1Cells)
         sections.append(section1)
 
-        let section2Cells = [MockCell().playlistMock(3)]
+        let section2Cells = [MockCell().playlistMock(counter)]
         let section2 = ResourcesSection(model: "Section 2", items: section2Cells)
         sections.append(section2)
 
-        let section3Cells = [MockCell().playlistMock(15)]
+        let section3Cells = [MockCell().playlistMock(counter + 2)]
         let section3 = ResourcesSection(model: "Section 3", items: section3Cells)
         sections.append(section3)
 

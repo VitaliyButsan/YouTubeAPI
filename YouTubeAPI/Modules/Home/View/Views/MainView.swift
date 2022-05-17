@@ -113,6 +113,7 @@ extension MainView {
             case let .pageControl(channels):
                 let cell = tableView.dequeueReusableCell(withIdentifier: PageControlCell.reuseID, for: indexPath) as! PageControlCell
                 cell.contentView.backgroundColor = Asset.Colors.background.color
+                cell.delegate = self
                 cell.setupCell(with: channels)
                 return cell
             case let .playlist(playlist):
@@ -174,4 +175,14 @@ extension MainView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         nil
     }
+}
+
+// MARK: - PageControlCellDelegate
+
+extension MainView: PageControlCellDelegate {
+    
+    func setChannel(by pageIndex: Int) {
+        youTubeViewModel.updateData(for: pageIndex)
+    }
+    
 }

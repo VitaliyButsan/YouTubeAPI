@@ -37,7 +37,7 @@ struct MockCell {
         
         for x in 0..<count {
             let resourceId = PlaylistItem.Snippet.Resource.init(videoId: "23423423")
-            let snippet = PlaylistItem.Snippet.init(title: "title", resourceId: resourceId, viewCount: "999")
+            let snippet = PlaylistItem.Snippet.init(title: "title", resourceId: resourceId, viewCount: "999", thumbnails: .init(medium: .init(url: "")))
             let playlistItem = PlaylistItem(id: "\(x)", snippet: snippet)
             playlistItems.append(playlistItem)
         }

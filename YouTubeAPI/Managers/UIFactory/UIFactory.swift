@@ -18,7 +18,6 @@ final class UIFactory {
     func newCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.estimatedItemSize = CGSize(width: 1, height: 1)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(PlaylistItemCell.self, forCellWithReuseIdentifier: PlaylistItemCell.reuseID)
         collectionView.backgroundColor = .clear

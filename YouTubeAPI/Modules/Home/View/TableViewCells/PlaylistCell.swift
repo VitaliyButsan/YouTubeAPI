@@ -15,7 +15,6 @@ class PlaylistCell: UITableViewCell {
     
     // MARK: - Properties
     
-    private var isCellWasCreated = false
     private var indexPath = IndexPath(row: 0, section: 0)
     
     private var defaultPadding: CGFloat {
@@ -51,10 +50,9 @@ class PlaylistCell: UITableViewCell {
     func setupCell(with playlist: RxPlaylist, for indexPath: IndexPath) {
         self.indexPath = indexPath
         self.playlist = playlist
-        if !isCellWasCreated {
-            isCellWasCreated = true
-            bindUI()
-        }
+        playlistCollectionView.delegate = nil
+        playlistCollectionView.dataSource = nil
+        bindUI()
         setPlaylistCollectionViewHeight(by: indexPath.section)
     }
     

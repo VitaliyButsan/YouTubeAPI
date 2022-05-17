@@ -19,9 +19,18 @@ struct PlaylistItem: Decodable {
         let title: String
         let resourceId: Resource
         var viewCount: String?
+        let thumbnails: Thumbnail
         
         struct Resource: Decodable {
             let videoId: String
+        }
+        
+        struct Thumbnail: Decodable {
+            let medium: Info
+            
+            struct Info: Decodable {
+                let url: String
+            }
         }
     }
 }

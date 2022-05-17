@@ -7,9 +7,15 @@
 
 import SnapKit
 
+protocol PageControlCellDelegate: AnyObject {
+    func setChannel(by pageIndex: Int)
+}
+
 class PageControlCell: UITableViewCell {
     
     // MARK: - Properties
+    
+    weak var delegate: MainView?
     
     static let reuseID = "PageControlCell"
     
@@ -119,48 +125,37 @@ extension PageControlCell: UIPageViewControllerDataSource, UIPageViewControllerD
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        let currentIndex = pages.firstIndex(of:viewController)!
-            if currentIndex == 0 {
-                return nil
-            }
-            let previousIndex = abs((currentIndex - 1) % pages.count)
-            return pages[previousIndex]
+        guard let currentIndex = pages.firstIndex(of:viewController) else { return nil }
+        if currentIndex == 0 {
+            return nil
         }
-
+        let previousIndex = abs((currentIndex - 1) % pages.count)
+        return pages[previousIndex]
+    }
+    
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerAfter viewController: UIViewController) -> UIViewController? {
-            let currentIndex = pages.firstIndex(of:viewController)!
-            if currentIndex == pages.count - 1 {
-                return nil
-            }
-            let nextIndex = abs((currentIndex + 1) % pages.count)
-            return pages[nextIndex]
+        guard let currentIndex = pages.firstIndex(of:viewController) else { return nil }
+        if currentIndex == pages.count - 1 {
+            return nil
         }
-
+        let nextIndex = abs((currentIndex + 1) % pages.count)
+        return pages[nextIndex]
+    }
+    
     func pageViewController(_ pageViewController: UIPageViewController,
                             willTransitionTo pendingViewControllers: [UIViewController]) {
-            pendingIndex = pages.firstIndex(of:pendingViewControllers.first!)
-        }
-
+        pendingIndex = pages.firstIndex(of:pendingViewControllers.first!)
+    }
+    
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool,
                             previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-            if completed {
-                currentIndex = pendingIndex
-                if let index = currentIndex {
-                    pageControl.currentPage = index
-                }
+        if completed {
+            currentIndex = pendingIndex
+            if let index = currentIndex {
+                delegate?.setChannel(by: index)
+                pageControl.currentPage = index
             }
         }
-}
-
-extension UIColor {
-    
-    static var random: UIColor {
-        return UIColor(
-            red: .random(in: 0...1),
-            green: .random(in: 0...1),
-            blue: .random(in: 0...1),
-            alpha: 1.0
-        )
     }
 }

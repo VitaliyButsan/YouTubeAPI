@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import SDWebImage
 
 class PlaylistItemCell: UICollectionViewCell {
     
@@ -59,6 +60,8 @@ class PlaylistItemCell: UICollectionViewCell {
     func setupCell(with playlistItem: PlaylistItem, indexPath: IndexPath) {
         self.playlistItem = playlistItem
         setupPosterHeight(by: indexPath.section)
+        let url = playlistItem.snippet.thumbnails.medium.url
+        photoImageView.sd_setImage(with: URL(string: url))
     }
     
     private func setupPosterHeight(by sectionIndex: Int) {
@@ -91,10 +94,7 @@ class PlaylistItemCell: UICollectionViewCell {
     
     private func setupConstraints() {
         containerView.snp.makeConstraints {
-            $0.top.equalTo(contentView)
-            $0.leading.equalTo(contentView)
-            $0.trailing.equalTo(contentView)
-            $0.bottom.equalTo(contentView)
+            $0.edges.equalToSuperview()
         }
         photoImageView.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview()
