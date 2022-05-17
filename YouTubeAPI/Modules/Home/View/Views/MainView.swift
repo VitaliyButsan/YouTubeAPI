@@ -35,6 +35,9 @@ class MainView: UIView {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .gray
         tableView.separatorStyle = .none
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 10
+        tableView.backgroundColor = Asset.Colors.background.color
         tableView.register(PageControlCell.self, forCellReuseIdentifier: PageControlCell.reuseID)
         tableView.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseID)
         return tableView
@@ -109,11 +112,13 @@ extension MainView {
             switch dataSource.typeOfCell {
             case let .pageControl(channels):
                 let cell = tableView.dequeueReusableCell(withIdentifier: PageControlCell.reuseID, for: indexPath) as! PageControlCell
+                cell.contentView.backgroundColor = Asset.Colors.background.color
                 cell.setupCell(with: channels)
                 return cell
             case let .playlist(playlist):
                 let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistCell.reuseID, for: indexPath) as! PlaylistCell
-                cell.setupCell(with: playlist)
+                cell.contentView.backgroundColor = Asset.Colors.background.color
+                cell.setupCell(with: playlist, for: indexPath)
                 return cell
             }
         }
@@ -140,7 +145,7 @@ extension MainView: UITableViewDelegate {
         
         textLabel.snp.makeConstraints { make in
             make.height.equalTo(headerHeight)
-            make.leading.equalToSuperview().inset(16)
+            make.leading.equalToSuperview().inset(youTubeViewModel.defaultPadding)
             make.width.equalTo(headerWidth / 2)
         }
         return headerView
@@ -168,14 +173,5 @@ extension MainView: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         nil
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-        case 0:
-            return 250
-        default:
-            return 150
-        }
     }
 }

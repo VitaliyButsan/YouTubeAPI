@@ -37,6 +37,7 @@ class YouTubeViewModel {
     ]
     
     let sectionHeaderHeight: CGFloat = 50.0
+    let defaultPadding: CGFloat = 18.0
     
     // MARK: - Lifecycle
     

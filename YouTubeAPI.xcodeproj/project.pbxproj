@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5BF0F2F3D20EA0FC05049BF3 /* Pods_YouTubeAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499B1296A476B58B4EF4ED99 /* Pods_YouTubeAPI.framework */; };
+		FE08EE7B283371D100D90757 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE08EE7A283371D100D90757 /* Constants.swift */; };
 		FE1F31DF282C1241006F1360 /* UIFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1F31DE282C1241006F1360 /* UIFactory.swift */; };
 		FE1F31E1282C1A0C006F1360 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1F31E0282C1A0C006F1360 /* MainView.swift */; };
 		FE1F31E3282C1D41006F1360 /* YouTubeMainViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1F31E2282C1D41006F1360 /* YouTubeMainViewAssembly.swift */; };
@@ -48,6 +49,7 @@
 		12F4350629388D1AA9B1801B /* Pods-YouTubeAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouTubeAPI.debug.xcconfig"; path = "Target Support Files/Pods-YouTubeAPI/Pods-YouTubeAPI.debug.xcconfig"; sourceTree = "<group>"; };
 		499B1296A476B58B4EF4ED99 /* Pods_YouTubeAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YouTubeAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		695CF9646D690B596BB37388 /* Pods-YouTubeAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouTubeAPI.release.xcconfig"; path = "Target Support Files/Pods-YouTubeAPI/Pods-YouTubeAPI.release.xcconfig"; sourceTree = "<group>"; };
+		FE08EE7A283371D100D90757 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FE1F31DE282C1241006F1360 /* UIFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFactory.swift; sourceTree = "<group>"; };
 		FE1F31E0282C1A0C006F1360 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		FE1F31E2282C1D41006F1360 /* YouTubeMainViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeMainViewAssembly.swift; sourceTree = "<group>"; };
@@ -113,6 +115,14 @@
 				499B1296A476B58B4EF4ED99 /* Pods_YouTubeAPI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FE08EE79283371C600D90757 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				FE08EE7A283371D100D90757 /* Constants.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		FE1F31DD282C122D006F1360 /* UIFactory */ = {
@@ -233,6 +243,7 @@
 		FE877223282A830A006111CB /* YouTubeAPI */ = {
 			isa = PBXGroup;
 			children = (
+				FE08EE79283371C600D90757 /* Constants */,
 				FE776C06282D055600F37DBF /* Extensions */,
 				FE491B03282B90D900738677 /* Managers */,
 				FE877239282A84BE006111CB /* Modules */,
@@ -548,6 +559,7 @@
 				FE87725B282AA382006111CB /* assets.swift in Sources */,
 				FE8F2252282BD7A600177DA9 /* PlaylistItemsDataWrapper.swift in Sources */,
 				FEA6DF0B282AB5B800F67D61 /* YouTubeViewModel.swift in Sources */,
+				FE08EE7B283371D100D90757 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

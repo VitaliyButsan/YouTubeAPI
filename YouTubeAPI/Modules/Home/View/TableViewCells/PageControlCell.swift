@@ -14,20 +14,29 @@ class PageControlCell: UITableViewCell {
     
     static let reuseID = "PageControlCell"
     
-    private var defaultPadding: CGFloat = 18.0
+    private var currentIndex: Int?
+    private var pendingIndex: Int?
+    
+    private var defaultPadding: CGFloat {
+        return Constants.defaultPadding
+    }
     
     private var uiFactory = UIFactory()
     
     // MARK: - UI Elements
     
+    private lazy var pageViewControllerContainer = uiFactory.newView()
+    private lazy var pageControl = uiFactory.newPageControl()
+    
     private lazy var pageViewController: UIPageViewController = {
         let viewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         viewController.dataSource = self
-        viewController.view.backgroundColor = .black
+        viewController.delegate = self
+        viewController.view.layer.cornerRadius = 6
         return viewController
     }()
     
-    private var orderedViewControllers: [UIViewController] = []
+    private var pages: [UIViewController] = []
     
     // MARK: - Lifecycle
     
@@ -43,15 +52,22 @@ class PageControlCell: UITableViewCell {
     
     func setupCell(with channels: [Channel]) {
         textLabel?.text = channels[0].brandingSettings.channel.title
-        if orderedViewControllers.isEmpty {
+        if pages.isEmpty {
             addPages(by: channels.count)
+            setupPageControl(with: pages.count)
         }
+    }
+    
+    private func setupPageControl(with pagesCount: Int) {
+        pageControl.numberOfPages = pagesCount
+        pageControl.currentPage = 0
+        
     }
     
     private func addPages(by channelsCount: Int) {
         for _ in 0..<channelsCount {
             let vc = uiFactory.newViewController(color: .random)
-            orderedViewControllers.append(vc)
+            pages.append(vc)
         }
         setupPageViewController()
     }
@@ -62,12 +78,13 @@ class PageControlCell: UITableViewCell {
     }
     
     private func setupViews() {
-        contentView.backgroundColor = .cyan
-        contentView.addSubview(pageViewController.view)
+        pageViewControllerContainer.addSubview(pageViewController.view)
+        pageViewControllerContainer.addSubview(pageControl)
+        contentView.addSubview(pageViewControllerContainer)
     }
     
     private func setupPageViewController() {
-        if let firstViewController = orderedViewControllers.first {
+        if let firstViewController = pages.first {
             pageViewController.setViewControllers(
                 [firstViewController],
                 direction: .forward,
@@ -78,51 +95,65 @@ class PageControlCell: UITableViewCell {
     }
     
     private func addConstraints() {
-        pageViewController.view.snp.makeConstraints {
-            $0.top.equalTo(contentView).offset(defaultPadding)
+        pageViewControllerContainer.snp.makeConstraints {
+            $0.top.equalTo(contentView).offset(32)
             $0.leading.equalTo(contentView).offset(defaultPadding)
             $0.trailing.equalTo(contentView).inset(defaultPadding)
             $0.bottom.equalTo(contentView).inset(defaultPadding)
+            $0.height.equalTo(200)
+        }
+        pageViewController.view.snp.makeConstraints {
+            $0.leading.trailing.top.equalToSuperview()
+            $0.height.equalTo(180)
+        }
+        
+        pageControl.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(pageViewController.view.snp.bottom)
+            $0.width.equalTo(140)
+            $0.height.equalTo(30)
         }
     }
 }
 
 // MARK: - UIPageViewControllerDataSource
 
-extension PageControlCell: UIPageViewControllerDataSource {
+extension PageControlCell: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        if let index = orderedViewControllers.firstIndex(of: viewController) {
-            if index > 0 {
-                return orderedViewControllers[index - 1]
-            } else {
+        let currentIndex = pages.firstIndex(of:viewController)!
+            if currentIndex == 0 {
                 return nil
             }
+            let previousIndex = abs((currentIndex - 1) % pages.count)
+            return pages[previousIndex]
         }
-        return nil
-    }
-    
+
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        if let index = orderedViewControllers.firstIndex(of: viewController) {
-            if index < orderedViewControllers.count - 1 {
-                return orderedViewControllers[index + 1]
-            } else {
+            let currentIndex = pages.firstIndex(of:viewController)!
+            if currentIndex == pages.count - 1 {
                 return nil
             }
+            let nextIndex = abs((currentIndex + 1) % pages.count)
+            return pages[nextIndex]
         }
-        return nil
-    }
-    
-    func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return orderedViewControllers.count
-    }
 
-    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        return 0
-    }
-    
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            willTransitionTo pendingViewControllers: [UIViewController]) {
+            pendingIndex = pages.firstIndex(of:pendingViewControllers.first!)
+        }
+
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool,
+                            previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+            if completed {
+                currentIndex = pendingIndex
+                if let index = currentIndex {
+                    pageControl.currentPage = index
+                }
+            }
+        }
 }
 
 extension UIColor {

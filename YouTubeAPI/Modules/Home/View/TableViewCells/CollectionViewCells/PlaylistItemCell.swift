@@ -14,26 +14,67 @@ class PlaylistItemCell: UICollectionViewCell {
     
     static let reuseID = "PlaylistItemCell"
     
+    private let uiFactory = UIFactory()
+    
+    private var playlistItem: PlaylistItem?
+    
     // MARK: - UI Elements
     
-    private lazy var photoImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.backgroundColor = .black
-        imageView.contentMode = .scaleToFill
-        imageView.clipsToBounds = true
-        return imageView
-    }()
+    private lazy var containerView = uiFactory.newView()
+    
+    private lazy var photoImageView = uiFactory.newImageView(cornerRadius: 6)
+    
+    private lazy var titleVideoLabel = uiFactory
+        .newLabel(
+            text: playlistItem?.snippet.title ?? "No title",
+            font: .SFPro.Text.Medium(size: 17).font,
+            textColor: .white
+        )
+    
+    private lazy var viewsCounterLabel = uiFactory
+        .newLabel(
+            text: (playlistItem?.snippet.viewCount ?? "0") + " просмотра",
+            font: .SFPro.Text.Medium(size: 12).font,
+            textColor: .gray
+        )
     
     // MARK: - Lifecycle
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override init(frame: CGRect) {
+        super.init(frame:frame)
         
         setupLayout()
     }
     
-    func setupCell(with playlistItem: PlaylistItem) {
-        
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        setupLayout()
+    }
+    
+    func setupCell(with playlistItem: PlaylistItem, indexPath: IndexPath) {
+        self.playlistItem = playlistItem
+        setupPosterHeight(by: indexPath.section)
+    }
+    
+    private func setupPosterHeight(by sectionIndex: Int) {
+        var height: CGFloat = 0.0
+        switch sectionIndex {
+        case 1:
+            height = 70.0
+        case 2:
+            height = 135.0
+        default:
+            break
+        }
+        photoImageView.snp.makeConstraints {
+            $0.height.equalTo(height)
+        }
+        contentView.layoutIfNeeded()
     }
     
     private func setupLayout() {
@@ -42,13 +83,29 @@ class PlaylistItemCell: UICollectionViewCell {
     }
     
     private func setupViews() {
-        contentView.backgroundColor = .red
-        contentView.addSubview(photoImageView)
+        containerView.addSubview(photoImageView)
+        containerView.addSubview(titleVideoLabel)
+        containerView.addSubview(viewsCounterLabel)
+        contentView.addSubview(containerView)
     }
     
     private func setupConstraints() {
+        containerView.snp.makeConstraints {
+            $0.top.equalTo(contentView)
+            $0.leading.equalTo(contentView)
+            $0.trailing.equalTo(contentView)
+            $0.bottom.equalTo(contentView)
+        }
         photoImageView.snp.makeConstraints {
-            $0.edges.equalTo(contentView)
+            $0.leading.trailing.top.equalToSuperview()
+        }
+        titleVideoLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.top.equalTo(photoImageView.snp.bottom).offset(10)
+        }
+        viewsCounterLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.top.equalTo(titleVideoLabel.snp.bottom)
         }
     }
 }
