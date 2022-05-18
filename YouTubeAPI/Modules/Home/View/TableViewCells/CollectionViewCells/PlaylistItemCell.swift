@@ -59,7 +59,6 @@ class PlaylistItemCell: UICollectionViewCell {
     
     func setupCell(with playlistItem: PlaylistItem, indexPath: IndexPath) {
         self.playlistItem = playlistItem
-        
         titleVideoLabel.text = playlistItem.snippet.title
         let viewsCount = playlistItem.snippet.viewCount?.splitIntoThounsandParts ?? "0"
         viewsCounterLabel.text = viewsCount + " просмотра"

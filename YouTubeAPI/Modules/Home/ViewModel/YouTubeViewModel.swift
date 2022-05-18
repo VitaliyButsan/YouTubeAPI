@@ -24,7 +24,7 @@ class YouTubeViewModel {
     
     //state
     private(set) var isLoadedData = BehaviorRelay(value: false)
-    private(set) var errorSubject = BehaviorRelay(value: "")
+    private(set) var errorSubject = PublishRelay<String>()
     private(set) var timerCounter = BehaviorRelay(value: 0)
     
     // storage
@@ -50,14 +50,15 @@ class YouTubeViewModel {
         self.youTubeService = service
         self.bag = DisposeBag()
         self.timerBag = DisposeBag()
-//        addMockData(by: 0)
+        addMockData(by: 0)
         startTimer()
     }
     
     func startTimer() {
         Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).bind { timePassed in
             self.timerCounter.accept(timePassed)
-        }.disposed(by: timerBag)
+        }
+        .disposed(by: bag)
     }
     
     func stopTimer() {
@@ -79,9 +80,9 @@ class YouTubeViewModel {
     }
     
     func updateData(for channelIndex: Int) {
-        let sections = self.createSections(for: channelIndex)
-        self.dataSource.accept(sections)
-//        addMockData(by: channelIndex)
+//        let sections = self.createSections(for: channelIndex)
+//        self.dataSource.accept(sections)
+        addMockData(by: channelIndex)
     }
     
     func getData() {
@@ -235,14 +236,14 @@ class YouTubeViewModel {
         var sections: [ResourcesSection] = []
         
         // add first fixed section
-        let cell = CellModel(title: "", typeOfCell: .pageControl(channels: channels))
+        let cell = CellModel(title: "", typeOfCell: .pageControl(model: channels))
         let section = ResourcesSection(model: "", items: [cell])
         sections.append(section)
         
         // add sections depends of playlists count
         for playlist in channel.playlists ?? [] {
             let rxPlaylist = rxPlaylist(from: playlist)
-            let cell = CellModel(title: "", typeOfCell: .playlist(playlist: rxPlaylist))
+            let cell = CellModel(title: "", typeOfCell: .playlist(model: rxPlaylist))
             let section = ResourcesSection(model: playlist.snippet.title, items: [cell])
             sections.append(section)
         }
@@ -260,21 +261,15 @@ class YouTubeViewModel {
     private func addMockData(by index: Int) {
         var sections: [ResourcesSection] = []
         
-        var counter = 2
-        
-        if index > 0 {
-            counter += (index * 2)
-        }
-        
-        let section1Cells = [MockCell().channelsMock(counter)]
+        let section1Cells = [MockCell().channelsMock(index)]
         let section1 = ResourcesSection(model: "Section 1", items: section1Cells)
         sections.append(section1)
 
-        let section2Cells = [MockCell().playlistMock(counter)]
+        let section2Cells = [MockCell().playlistMock(index)]
         let section2 = ResourcesSection(model: "Section 2", items: section2Cells)
         sections.append(section2)
 
-        let section3Cells = [MockCell().playlistMock(counter + 2)]
+        let section3Cells = [MockCell().playlistMock(index)]
         let section3 = ResourcesSection(model: "Section 3", items: section3Cells)
         sections.append(section3)
 

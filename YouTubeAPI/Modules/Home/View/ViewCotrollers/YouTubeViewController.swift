@@ -40,7 +40,8 @@ class YouTubeViewController: UIViewController {
         super.viewDidLoad()
         
         setupNavBar()
-        getData()
+        setupObservers()
+//        getData()
     }
     
     private func setupNavBar() {
@@ -49,5 +50,13 @@ class YouTubeViewController: UIViewController {
     
     private func getData() {
         youTubeViewModel.getData()
+    }
+    
+    private func setupObservers() {
+        youTubeViewModel.errorSubject
+            .subscribe(onNext: { error in
+                self.showAlert(message: error)
+            })
+            .disposed(by: youTubeViewModel.bag)
     }
 }

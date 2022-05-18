@@ -66,10 +66,13 @@ class PageControlCell: UITableViewCell {
         if pages.isEmpty {
             setupPageViewController(with: channels)
             setupPageControl()
+            bind(timerCounter)
         }
-        
-        timerCounter
-            .bind(to: self.timerCounter)
+    }
+    
+    private func bind(_ counter: BehaviorRelay<Int>) {
+        counter
+            .bind(to: timerCounter)
             .disposed(by: bag)
     }
     
@@ -130,31 +133,28 @@ class PageControlCell: UITableViewCell {
     }
     
     func moveCarousel() {
-//        pageViewController.goToNextPage { completed in
-//            self.currentIndex? += 1
-//            self.pageControl.currentPage = self.currentIndex ?? 0
-//        }
-//        if currentIndex == pages.count - 1 {
-//            currentIndex = 0
-//        } else {
-//            currentIndex += 1
-//        }
-//
-//        let nextPage = pages[currentIndex]
-//
-//        pageViewController.setViewControllers([nextPage], direction: .forward, animated: true) { completed in
-//            if completed {
-////                self.delegate?.setChannel(by: self.currentIndex)
-//                self.pageControl.currentPage = self.currentIndex
-//            }
-//        }
+        if currentIndex == nil {
+            currentIndex = 0
+        }
+        if currentIndex == pages.count - 1 {
+            currentIndex = 0
+        } else {
+            currentIndex? += 1
+        }
+        let nextPage = pages[currentIndex ?? 0]
+        
+        pageViewController.setViewControllers([nextPage], direction: .forward, animated: true) { completed in
+            if completed {
+                self.delegate?.setChannel(by: self.currentIndex ?? 0)
+                self.pageControl.currentPage = self.currentIndex ?? 0
+            }
+        }
     }
     
     private func setupObservers() {
         timerCounter
             .subscribe(onNext: { time in
-                print("===>", time)
-                if time > 0, time % 3 == 0 {
+                if time > 0, time % 5 == 0 {
                     self.moveCarousel()
                 }
             })

@@ -37,6 +37,7 @@
 		FEA6DF02282AB06C00F67D61 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEA6DF00282AB06C00F67D61 /* LaunchScreen.storyboard */; };
 		FEA6DF07282AB2BE00F67D61 /* ChannelsDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA6DF06282AB2BE00F67D61 /* ChannelsDataWrapper.swift */; };
 		FEA6DF0B282AB5B800F67D61 /* YouTubeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA6DF0A282AB5B800F67D61 /* YouTubeViewModel.swift */; };
+		FEB22F4D2834C92900D89842 /* UIViewController+showAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB22F4C2834C92900D89842 /* UIViewController+showAlert.swift */; };
 		FECBED43282C291200B57DDA /* SFProDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FECBED3F282C291200B57DDA /* SFProDisplay-Bold.ttf */; };
 		FECBED44282C291200B57DDA /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FECBED40282C291200B57DDA /* SFProText-Semibold.ttf */; };
 		FECBED45282C291200B57DDA /* SFProText-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FECBED41282C291200B57DDA /* SFProText-Medium.ttf */; };
@@ -81,6 +82,7 @@
 		FEA6DF01282AB06C00F67D61 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = YouTubeAPI/Base.lproj/LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
 		FEA6DF06282AB2BE00F67D61 /* ChannelsDataWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsDataWrapper.swift; sourceTree = "<group>"; };
 		FEA6DF0A282AB5B800F67D61 /* YouTubeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeViewModel.swift; sourceTree = "<group>"; };
+		FEB22F4C2834C92900D89842 /* UIViewController+showAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+showAlert.swift"; sourceTree = "<group>"; };
 		FECBED3F282C291200B57DDA /* SFProDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		FECBED40282C291200B57DDA /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Semibold.ttf"; sourceTree = "<group>"; };
 		FECBED41282C291200B57DDA /* SFProText-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Medium.ttf"; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				FE776C09282D057F00F37DBF /* UIFont+CustomFonts.swift */,
+				FEB22F4C2834C92900D89842 /* UIViewController+showAlert.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -559,6 +562,7 @@
 				FE1F31DF282C1241006F1360 /* UIFactory.swift in Sources */,
 				FE491B05282B912100738677 /* SwinjectManager.swift in Sources */,
 				FE877227282A830A006111CB /* SceneDelegate.swift in Sources */,
+				FEB22F4D2834C92900D89842 /* UIViewController+showAlert.swift in Sources */,
 				FE776C0A282D057F00F37DBF /* UIFont+CustomFonts.swift in Sources */,
 				FE87725B282AA382006111CB /* assets.swift in Sources */,
 				FE8F2252282BD7A600177DA9 /* PlaylistItemsDataWrapper.swift in Sources */,

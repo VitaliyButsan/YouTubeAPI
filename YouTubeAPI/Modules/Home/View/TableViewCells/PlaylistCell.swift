@@ -84,7 +84,7 @@ class PlaylistCell: UITableViewCell {
     private func addConstraints() {
         playlistCollectionView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(defaultPadding)
-            $0.trailing.equalToSuperview().inset(defaultPadding)
+            $0.trailing.equalToSuperview()
             $0.bottom.top.equalToSuperview()
         }
     }
