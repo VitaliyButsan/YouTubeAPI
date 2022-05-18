@@ -10,8 +10,9 @@ import RxSwift
 import RxCocoa
 
 protocol PageControlCellDelegate: AnyObject {
-    func setChannel(by pageIndex: Int)
+    func switchChannel(by pageIndex: Int)
     func stopTimer()
+    func channelDidSelect(_ channel: Channel)
 }
 
 class PageControlCell: UITableViewCell {
@@ -33,6 +34,8 @@ class PageControlCell: UITableViewCell {
     }
     
     private let uiFactory = UIFactory()
+    
+    private var channels: [Channel] = []
     
     // MARK: - UI Elements
     
@@ -63,6 +66,7 @@ class PageControlCell: UITableViewCell {
     }
     
     func setupCell(with channels: [Channel], bind timerCounter: BehaviorRelay<Int>) {
+        self.channels = channels
         if pages.isEmpty {
             setupPageViewController(with: channels)
             setupPageControl()
@@ -148,7 +152,7 @@ class PageControlCell: UITableViewCell {
         
         pageViewController.setViewControllers([nextPage], direction: .forward, animated: true) { completed in
             if completed {
-                self.delegate?.setChannel(by: self.currentIndex ?? 0)
+                self.delegate?.switchChannel(by: self.currentIndex ?? 0)
                 self.pageControl.currentPage = self.currentIndex ?? 0
             }
         }
@@ -165,7 +169,11 @@ class PageControlCell: UITableViewCell {
     }
     
     @objc private func handleTap() {
-        print("tap, tap...")
+        guard let delegate = delegate else { return }
+        guard let currentIndex = currentIndex else { return }
+        let channel = channels[currentIndex]
+        delegate.channelDidSelect(channel)
+        delegate.stopTimer()
     }
 }
 
@@ -204,7 +212,7 @@ extension PageControlCell: UIPageViewControllerDataSource, UIPageViewControllerD
             currentIndex = pendingIndex
             if let index = currentIndex {
                 pageControl.currentPage = index
-                delegate?.setChannel(by: index)
+                delegate?.switchChannel(by: index)
             }
         }
     }

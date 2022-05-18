@@ -186,11 +186,15 @@ extension MainView: UITableViewDelegate {
 
 extension MainView: PageControlCellDelegate {
     
-    func setChannel(by pageIndex: Int) {
+    func switchChannel(by pageIndex: Int) {
         youTubeViewModel.updateData(for: pageIndex)
     }
     
     func stopTimer() {
         youTubeViewModel.stopTimer()
+    }
+    
+    func channelDidSelect(_ channel: Channel) {
+        
     }
 }
