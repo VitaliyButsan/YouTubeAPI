@@ -16,12 +16,11 @@ class MainView: UIView {
     
     // MARK: - Properties
     
-    typealias DataSource = RxTableViewSectionedReloadDataSource<ResourcesSection>
-    
     private var youTubeViewModel: YouTubeViewModel!
     private var uiFactory: UIFactory!
     private let playerView = PlayerView(viewModel: PlayerViewModel(), uiFactory: UIFactory())
     
+    typealias DataSource = RxTableViewSectionedReloadDataSource<ResourcesSection>
     private lazy var dataSource: DataSource = .init(configureCell: configureCell)
     
     private var playerViewMinHeight: CGFloat = 50.0

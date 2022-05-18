@@ -83,6 +83,7 @@ class PageControlCell: UITableViewCell {
     private func setupPageControl() {
         pageControl.numberOfPages = pages.count
         pageControl.currentPage = 0
+        pageControl.isUserInteractionEnabled = false
     }
     
     private func setupPageViewController(with channels: [Channel]) {
