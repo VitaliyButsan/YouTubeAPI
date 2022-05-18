@@ -51,7 +51,6 @@ class YouTubeViewModel {
         self.bag = DisposeBag()
         self.timerBag = DisposeBag()
         addMockData(by: 0)
-        startTimer()
     }
     
     func startTimer() {

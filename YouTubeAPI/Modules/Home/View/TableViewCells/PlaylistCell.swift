@@ -50,10 +50,10 @@ class PlaylistCell: UITableViewCell {
     func setupCell(with playlist: RxPlaylist, for indexPath: IndexPath) {
         self.indexPath = indexPath
         self.playlist = playlist
+        setPlaylistCollectionViewHeight(by: indexPath.section)
         playlistCollectionView.delegate = nil
         playlistCollectionView.dataSource = nil
         bindUI()
-        setPlaylistCollectionViewHeight(by: indexPath.section)
     }
     
     private func setup() {

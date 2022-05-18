@@ -32,7 +32,7 @@ class PageControlCell: UITableViewCell {
         return Constants.defaultPadding
     }
     
-    private var uiFactory = UIFactory()
+    private let uiFactory = UIFactory()
     
     // MARK: - UI Elements
     
@@ -87,11 +87,18 @@ class PageControlCell: UITableViewCell {
             pages.append(newPage)
         }
         addPagesToPageViewController()
+        setupPageViewControllerGestures()
+    }
+    
+    private func setupPageViewControllerGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        self.pageViewController.view.subviews[0].addGestureRecognizer(tapGesture)
     }
     
     private func setupLayout() {
         setupViews()
         addConstraints()
+        currentIndex = 0
     }
     
     private func setupViews() {
@@ -123,7 +130,6 @@ class PageControlCell: UITableViewCell {
             $0.leading.trailing.top.equalToSuperview()
             $0.height.equalTo(180)
         }
-        
         pageControl.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(pageViewController.view.snp.bottom)
@@ -132,10 +138,7 @@ class PageControlCell: UITableViewCell {
         }
     }
     
-    func moveCarousel() {
-        if currentIndex == nil {
-            currentIndex = 0
-        }
+    private func moveCarousel() {
         if currentIndex == pages.count - 1 {
             currentIndex = 0
         } else {
@@ -160,6 +163,10 @@ class PageControlCell: UITableViewCell {
             })
             .disposed(by: bag)
     }
+    
+    @objc private func handleTap() {
+        print("tap, tap...")
+    }
 }
 
 // MARK: - UIPageViewControllerDataSource
@@ -168,7 +175,7 @@ extension PageControlCell: UIPageViewControllerDataSource, UIPageViewControllerD
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let currentIndex = pages.firstIndex(of:viewController) else { return nil }
+        guard let currentIndex = pages.firstIndex(of: viewController) else { return nil }
         if currentIndex == 0 {
             return nil
         }
@@ -178,7 +185,7 @@ extension PageControlCell: UIPageViewControllerDataSource, UIPageViewControllerD
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let currentIndex = pages.firstIndex(of:viewController) else { return nil }
+        guard let currentIndex = pages.firstIndex(of: viewController) else { return nil }
         if currentIndex == pages.count - 1 {
             return nil
         }
@@ -198,16 +205,6 @@ extension PageControlCell: UIPageViewControllerDataSource, UIPageViewControllerD
             if let index = currentIndex {
                 pageControl.currentPage = index
                 delegate?.setChannel(by: index)
-            }
-        }
-    }
-}
-
-extension UIPageViewController {
-    func goToNextPage(animated: Bool = true, completion: ((Bool) -> Void)? = nil) {
-        if let currentViewController = viewControllers?[0] {
-            if let nextPage = dataSource?.pageViewController(self, viewControllerAfter: currentViewController) {
-                setViewControllers([nextPage], direction: .forward, animated: animated, completion: completion)
             }
         }
     }

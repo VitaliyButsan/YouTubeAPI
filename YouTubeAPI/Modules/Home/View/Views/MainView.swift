@@ -68,6 +68,7 @@ class MainView: UIView {
         setupViews()
         addConstraints()
         bindUI()
+//        startTimer()
     }
     
     private func setupViews() {
@@ -100,6 +101,10 @@ class MainView: UIView {
         youTubeViewModel.dataSource
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: youTubeViewModel.bag)
+    }
+    
+    private func startTimer() {
+        youTubeViewModel.startTimer()
     }
 }
 
