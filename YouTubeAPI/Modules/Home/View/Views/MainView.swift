@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxDataSources
+import RxAnimated
+import RxCocoa
 
 class MainView: UIView {
     
@@ -18,8 +20,14 @@ class MainView: UIView {
     
     private var youTubeViewModel: YouTubeViewModel!
     private var uiFactory: UIFactory!
+    private let playerView = PlayerView(viewModel: PlayerViewModel(), uiFactory: UIFactory())
     
     private lazy var dataSource: DataSource = .init(configureCell: configureCell)
+    
+    private var playerViewMinHeight: CGFloat = 50.0
+    private var playerViewMaxHeight: CGFloat = 500.0
+    private var playerViewHeightConstraint: NSLayoutConstraint!
+    private lazy var playerViewHeight = BehaviorRelay(value: playerViewMinHeight)
     
     // MARK: - UI Elements
     
@@ -68,6 +76,7 @@ class MainView: UIView {
         setupViews()
         addConstraints()
         bindUI()
+        bindObservers()
 //        startTimer()
     }
     
@@ -76,6 +85,8 @@ class MainView: UIView {
         topBarView.addSubview(topBarTitleLabel)
         addSubview(topBarView)
         addSubview(tableView)
+        addSubview(playerView)
+        bringSubviewToFront(playerView)
     }
     
     private func addConstraints() {
@@ -91,6 +102,24 @@ class MainView: UIView {
             $0.top.equalTo(topBarView.snp.bottom)
             $0.leading.trailing.bottom.equalTo(self)
         }
+        
+        playerView.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(10)
+            $0.trailing.equalToSuperview().inset(10)
+            $0.bottom.equalToSuperview()
+//            $0.height.equalToSuperview()
+        }
+        
+        playerViewHeightConstraint = NSLayoutConstraint(
+            item: playerView,
+            attribute: .height,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .notAnAttribute,
+            multiplier: 1,
+            constant: playerViewMinHeight
+        )
+        playerViewHeightConstraint.isActive = true
     }
     
     private func bindUI() {
@@ -100,6 +129,12 @@ class MainView: UIView {
         
         youTubeViewModel.dataSource
             .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: youTubeViewModel.bag)
+    }
+    
+    private func bindObservers() {
+        playerViewHeight
+            .bind(to: playerViewHeightConstraint.rx.animated.layout(duration: 0.3).constant)
             .disposed(by: youTubeViewModel.bag)
     }
     
@@ -195,6 +230,15 @@ extension MainView: PageControlCellDelegate {
     }
     
     func channelDidSelect(_ channel: Channel) {
-        
+        switch playerViewHeightConstraint.constant {
+        case playerViewMinHeight:
+            playerViewHeight.accept(playerViewMaxHeight)
+//            playerViewHeightConstraint.constant = playerViewMaxHeight
+        case playerViewMaxHeight:
+            playerViewHeight.accept(playerViewMinHeight)
+//            playerViewHeightConstraint.constant = playerViewMinHeight
+        default:
+            break
+        }
     }
 }

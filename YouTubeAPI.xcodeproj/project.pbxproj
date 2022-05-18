@@ -38,6 +38,8 @@
 		FEA6DF07282AB2BE00F67D61 /* ChannelsDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA6DF06282AB2BE00F67D61 /* ChannelsDataWrapper.swift */; };
 		FEA6DF0B282AB5B800F67D61 /* YouTubeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA6DF0A282AB5B800F67D61 /* YouTubeViewModel.swift */; };
 		FEB22F4D2834C92900D89842 /* UIViewController+showAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB22F4C2834C92900D89842 /* UIViewController+showAlert.swift */; };
+		FEB22F7028353BC000D89842 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB22F6F28353BBF00D89842 /* PlayerView.swift */; };
+		FEB22F7428353CF100D89842 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB22F7328353CF100D89842 /* PlayerViewModel.swift */; };
 		FECBED43282C291200B57DDA /* SFProDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FECBED3F282C291200B57DDA /* SFProDisplay-Bold.ttf */; };
 		FECBED44282C291200B57DDA /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FECBED40282C291200B57DDA /* SFProText-Semibold.ttf */; };
 		FECBED45282C291200B57DDA /* SFProText-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FECBED41282C291200B57DDA /* SFProText-Medium.ttf */; };
@@ -83,6 +85,8 @@
 		FEA6DF06282AB2BE00F67D61 /* ChannelsDataWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsDataWrapper.swift; sourceTree = "<group>"; };
 		FEA6DF0A282AB5B800F67D61 /* YouTubeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeViewModel.swift; sourceTree = "<group>"; };
 		FEB22F4C2834C92900D89842 /* UIViewController+showAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+showAlert.swift"; sourceTree = "<group>"; };
+		FEB22F6F28353BBF00D89842 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		FEB22F7328353CF100D89842 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
 		FECBED3F282C291200B57DDA /* SFProDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		FECBED40282C291200B57DDA /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Semibold.ttf"; sourceTree = "<group>"; };
 		FECBED41282C291200B57DDA /* SFProText-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Medium.ttf"; sourceTree = "<group>"; };
@@ -327,6 +331,8 @@
 		FEA6DEF7282AAC8C00F67D61 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				FEB22F7128353CD500D89842 /* View */,
+				FEB22F7228353CDA00D89842 /* ViewModel */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -377,6 +383,22 @@
 			isa = PBXGroup;
 			children = (
 				FEA6DF0A282AB5B800F67D61 /* YouTubeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		FEB22F7128353CD500D89842 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FEB22F6F28353BBF00D89842 /* PlayerView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FEB22F7228353CDA00D89842 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				FEB22F7328353CF100D89842 /* PlayerViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -542,10 +564,12 @@
 				FECBED48282C2BA800B57DDA /* fonts.swift in Sources */,
 				FE877229282A830A006111CB /* YouTubeViewController.swift in Sources */,
 				FE1F31E3282C1D41006F1360 /* YouTubeMainViewAssembly.swift in Sources */,
+				FEB22F7028353BC000D89842 /* PlayerView.swift in Sources */,
 				FE1F31E1282C1A0C006F1360 /* MainView.swift in Sources */,
 				FE877225282A830A006111CB /* AppDelegate.swift in Sources */,
 				FE877256282AA1B1006111CB /* strings.swift in Sources */,
 				FE8F2254282BE25B00177DA9 /* VideoDataWrapper.swift in Sources */,
+				FEB22F7428353CF100D89842 /* PlayerViewModel.swift in Sources */,
 				FE776C11282D2BD400F37DBF /* PlaylistCell.swift in Sources */,
 				FEA6DF07282AB2BE00F67D61 /* ChannelsDataWrapper.swift in Sources */,
 				FECBED4A282C2E7100B57DDA /* YouTubeMainViewUIFactoryAssembly.swift in Sources */,

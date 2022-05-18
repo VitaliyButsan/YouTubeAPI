@@ -6,6 +6,13 @@ PODS:
   - Moya/RxSwift (15.0.0):
     - Moya/Core
     - RxSwift (~> 6.0)
+  - RxAnimated (0.9.0):
+    - RxAnimated/Core (= 0.9.0)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+  - RxAnimated/Core (0.9.0):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
@@ -25,6 +32,7 @@ PODS:
 
 DEPENDENCIES:
   - Moya/RxSwift (~> 15.0)
+  - RxAnimated
   - RxCocoa (= 6.5.0)
   - RxDataSources (~> 5.0)
   - RxSwift (= 6.5.0)
@@ -38,6 +46,7 @@ SPEC REPOS:
     - Alamofire
     - Differentiator
     - Moya
+    - RxAnimated
     - RxCocoa
     - RxDataSources
     - RxRelay
@@ -51,6 +60,7 @@ SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
+  RxAnimated: e53fb66cafc0539faf881b734f7412a624527f0a
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
@@ -60,6 +70,6 @@ SPEC CHECKSUMS:
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
   Swinject: 97112918bd7e0785dc2df7036213f3c8cbba6586
 
-PODFILE CHECKSUM: 2fe53ab9435b6bd2cf3ac54d28fac8441dcd13b9
+PODFILE CHECKSUM: c2c9f2bd318b96160b866b87c3a55d418bfddab4
 
 COCOAPODS: 1.11.3
