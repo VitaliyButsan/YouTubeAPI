@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import RxCocoa
 
 class YouTubeViewController: UIViewController {
     
@@ -42,6 +43,14 @@ class YouTubeViewController: UIViewController {
         setupNavBar()
         setupObservers()
 //        getData()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let mainView = mainView as? MainView {
+            mainView.didLayoutSubviewsSubject.accept(())
+        }
     }
     
     private func setupNavBar() {

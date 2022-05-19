@@ -91,4 +91,11 @@ final class UIFactory {
         }
         return vc
     }
+    
+    func newButton(title: String = "", image: UIImage? = nil) -> UIButton {
+        let button = UIButton()
+        button.setTitle(title, for: .normal)
+        button.setImage(image, for: .normal)
+        return button
+    }
 }

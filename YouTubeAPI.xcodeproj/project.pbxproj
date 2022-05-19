@@ -49,6 +49,7 @@
 		FED15861282E64DF00FB4664 /* PlaylistItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED15860282E64DF00FB4664 /* PlaylistItemCell.swift */; };
 		FEE6CC5C2836201700FD26A7 /* PlayerViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE6CC5B2836201700FD26A7 /* PlayerViewAssembly.swift */; };
 		FEE6CC5F2836202800FD26A7 /* PlayerViewModelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE6CC5E2836202800FD26A7 /* PlayerViewModelAssembly.swift */; };
+		FEE6CC61283658D000FD26A7 /* UIView+Effects.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE6CC60283658D000FD26A7 /* UIView+Effects.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +99,7 @@
 		FED15860282E64DF00FB4664 /* PlaylistItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistItemCell.swift; sourceTree = "<group>"; };
 		FEE6CC5B2836201700FD26A7 /* PlayerViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewAssembly.swift; sourceTree = "<group>"; };
 		FEE6CC5E2836202800FD26A7 /* PlayerViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModelAssembly.swift; sourceTree = "<group>"; };
+		FEE6CC60283658D000FD26A7 /* UIView+Effects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Effects.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +196,7 @@
 			children = (
 				FE776C09282D057F00F37DBF /* UIFont+CustomFonts.swift */,
 				FEB22F4C2834C92900D89842 /* UIViewController+showAlert.swift */,
+				FEE6CC60283658D000FD26A7 /* UIView+Effects.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -590,6 +593,7 @@
 				FE1F31E1282C1A0C006F1360 /* MainView.swift in Sources */,
 				FE877225282A830A006111CB /* AppDelegate.swift in Sources */,
 				FE877256282AA1B1006111CB /* strings.swift in Sources */,
+				FEE6CC61283658D000FD26A7 /* UIView+Effects.swift in Sources */,
 				FE8F2254282BE25B00177DA9 /* VideoDataWrapper.swift in Sources */,
 				FEB22F7428353CF100D89842 /* PlayerViewModel.swift in Sources */,
 				FE776C11282D2BD400F37DBF /* PlaylistCell.swift in Sources */,

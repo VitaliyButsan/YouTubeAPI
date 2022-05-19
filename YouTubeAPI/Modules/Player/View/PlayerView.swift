@@ -6,20 +6,29 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 class PlayerView: UIView {
     
     // MARK: - Properties
     
+    enum OpenCloseState {
+        case open
+        case close
+    }
+    
     private var playerViewModel: PlayerViewModel!
     private var uiFactory: UIFactory!
     
-    enum State {
-        case open
-        case hide
-    }
+    var didLayoutSubviewsSubject = PublishRelay<Void>()
+    private let bag = DisposeBag()
+    
+    var isPlayerOpened = BehaviorRelay<OpenCloseState>(value: .close)
     
     // MARK: - UI Elements
+    
+    private lazy var openCloseButton = uiFactory.newButton(image: Asset.Player.Controls.chevronDown.image)
     
     // MARK: - Lifecycle
     
@@ -43,19 +52,51 @@ class PlayerView: UIView {
     }
     
     private func setup() {
-        backgroundColor = .brown
         setupViews()
         addConstraints()
+        setupObservers()
+    }
+    
+    private func setGradientBackground() {
+        let topColor = Asset.Colors.playerUpperBoundGradient.color.cgColor
+        let bottomColor = Asset.Colors.playerLowerBoundGradient.color.cgColor
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [topColor, bottomColor]
+        gradientLayer.frame = bounds
+        layer.insertSublayer(gradientLayer, at: 0)
     }
     
     private func setupViews() {
         layer.cornerRadius = Constants.playerViewCornerRadius
         layer.masksToBounds = true
         
-        
+        addSubview(openCloseButton)
+        openCloseButton.rotate()
     }
     
     private func addConstraints() {
+        openCloseButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(15)
+            $0.centerX.equalToSuperview()
+        }
+    }
+    
+    private func setupObservers() {
+        didLayoutSubviewsSubject
+            .subscribe { [unowned self] _ in
+                setGradientBackground()
+            }
+            .disposed(by: bag)
         
+        openCloseButton.rx.tap.subscribe { [unowned self] _ in
+            switch isPlayerOpened.value {
+            case .open:
+                isPlayerOpened.accept(.close)
+            case .close:
+                isPlayerOpened.accept(.open)
+            }
+            openCloseButton.rotate()
+        }
+        .disposed(by: bag)
     }
 }

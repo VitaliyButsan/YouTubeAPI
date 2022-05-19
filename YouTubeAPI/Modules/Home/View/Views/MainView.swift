@@ -23,10 +23,12 @@ class MainView: UIView {
     typealias DataSource = RxTableViewSectionedReloadDataSource<ResourcesSection>
     private lazy var dataSource: DataSource = .init(configureCell: configureCell)
     
-    private var playerViewMinHeight: CGFloat = 50.0
-    private var playerViewMaxHeight: CGFloat = 500.0
+    private var playerViewCloseHeight = Constants.playerCloseHeight
+    private var playerViewOpenHeight = Constants.playerOpenHeight
     private var playerViewHeightConstraint: NSLayoutConstraint!
-    private lazy var playerViewHeight = BehaviorRelay(value: playerViewMinHeight)
+    private lazy var playerViewHeight = BehaviorRelay(value: -playerViewCloseHeight)
+    
+    var didLayoutSubviewsSubject = PublishRelay<Void>()
     
     // MARK: - UI Elements
     
@@ -95,7 +97,7 @@ class MainView: UIView {
     private func addConstraints() {
         topBarView.snp.makeConstraints {
             $0.leading.trailing.top.equalTo(self)
-            $0.height.equalTo(92)
+            $0.height.equalTo(Constants.topBarHeight)
         }
         topBarTitleLabel.snp.makeConstraints {
             $0.leading.equalTo(topBarView).offset(24)
@@ -107,17 +109,17 @@ class MainView: UIView {
         }
         
         playerView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().inset(10)
-            $0.bottom.equalToSuperview()
+            $0.leading.equalToSuperview().offset(5)
+            $0.trailing.equalToSuperview().inset(5)
+            $0.height.equalTo(Constants.screenHeight - Constants.topBarHeight)
         }
         
         playerViewHeightConstraint = NSLayoutConstraint(
-            item: playerView,
-            attribute: .height,
+            item: playerView ?? UIView(),
+            attribute: .top,
             relatedBy: .equal,
-            toItem: nil,
-            attribute: .notAnAttribute,
+            toItem: self,
+            attribute: .bottom,
             multiplier: 1,
             constant: 0
         )
@@ -137,6 +139,24 @@ class MainView: UIView {
     private func bindObservers() {
         playerViewHeight
             .bind(to: playerViewHeightConstraint.rx.animated.layout(duration: 0.3).constant)
+            .disposed(by: youTubeViewModel.bag)
+        
+        didLayoutSubviewsSubject
+            .subscribe { _ in
+                self.playerView.didLayoutSubviewsSubject.accept(())
+                self.addConstraints()
+            }
+            .disposed(by: youTubeViewModel.bag)
+        
+        playerView.isPlayerOpened
+            .subscribe(onNext: { [unowned self] state in
+                switch state {
+                case .open:
+                    playerViewHeight.accept(-playerViewOpenHeight)
+                case .close:
+                    playerViewHeight.accept(-playerViewCloseHeight)
+                }
+            })
             .disposed(by: youTubeViewModel.bag)
     }
     
@@ -232,13 +252,6 @@ extension MainView: PageControlCellDelegate {
     }
     
     func channelDidSelect(_ channel: Channel) {
-        switch playerViewHeight.value {
-        case playerViewMinHeight:
-            playerViewHeight.accept(playerViewMaxHeight)
-        case playerViewMaxHeight:
-            playerViewHeight.accept(playerViewMinHeight)
-        default:
-            break
-        }
+        
     }
 }
