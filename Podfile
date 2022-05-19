@@ -21,4 +21,7 @@ target 'YouTubeAPI' do
   # Layout
   pod 'SnapKit', '~> 5.6.0'
   
+  # youtube
+  pod 'YouTubePlayer'
+  
 end

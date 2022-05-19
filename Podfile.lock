@@ -29,6 +29,7 @@ PODS:
   - SnapKit (5.6.0)
   - SwiftGen (6.5.1)
   - Swinject (2.8.1)
+  - YouTubePlayer (0.7.2)
 
 DEPENDENCIES:
   - Moya/RxSwift (~> 15.0)
@@ -40,6 +41,7 @@ DEPENDENCIES:
   - SnapKit (~> 5.6.0)
   - SwiftGen (~> 6.0)
   - Swinject
+  - YouTubePlayer
 
 SPEC REPOS:
   trunk:
@@ -55,6 +57,7 @@ SPEC REPOS:
     - SnapKit
     - SwiftGen
     - Swinject
+    - YouTubePlayer
 
 SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
@@ -69,7 +72,8 @@ SPEC CHECKSUMS:
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
   Swinject: 97112918bd7e0785dc2df7036213f3c8cbba6586
+  YouTubePlayer: 2b5f2830d8f9b2cde942083211291e382c9e6bd5
 
-PODFILE CHECKSUM: c2c9f2bd318b96160b866b87c3a55d418bfddab4
+PODFILE CHECKSUM: 0165c1d7d450d7496f2862c7c88a28baa53b1757
 
 COCOAPODS: 1.11.3

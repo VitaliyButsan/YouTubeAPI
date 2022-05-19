@@ -5,9 +5,10 @@
 //  Created by VitaliyButsan on 18.05.2022.
 //
 
-import UIKit
 import RxCocoa
 import RxSwift
+import UIKit
+import YouTubePlayer
 
 enum OpenCloseState {
     case open
@@ -30,6 +31,7 @@ class PlayerView: UIView {
     
     private lazy var openCloseButton = uiFactory.newButton(image: Asset.Player.Controls.chevronDown.image)
     private lazy var panGesture = UIPanGestureRecognizer(target: self, action: #selector(detectPan))
+    private lazy var videoPlayer = YouTubePlayerView()
     
     // MARK: - Lifecycle
     
@@ -74,6 +76,11 @@ class PlayerView: UIView {
         addGestureRecognizer(panGesture)
         
         addSubview(openCloseButton)
+        
+        addSubview(videoPlayer)
+        videoPlayer.loadVideoID("5ww7JyxV1ds")
+        videoPlayer.backgroundColor = .gray
+        
         openCloseButton.rotate()
         openCloseButton.isUserInteractionEnabled = false
     }
@@ -83,6 +90,11 @@ class PlayerView: UIView {
             $0.top.equalToSuperview().offset(15)
             $0.centerX.equalToSuperview()
         }
+        videoPlayer.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(47)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(235)
+        }
     }
     
     private func setupObservers() {
@@ -90,6 +102,17 @@ class PlayerView: UIView {
             .subscribe { [unowned self] _ in
                 setGradientBackground()
             }
+            .disposed(by: bag)
+        
+        isPlayerOpened
+            .subscribe(onNext: { [unowned self] event in
+                switch event {
+                case .open:
+                    videoPlayer.play()
+                case .close:
+                    videoPlayer.stop()
+                }
+            })
             .disposed(by: bag)
     }
     

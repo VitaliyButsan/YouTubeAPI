@@ -162,8 +162,8 @@ class MainView: UIView {
         
         playerView.isPlayerOpened
             .subscribe(onNext: { [unowned self] state in
-                setupTopBarTitle(with: state)
                 setupBackground(with: state)
+                setupTopBarTitle(with: state)
                 openClosePlayer(with: state)
             })
             .disposed(by: youTubeViewModel.bag)
