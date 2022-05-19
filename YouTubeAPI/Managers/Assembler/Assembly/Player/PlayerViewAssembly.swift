@@ -13,7 +13,8 @@ final class PlayerViewAssembly: Assembly {
         container.register(PlayerView.self) { r in
             let viewModel = r.resolve(PlayerViewModel.self)
             let uiFactory = r.resolve(UIFactory.self)
-            let playerView = PlayerView(viewModel: viewModel, uiFactory: uiFactory)
+            let controlPanel = r.resolve(ControlPanelView.self)
+            let playerView = PlayerView(viewModel: viewModel, uiFactory: uiFactory, controlPanel: controlPanel)
             return playerView
         }
     }

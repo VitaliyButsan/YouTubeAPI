@@ -31,6 +31,12 @@ internal enum Asset {
   internal enum Player {
     internal enum Controls {
       internal static let chevronDown = ImageAsset(name: "Player/Controls/ChevronDown")
+      internal static let next = ImageAsset(name: "Player/Controls/Next")
+      internal static let pause = ImageAsset(name: "Player/Controls/Pause")
+      internal static let play = ImageAsset(name: "Player/Controls/Play")
+      internal static let prev = ImageAsset(name: "Player/Controls/Prev")
+      internal static let soundMax = ImageAsset(name: "Player/Controls/SoundMax")
+      internal static let soundMin = ImageAsset(name: "Player/Controls/SoundMin")
     }
   }
 }

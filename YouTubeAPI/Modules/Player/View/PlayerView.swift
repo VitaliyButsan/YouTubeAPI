@@ -21,6 +21,7 @@ class PlayerView: UIView {
     
     private var playerViewModel: PlayerViewModel!
     private var uiFactory: UIFactory!
+    private var controlPanelView: ControlPanelView!
     private let bag = DisposeBag()
     
     var didLayoutSubviewsSubject = PublishRelay<Void>()
@@ -35,14 +36,17 @@ class PlayerView: UIView {
     
     // MARK: - Lifecycle
     
-    convenience init(viewModel: PlayerViewModel?, uiFactory: UIFactory?) {
+    convenience init(viewModel: PlayerViewModel?, uiFactory: UIFactory?, controlPanel: ControlPanelView?) {
         self.init(frame: .zero)
         
-        guard let viewModel = viewModel, let uiFactory = uiFactory else {
+        guard let viewModel = viewModel,
+              let uiFactory = uiFactory,
+              let controlPanel = controlPanel else {
             fatalError("MainView init")
         }
         self.playerViewModel = viewModel
         self.uiFactory = uiFactory
+        self.controlPanelView = controlPanel
         setup()
     }
     
@@ -81,6 +85,8 @@ class PlayerView: UIView {
         videoPlayer.loadVideoID("5ww7JyxV1ds")
         videoPlayer.backgroundColor = .gray
         
+        addSubview(controlPanelView)
+        
         openCloseButton.rotate()
         openCloseButton.isUserInteractionEnabled = false
     }
@@ -94,6 +100,10 @@ class PlayerView: UIView {
             $0.top.equalToSuperview().offset(47)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(235)
+        }
+        controlPanelView.snp.makeConstraints {
+            $0.top.equalTo(videoPlayer.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
@@ -117,10 +127,10 @@ class PlayerView: UIView {
     }
     
     @objc private func detectPan(_ recognizer: UIPanGestureRecognizer) {
-        let transition = recognizer.translation(in: self)
+        let point = recognizer.translation(in: self)
         switch recognizer.state {
         case .changed:
-            yOffset.accept(transition.y)
+            yOffset.accept(point.y)
         case .ended:
             isPlayerOpened.accept(.close)
         default:

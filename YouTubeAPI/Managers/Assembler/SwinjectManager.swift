@@ -16,8 +16,10 @@ final class SwinjectManager {
         YouTubeMainViewAssembly(),
         YouTubeViewControllerAssembly(),
         
-        PlayerViewModelAssembly(),
         PlayerViewAssembly(),
+        PlayerViewModelAssembly(),
+        PlayerControlPanelViewAssembly(),
+        PlayerCustomProgressViewAssembly(),
     ])
     
     var mainVC: UIViewController? {
