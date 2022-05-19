@@ -140,9 +140,19 @@ class MainView: UIView {
     
     private func bindObservers() {
         playerViewHeight
-            .bind(to: playerViewHeightConstraint.rx.animated.layout(duration: 0.3).constant)
+            .bind(to: playerViewHeightConstraint.rx.animated.layout(duration: 0.2).constant)
             .disposed(by: youTubeViewModel.bag)
         
+        playerView.yOffset
+            .subscribe(onNext: { [unowned self] y in
+                let playerHeight = playerViewHeight.value
+                if abs(playerHeight + y) < playerViewOpenHeight,
+                   abs(playerHeight + y) > playerViewCloseHeight {
+                    playerViewHeight.accept(playerHeight + y)
+                }
+            })
+            .disposed(by: youTubeViewModel.bag)
+
         didLayoutSubviewsSubject
             .subscribe { _ in
                 self.playerView.didLayoutSubviewsSubject.accept(())
@@ -280,6 +290,7 @@ extension MainView: PageControlCellDelegate {
     }
     
     func channelDidSelect(_ channel: Channel) {
-        
+        playerView.isPlayerOpened.accept(.open)
+        stopTimer()
     }
 }

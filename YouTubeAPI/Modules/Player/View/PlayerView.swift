@@ -20,15 +20,16 @@ class PlayerView: UIView {
     
     private var playerViewModel: PlayerViewModel!
     private var uiFactory: UIFactory!
-    
-    var didLayoutSubviewsSubject = PublishRelay<Void>()
     private let bag = DisposeBag()
     
-    var isPlayerOpened = BehaviorRelay<OpenCloseState>(value: .open)
+    var didLayoutSubviewsSubject = PublishRelay<Void>()
+    var isPlayerOpened = BehaviorRelay<OpenCloseState>(value: .close)
+    var yOffset = BehaviorRelay<CGFloat>(value: 0.0)
     
     // MARK: - UI Elements
     
     private lazy var openCloseButton = uiFactory.newButton(image: Asset.Player.Controls.chevronDown.image)
+    private lazy var panGesture = UIPanGestureRecognizer(target: self, action: #selector(detectPan))
     
     // MARK: - Lifecycle
     
@@ -70,8 +71,11 @@ class PlayerView: UIView {
         layer.cornerRadius = Constants.playerViewCornerRadius
         layer.masksToBounds = true
         
+        addGestureRecognizer(panGesture)
+        
         addSubview(openCloseButton)
         openCloseButton.rotate()
+        openCloseButton.isUserInteractionEnabled = false
     }
     
     private func addConstraints() {
@@ -87,16 +91,18 @@ class PlayerView: UIView {
                 setGradientBackground()
             }
             .disposed(by: bag)
-        
-        openCloseButton.rx.tap.subscribe { [unowned self] _ in
-            switch isPlayerOpened.value {
-            case .open:
-                isPlayerOpened.accept(.close)
-            case .close:
-                isPlayerOpened.accept(.open)
-            }
-            openCloseButton.rotate()
+    }
+    
+    @objc private func detectPan(_ recognizer: UIPanGestureRecognizer) {
+        let transition = recognizer.translation(in: self)
+        switch recognizer.state {
+        case .changed:
+            yOffset.accept(transition.y)
+        case .ended:
+            isPlayerOpened.accept(.close)
+        default:
+            break
         }
-        .disposed(by: bag)
+        recognizer.setTranslation(.zero, in: self)
     }
 }
