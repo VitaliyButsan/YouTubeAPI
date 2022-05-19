@@ -45,6 +45,12 @@ final class UIFactory {
         return view
     }
     
+    func newShadowView(alpha: CGFloat) -> UIView {
+        let view = UIView()
+        view.backgroundColor = .black.withAlphaComponent(alpha)
+        return view
+    }
+    
     func newImageView(cornerRadius: CGFloat = 0.0) -> UIImageView {
         let imageView = UIImageView()
         imageView.backgroundColor = .gray

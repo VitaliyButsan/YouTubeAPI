@@ -5,12 +5,12 @@
 //  Created by VitaliyButsan on 11.05.2022.
 //
 
-import UIKit
-import SnapKit
-import RxSwift
-import RxDataSources
 import RxAnimated
 import RxCocoa
+import RxDataSources
+import RxSwift
+import SnapKit
+import UIKit
 
 class MainView: UIView {
     
@@ -35,10 +35,12 @@ class MainView: UIView {
     private lazy var topBarView = uiFactory.newView(color: .clear)
     private lazy var topBarTitleLabel = uiFactory
         .newLabel(
-            text: "YouTube API",
+            text: "",
             font: .SFPro.Display.Bold(size: 34).font,
             textColor: .white
         )
+    
+    private lazy var shadowView = uiFactory.newShadowView(alpha: 0.5)
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -91,7 +93,6 @@ class MainView: UIView {
         addSubview(topBarView)
         addSubview(tableView)
         addSubview(playerView)
-        bringSubviewToFront(playerView)
     }
     
     private func addConstraints() {
@@ -102,6 +103,7 @@ class MainView: UIView {
         topBarTitleLabel.snp.makeConstraints {
             $0.leading.equalTo(topBarView).offset(24)
             $0.bottom.equalTo(topBarView)
+            $0.width.equalTo(Constants.screenWidth * 0.7)
         }
         tableView.snp.makeConstraints {
             $0.top.equalTo(topBarView.snp.bottom)
@@ -150,14 +152,40 @@ class MainView: UIView {
         
         playerView.isPlayerOpened
             .subscribe(onNext: { [unowned self] state in
-                switch state {
-                case .open:
-                    playerViewHeight.accept(-playerViewOpenHeight)
-                case .close:
-                    playerViewHeight.accept(-playerViewCloseHeight)
-                }
+                setupTopBarTitle(with: state)
+                setupBackground(with: state)
+                openClosePlayer(with: state)
             })
             .disposed(by: youTubeViewModel.bag)
+    }
+    
+    private func openClosePlayer(with state: OpenCloseState) {
+        switch state {
+        case .open:
+            playerViewHeight.accept(-playerViewOpenHeight)
+        case .close:
+            playerViewHeight.accept(-playerViewCloseHeight)
+        }
+    }
+    
+    private func setupTopBarTitle(with state: OpenCloseState) {
+        switch state {
+        case .open:
+            topBarTitleLabel.text = "My Music"
+        case .close:
+            topBarTitleLabel.text = "YouTube API"
+        }
+    }
+    
+    private func setupBackground(with state: OpenCloseState) {
+        switch state {
+        case .open:
+            addSubview(shadowView)
+            shadowView.snp.makeConstraints { $0.edges.equalToSuperview() }
+            bringSubviewToFront(playerView)
+        case .close:
+            shadowView.removeFromSuperview()
+        }
     }
     
     private func startTimer() {

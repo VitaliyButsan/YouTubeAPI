@@ -9,14 +9,14 @@ import UIKit
 import RxCocoa
 import RxSwift
 
+enum OpenCloseState {
+    case open
+    case close
+}
+
 class PlayerView: UIView {
     
     // MARK: - Properties
-    
-    enum OpenCloseState {
-        case open
-        case close
-    }
     
     private var playerViewModel: PlayerViewModel!
     private var uiFactory: UIFactory!
@@ -24,7 +24,7 @@ class PlayerView: UIView {
     var didLayoutSubviewsSubject = PublishRelay<Void>()
     private let bag = DisposeBag()
     
-    var isPlayerOpened = BehaviorRelay<OpenCloseState>(value: .close)
+    var isPlayerOpened = BehaviorRelay<OpenCloseState>(value: .open)
     
     // MARK: - UI Elements
     
