@@ -23,6 +23,8 @@ internal enum Asset {
   internal enum Colors {
     internal static let background = ColorAsset(name: "Colors/Background")
     internal static let channelTitleTextColor = ColorAsset(name: "Colors/ChannelTitleTextColor")
+    internal static let playerLowerBoundGradient = ColorAsset(name: "Colors/PlayerLowerBoundGradient")
+    internal static let playerUpperBoundGradient = ColorAsset(name: "Colors/PlayerUpperBoundGradient")
   }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

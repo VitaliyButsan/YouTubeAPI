@@ -15,4 +15,6 @@ struct Constants {
     
     static let firstSectionCellWidth: CGFloat = 160.0
     static let secondSectionCellWidth: CGFloat = 135.0
+    
+    static let playerViewCornerRadius: CGFloat = 20.0
 }

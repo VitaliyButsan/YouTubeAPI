@@ -44,5 +44,18 @@ class PlayerView: UIView {
     
     private func setup() {
         backgroundColor = .brown
+        setupViews()
+        addConstraints()
+    }
+    
+    private func setupViews() {
+        layer.cornerRadius = Constants.playerViewCornerRadius
+        layer.masksToBounds = true
+        
+        
+    }
+    
+    private func addConstraints() {
+        
     }
 }
