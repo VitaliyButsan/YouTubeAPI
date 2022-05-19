@@ -18,7 +18,7 @@ class MainView: UIView {
     
     private var youTubeViewModel: YouTubeViewModel!
     private var uiFactory: UIFactory!
-    private let playerView = PlayerView(viewModel: PlayerViewModel(), uiFactory: UIFactory())
+    private var playerView: PlayerView!
     
     typealias DataSource = RxTableViewSectionedReloadDataSource<ResourcesSection>
     private lazy var dataSource: DataSource = .init(configureCell: configureCell)
@@ -52,14 +52,18 @@ class MainView: UIView {
     
     // MARK: - Lifecycle
     
-    convenience init(viewModel: YouTubeViewModel?, uiFactory: UIFactory?) {
+    convenience init(viewModel: YouTubeViewModel?, uiFactory: UIFactory?, playerView: PlayerView?) {
         self.init(frame: .zero)
         
-        guard let viewModel = viewModel, let uiFactory = uiFactory else {
+        guard let viewModel = viewModel,
+              let uiFactory = uiFactory,
+              let playerView = playerView
+        else {
             fatalError("MainView init")
         }
         self.youTubeViewModel = viewModel
         self.uiFactory = uiFactory
+        self.playerView = playerView
         setup()
     }
     
@@ -106,7 +110,6 @@ class MainView: UIView {
             $0.leading.equalToSuperview().offset(10)
             $0.trailing.equalToSuperview().inset(10)
             $0.bottom.equalToSuperview()
-//            $0.height.equalToSuperview()
         }
         
         playerViewHeightConstraint = NSLayoutConstraint(
@@ -116,7 +119,7 @@ class MainView: UIView {
             toItem: nil,
             attribute: .notAnAttribute,
             multiplier: 1,
-            constant: playerViewMinHeight
+            constant: 0
         )
         playerViewHeightConstraint.isActive = true
     }
@@ -229,13 +232,11 @@ extension MainView: PageControlCellDelegate {
     }
     
     func channelDidSelect(_ channel: Channel) {
-        switch playerViewHeightConstraint.constant {
+        switch playerViewHeight.value {
         case playerViewMinHeight:
             playerViewHeight.accept(playerViewMaxHeight)
-//            playerViewHeightConstraint.constant = playerViewMaxHeight
         case playerViewMaxHeight:
             playerViewHeight.accept(playerViewMinHeight)
-//            playerViewHeightConstraint.constant = playerViewMinHeight
         default:
             break
         }

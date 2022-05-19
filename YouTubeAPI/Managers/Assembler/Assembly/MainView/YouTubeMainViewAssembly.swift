@@ -13,8 +13,9 @@ final class YouTubeMainViewAssembly: Assembly {
         container.register(MainView.self) { r in
             let viewModel = r.resolve(YouTubeViewModel.self)
             let uiFactory = r.resolve(UIFactory.self)
-            let view = MainView(viewModel: viewModel, uiFactory: uiFactory)
-            return view
+            let playerView = r.resolve(PlayerView.self)
+            let mainView = MainView(viewModel: viewModel, uiFactory: uiFactory, playerView: playerView)
+            return mainView
         }
     }
 }
