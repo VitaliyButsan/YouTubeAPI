@@ -19,8 +19,6 @@ class CustomSliderView: UIView {
     private var uiFactory: UIFactory!
     private let bag = DisposeBag()
     
-//    private var pub: CurrentValueSubject<AVAudioSession, Float>?
-    
     // MARK: - UI Elements
     
     private lazy var sliderView = uiFactory
@@ -65,8 +63,6 @@ class CustomSliderView: UIView {
         setupViews()
         addConstraints()
         setupObservers()
-        
-        playerViewModel.volume.accept(sliderView.value)
     }
     
     private func setupViews() {
@@ -117,10 +113,6 @@ class CustomSliderView: UIView {
             })
             .disposed(by: playerViewModel.bag)
         
-        setSystemVolumeChangingObserver()
-    }
-    
-    private func setSystemVolumeChangingObserver() {
         NotificationCenter.default.rx.notification(.volumeChanging)
             .subscribe(onNext: { notification in
                 guard let userInfo = notification.userInfo else { return }

@@ -67,6 +67,7 @@ class PlayerView: UIView {
         setupViews()
         addConstraints()
         setupObservers()
+        videoPlayer.delegate = self
     }
     
     private func setGradientBackground() {
@@ -123,6 +124,8 @@ class PlayerView: UIView {
                 switch event {
                 case .open:
                     self.playerViewModel.state.accept(.play)
+//                    self.getVideoDuration()
+//                    self.startVideoTimeTracking()
                 case .close:
                     self.playerViewModel.state.accept(.stop)
                 }
@@ -165,10 +168,12 @@ class PlayerView: UIView {
     }
     
     private func startVideoTimeTracking() {
-        videoPlayer.getCurrentTime { time in
-            guard let time = time else { return }
-            self.playerViewModel.currentTime.accept(time)
-        }
+        Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).bind { timePassed in
+            self.videoPlayer.getCurrentTime { time in
+                guard let time = time else { return }
+                self.playerViewModel.currentTime.accept(time)
+            }
+        }.disposed(by: bag)
     }
     
     @objc private func detectPan(_ recognizer: UIPanGestureRecognizer) {
@@ -182,5 +187,23 @@ class PlayerView: UIView {
             break
         }
         recognizer.setTranslation(.zero, in: self)
+    }
+}
+
+// MARK: YouTubePlayerDelegate
+
+extension PlayerView: YouTubePlayerDelegate {
+    
+    func playerReady(_ videoPlayer: YouTubePlayerView) {
+        getVideoDuration()
+    }
+    
+    func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {
+        switch playerState {
+        case .Playing:
+            startVideoTimeTracking()
+        default:
+            break
+        }
     }
 }

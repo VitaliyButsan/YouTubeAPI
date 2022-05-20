@@ -5,8 +5,10 @@
 //  Created by VitaliyButsan on 19.05.2022.
 //
 
-import UIKit
+import RxCocoa
 import RxSwift
+import SnapKit
+import UIKit
 
 class CustomProgressView: UIView {
     
@@ -20,15 +22,13 @@ class CustomProgressView: UIView {
     
     private lazy var progressView = UIProgressView()
     
-    private lazy var leftTimeLabel = uiFactory
+    private lazy var currentTimeLabel = uiFactory
         .newLabel(
-            text: "0:00",
             font: .SFPro.Text.Regular(size: 11).font,
             textColor: Asset.Colors.playerTransparentWhite70.color
         )
-    private lazy var rightTimeLabel = uiFactory
+    private lazy var remainingTimeLabel = uiFactory
         .newLabel(
-            text: "-9:99",
             font: .SFPro.Text.Medium(size: 11).font,
             textColor: Asset.Colors.playerTransparentWhite70.color
         )
@@ -66,8 +66,8 @@ class CustomProgressView: UIView {
         progressView.progress = 0.5
         
         addSubview(progressView)
-        addSubview(leftTimeLabel)
-        addSubview(rightTimeLabel)
+        addSubview(currentTimeLabel)
+        addSubview(remainingTimeLabel)
     }
     
     private func addConstraints() {
@@ -76,18 +76,24 @@ class CustomProgressView: UIView {
             $0.leading.equalToSuperview().offset(13)
             $0.trailing.equalToSuperview().inset(13)
         }
-        leftTimeLabel.snp.makeConstraints {
+        currentTimeLabel.snp.makeConstraints {
             $0.leading.equalTo(progressView)
             $0.top.equalTo(progressView.snp.bottom).offset(7)
         }
-        rightTimeLabel.snp.makeConstraints {
+        remainingTimeLabel.snp.makeConstraints {
             $0.trailing.equalTo(progressView)
             $0.top.equalTo(progressView.snp.bottom).offset(7)
         }
     }
     
     private func setupObservers() {
+        playerViewModel.currentTimeFormatted
+            .bind(to: currentTimeLabel.rx.text)
+            .disposed(by: bag)
         
+        playerViewModel.remainTimeFormatted
+            .bind(to: remainingTimeLabel.rx.text)
+            .disposed(by: bag)
     }
     
 }
