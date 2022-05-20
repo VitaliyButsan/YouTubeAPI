@@ -7,6 +7,7 @@
 
 import RxCocoa
 import RxSwift
+import RxAnimated
 import SnapKit
 import UIKit
 
@@ -20,8 +21,11 @@ class CustomProgressView: UIView {
     
     // MARK: - UI Elements
     
-    private lazy var progressView = UIProgressView()
-    
+    private lazy var progressView = uiFactory
+        .newProgressView(
+            prognessTingColor: .white,
+            trackTintColor: Asset.Colors.playerTransparentWhite35.color
+        )
     private lazy var currentTimeLabel = uiFactory
         .newLabel(
             font: .SFPro.Text.Regular(size: 11).font,
@@ -61,10 +65,6 @@ class CustomProgressView: UIView {
     }
     
     private func setupViews() {
-        progressView.progressTintColor = .white
-        progressView.trackTintColor = Asset.Colors.playerTransparentWhite35.color
-        progressView.progress = 0.5
-        
         addSubview(progressView)
         addSubview(currentTimeLabel)
         addSubview(remainingTimeLabel)
@@ -93,6 +93,10 @@ class CustomProgressView: UIView {
         
         playerViewModel.remainTimeFormatted
             .bind(to: remainingTimeLabel.rx.text)
+            .disposed(by: bag)
+        
+        playerViewModel.progress
+            .bind(to: progressView.rx.progress)
             .disposed(by: bag)
     }
     

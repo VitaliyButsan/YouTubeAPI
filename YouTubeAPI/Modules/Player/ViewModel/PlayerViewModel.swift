@@ -25,6 +25,8 @@ class PlayerViewModel {
     private var remainSeconds = 0
     private var remainMinutes = 0
     
+    let progress = BehaviorRelay<Float>(value: 0.0)
+    
     // controls
     let state = BehaviorRelay<PlayerWorkState>(value: .stop)
     let prew = BehaviorRelay(value: false)
@@ -51,6 +53,14 @@ class PlayerViewModel {
                 return String(format: "%01i:%02i", self.currMinutes, self.currSeconds)
             }
             .bind(to: currentTimeFormatted)
+            .disposed(by: bag)
+        
+        currentTime
+            .filter { !$0.isZero }
+            .map { self.duration / $0 }
+            .map { 1 / $0 }
+            .map { Float($0) }
+            .bind(to: progress)
             .disposed(by: bag)
             
         remainTime

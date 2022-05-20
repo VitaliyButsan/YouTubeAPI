@@ -122,4 +122,12 @@ final class UIFactory {
         slider.value = value
         return slider
     }
+    
+    func newProgressView(prognessTingColor: UIColor = .blue, trackTintColor: UIColor = .gray, progress: Float = 0.0) -> UIProgressView {
+        let progressView = UIProgressView()
+        progressView.progressTintColor = prognessTingColor
+        progressView.trackTintColor = trackTintColor
+        progressView.progress = progress
+        return progressView
+    }
 }

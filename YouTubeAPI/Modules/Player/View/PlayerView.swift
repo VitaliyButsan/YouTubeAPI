@@ -88,7 +88,8 @@ class PlayerView: UIView {
         addSubview(openCloseButton)
         
         addSubview(videoPlayer)
-        videoPlayer.loadVideoID("5ww7JyxV1ds")
+//        videoPlayer.loadVideoID("5ww7JyxV1ds")
+        videoPlayer.loadVideoID("v6EjmbMgv80")
         videoPlayer.backgroundColor = .gray
         
         addSubview(controlPanelView)
