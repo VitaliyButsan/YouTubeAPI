@@ -169,7 +169,7 @@ class MainView: UIView {
             .disposed(by: youTubeViewModel.bag)
     }
     
-    private func openClosePlayer(with state: OpenCloseState) {
+    private func openClosePlayer(with state: PlayerOpenCloseState) {
         switch state {
         case .open:
             playerViewHeight.accept(-playerViewOpenHeight)
@@ -178,7 +178,7 @@ class MainView: UIView {
         }
     }
     
-    private func setupTopBarTitle(with state: OpenCloseState) {
+    private func setupTopBarTitle(with state: PlayerOpenCloseState) {
         switch state {
         case .open:
             topBarTitleLabel.text = "My Music"
@@ -187,7 +187,7 @@ class MainView: UIView {
         }
     }
     
-    private func setupBackground(with state: OpenCloseState) {
+    private func setupBackground(with state: PlayerOpenCloseState) {
         switch state {
         case .open:
             addSubview(shadowView)

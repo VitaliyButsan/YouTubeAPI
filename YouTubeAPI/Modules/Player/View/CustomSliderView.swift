@@ -106,12 +106,12 @@ class CustomSliderView: UIView {
             .bind(to: sliderView.rx.value)
             .disposed(by: playerViewModel.bag)
         
-        playerViewModel.play
-            .subscribe(onNext: { play in
-                switch play {
-                case true:
+        playerViewModel.state
+            .subscribe(onNext: { state in
+                switch state {
+                case .play:
                     self.playerViewModel.volume.accept(self.sliderView.value)
-                case false:
+                default:
                     break
                 }
             })
@@ -130,15 +130,4 @@ class CustomSliderView: UIView {
             })
             .disposed(by: playerViewModel.bag)
     }
-}
-
-extension NSNotification.Name {
-    
-    // tracking on
-    static var volumeChanging =
-    NSNotification.Name(rawValue: "AVSystemController_SystemVolumeDidChangeNotification")
-    
-    // output
-    static var audioVolume =
-    NSNotification.Name(rawValue: "AVSystemController_AudioVolumeNotificationParameter")
 }

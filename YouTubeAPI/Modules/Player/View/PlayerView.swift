@@ -10,9 +10,13 @@ import RxSwift
 import UIKit
 import YouTubePlayer
 
-enum OpenCloseState {
+enum PlayerOpenCloseState {
     case open
     case close
+}
+
+enum PlayerWorkState {
+    case play, stop, pause
 }
 
 class PlayerView: UIView {
@@ -25,12 +29,8 @@ class PlayerView: UIView {
     private let bag = DisposeBag()
     
     var didLayoutSubviewsSubject = PublishRelay<Void>()
-    var isPlayerOpened = BehaviorRelay<OpenCloseState>(value: .close)
+    var isPlayerOpened = BehaviorRelay<PlayerOpenCloseState>(value: .close)
     var yOffset = BehaviorRelay<CGFloat>(value: 0.0)
-    
-    enum PlayerState {
-        case play, stop, pause
-    }
     
     // MARK: - UI Elements
     
@@ -122,23 +122,31 @@ class PlayerView: UIView {
             .subscribe(onNext: { [unowned self] event in
                 switch event {
                 case .open:
-                    self.playerViewModel.play.accept(true)
+                    self.playerViewModel.state.accept(.play)
                 case .close:
-                    self.playerViewModel.play.accept(false)
-                    self.setPlayerState(.stop)
+                    self.playerViewModel.state.accept(.stop)
                 }
                 openCloseButton.rotate()
             })
             .disposed(by: bag)
         
-        playerViewModel.play
-            .subscribe(onNext: { isSelected in
-                self.setPlayerState(isSelected ? .play : .pause)
+        playerViewModel.state
+            .subscribe(onNext: { state in
+                self.setPlayerState(state)
+                
+                switch state {
+                case .play:
+                    break
+                case .pause:
+                    break
+                case .stop:
+                    break
+                }
             })
             .disposed(by: playerViewModel.bag)
     }
     
-    private func setPlayerState(_ state: PlayerState) {
+    private func setPlayerState(_ state: PlayerWorkState) {
         switch state {
         case .play:
             videoPlayer.play()
@@ -146,6 +154,20 @@ class PlayerView: UIView {
             videoPlayer.pause()
         case .stop:
             videoPlayer.stop()
+        }
+    }
+    
+    private func getVideoDuration() {
+        videoPlayer.getDuration { duration in
+            guard let duration = duration else { return }
+            self.playerViewModel.duration = duration
+        }
+    }
+    
+    private func startVideoTimeTracking() {
+        videoPlayer.getCurrentTime { time in
+            guard let time = time else { return }
+            self.playerViewModel.currentTime.accept(time)
         }
     }
     

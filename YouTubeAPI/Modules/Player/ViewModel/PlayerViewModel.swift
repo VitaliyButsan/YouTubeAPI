@@ -12,11 +12,12 @@ class PlayerViewModel {
     
     let bag = DisposeBag()
     
-    let trackingTime = BehaviorRelay<Float>(value: 0.0)
+    let currentTime = BehaviorRelay<Double>(value: 0.0)
+    var duration = 0.0
     
-    let play = BehaviorRelay(value: false)
-    let prew = BehaviorRelay(value: false)
-    let next = BehaviorRelay(value: false)
+    let state = BehaviorRelay<PlayerWorkState>(value: .stop)
+    let prew = BehaviorRelay<Bool>(value: false)
+    let next = BehaviorRelay<Bool>(value: false)
     
     let volume = BehaviorRelay<Float>(value: 0.0)
     

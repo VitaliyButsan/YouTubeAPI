@@ -118,25 +118,34 @@ class ControlPanelView: UIView {
         }
     }
     
-    private func setupPlayButton(by isSelected: Bool) {
-        switch isSelected {
-        case true:
+    private func setupPlayButton(by state: PlayerWorkState) {
+        switch state {
+        case .play:
             playButton.setImage(Asset.Player.Controls.pause.image, for: .normal)
-        case false:
+        case .pause:
             playButton.setImage(Asset.Player.Controls.play.image, for: .normal)
+        case .stop:
+            break
         }
     }
     
     private func setupObservers() {
         playButton.rx.tap
             .bind {
-                self.playerViewModel.play.accept(!self.playerViewModel.play.value)
+                switch self.playerViewModel.state.value {
+                case .play:
+                    self.playerViewModel.state.accept(.pause)
+                case .pause:
+                    self.playerViewModel.state.accept(.play)
+                case .stop:
+                    break
+                }
             }
             .disposed(by: playerViewModel.bag)
         
-        playerViewModel.play
-            .subscribe(onNext: { isSelected in
-                self.setupPlayButton(by: isSelected)
+        playerViewModel.state
+            .subscribe(onNext: { state in
+                self.setupPlayButton(by: state)
             })
             .disposed(by: playerViewModel.bag)
     }
