@@ -51,12 +51,13 @@ final class UIFactory {
         return view
     }
     
-    func newImageView(image: UIImage? = nil, cornerRadius: CGFloat = 0.0) -> UIImageView {
+    func newImageView(image: UIImage? = nil, cornerRadius: CGFloat = 0.0, tintColor: UIColor = .clear) -> UIImageView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = cornerRadius
         imageView.image = image
+        imageView.tintColor = tintColor
         return imageView
     }
     
@@ -114,9 +115,11 @@ final class UIFactory {
         return stack
     }
     
-    func newSliderView() -> UISlider {
+    func newSliderView(minimumTrackTintColor: UIColor = .white, maximumTrackTintColor: UIColor = .gray, value: Float = 0.0) -> UISlider {
         let slider = UISlider()
-        slider.maximumTrackTintColor = Asset.Colors.playerTransparentWhite35.color
+        slider.maximumTrackTintColor = maximumTrackTintColor
+        slider.minimumTrackTintColor = minimumTrackTintColor
+        slider.value = value
         return slider
     }
 }

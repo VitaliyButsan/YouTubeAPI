@@ -118,7 +118,26 @@ class ControlPanelView: UIView {
         }
     }
     
+    private func setupPlayButton(by isSelected: Bool) {
+        switch isSelected {
+        case true:
+            playButton.setImage(Asset.Player.Controls.pause.image, for: .normal)
+        case false:
+            playButton.setImage(Asset.Player.Controls.play.image, for: .normal)
+        }
+    }
+    
     private func setupObservers() {
+        playButton.rx.tap
+            .bind {
+                self.playerViewModel.play.accept(!self.playerViewModel.play.value)
+            }
+            .disposed(by: playerViewModel.bag)
         
+        playerViewModel.play
+            .subscribe(onNext: { isSelected in
+                self.setupPlayButton(by: isSelected)
+            })
+            .disposed(by: playerViewModel.bag)
     }
 }

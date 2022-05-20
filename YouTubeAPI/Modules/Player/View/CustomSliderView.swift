@@ -9,6 +9,7 @@ import MediaPlayer
 import RxSwift
 import RxCocoa
 import UIKit
+//import Combine
 
 class CustomSliderView: UIView {
     
@@ -18,11 +19,26 @@ class CustomSliderView: UIView {
     private var uiFactory: UIFactory!
     private let bag = DisposeBag()
     
+//    private var pub: CurrentValueSubject<AVAudioSession, Float>?
+    
     // MARK: - UI Elements
     
-    private lazy var sliderView = uiFactory.newSliderView()
-    private lazy var soundMinImageView = uiFactory.newImageView(image: Asset.Player.Controls.soundMin.image)
-    private lazy var soundMaxImageView = uiFactory.newImageView(image: Asset.Player.Controls.soundMax.image)
+    private lazy var sliderView = uiFactory
+        .newSliderView(
+            minimumTrackTintColor: .white,
+            maximumTrackTintColor: Asset.Colors.playerTransparentWhite35.color,
+            value: 0.5
+        )
+    private lazy var soundMinImageView = uiFactory
+        .newImageView(
+            image: Asset.Player.Controls.soundMin.image,
+            tintColor: Asset.Colors.playerTransparentWhite35.color
+        )
+    private lazy var soundMaxImageView = uiFactory
+        .newImageView(
+            image: Asset.Player.Controls.soundMax.image,
+            tintColor: Asset.Colors.playerTransparentWhite35.color
+        )
     
     // MARK: - Lifecycle
     
@@ -49,14 +65,11 @@ class CustomSliderView: UIView {
         setupViews()
         addConstraints()
         setupObservers()
+        
+        playerViewModel.volume.accept(sliderView.value)
     }
     
     private func setupViews() {
-        soundMinImageView.tintColor = Asset.Colors.playerTransparentWhite35.color
-        soundMaxImageView.tintColor = Asset.Colors.playerTransparentWhite35.color
-        sliderView.minimumTrackTintColor = .white
-        sliderView.value = 0.5
-        
         addSubview(soundMinImageView)
         addSubview(sliderView)
         addSubview(soundMaxImageView)
@@ -88,5 +101,44 @@ class CustomSliderView: UIView {
                 MPVolumeView.setVolume(volume)
             })
             .disposed(by: playerViewModel.bag)
+        
+        playerViewModel.volume
+            .bind(to: sliderView.rx.value)
+            .disposed(by: playerViewModel.bag)
+        
+        playerViewModel.play
+            .subscribe(onNext: { play in
+                switch play {
+                case true:
+                    self.playerViewModel.volume.accept(self.sliderView.value)
+                case false:
+                    break
+                }
+            })
+            .disposed(by: playerViewModel.bag)
+        
+        setSystemVolumeChangingObserver()
     }
+    
+    private func setSystemVolumeChangingObserver() {
+        NotificationCenter.default.rx.notification(.volumeChanging)
+            .subscribe(onNext: { notification in
+                guard let userInfo = notification.userInfo else { return }
+                guard let anyValue = userInfo[NSNotification.Name.audioVolume] else { return }
+                guard let volume = anyValue as? Float else { return }
+                self.playerViewModel.volume.accept(volume)
+            })
+            .disposed(by: playerViewModel.bag)
+    }
+}
+
+extension NSNotification.Name {
+    
+    // tracking on
+    static var volumeChanging =
+    NSNotification.Name(rawValue: "AVSystemController_SystemVolumeDidChangeNotification")
+    
+    // output
+    static var audioVolume =
+    NSNotification.Name(rawValue: "AVSystemController_AudioVolumeNotificationParameter")
 }

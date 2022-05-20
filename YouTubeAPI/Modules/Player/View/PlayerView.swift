@@ -28,6 +28,10 @@ class PlayerView: UIView {
     var isPlayerOpened = BehaviorRelay<OpenCloseState>(value: .close)
     var yOffset = BehaviorRelay<CGFloat>(value: 0.0)
     
+    enum PlayerState {
+        case play, stop, pause
+    }
+    
     // MARK: - UI Elements
     
     private lazy var openCloseButton = uiFactory.newButton(image: Asset.Player.Controls.chevronDown.image)
@@ -88,7 +92,6 @@ class PlayerView: UIView {
         
         addSubview(controlPanelView)
         
-        openCloseButton.rotate()
         openCloseButton.isUserInteractionEnabled = false
     }
     
@@ -119,12 +122,31 @@ class PlayerView: UIView {
             .subscribe(onNext: { [unowned self] event in
                 switch event {
                 case .open:
-                    videoPlayer.play()
+                    self.playerViewModel.play.accept(true)
                 case .close:
-                    videoPlayer.stop()
+                    self.playerViewModel.play.accept(false)
+                    self.setPlayerState(.stop)
                 }
+                openCloseButton.rotate()
             })
             .disposed(by: bag)
+        
+        playerViewModel.play
+            .subscribe(onNext: { isSelected in
+                self.setPlayerState(isSelected ? .play : .pause)
+            })
+            .disposed(by: playerViewModel.bag)
+    }
+    
+    private func setPlayerState(_ state: PlayerState) {
+        switch state {
+        case .play:
+            videoPlayer.play()
+        case .pause:
+            videoPlayer.pause()
+        case .stop:
+            videoPlayer.stop()
+        }
     }
     
     @objc private func detectPan(_ recognizer: UIPanGestureRecognizer) {
