@@ -12,6 +12,8 @@
 		FE1F31DF282C1241006F1360 /* UIFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1F31DE282C1241006F1360 /* UIFactory.swift */; };
 		FE1F31E1282C1A0C006F1360 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1F31E0282C1A0C006F1360 /* MainView.swift */; };
 		FE1F31E3282C1D41006F1360 /* YouTubeMainViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1F31E2282C1D41006F1360 /* YouTubeMainViewAssembly.swift */; };
+		FE282BE628377ABB0097AA91 /* CustomSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE282BE528377ABB0097AA91 /* CustomSliderView.swift */; };
+		FE282BE828377D290097AA91 /* PlayerCustomSliderViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE282BE728377D290097AA91 /* PlayerCustomSliderViewAssembly.swift */; };
 		FE2FB47828340166003F96B4 /* String+splitIntoThousandParts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2FB47728340166003F96B4 /* String+splitIntoThousandParts.swift */; };
 		FE491B05282B912100738677 /* SwinjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE491B04282B912100738677 /* SwinjectManager.swift */; };
 		FE491B08282B917100738677 /* YouTubeViewModelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE491B07282B917100738677 /* YouTubeViewModelAssembly.swift */; };
@@ -64,6 +66,8 @@
 		FE1F31DE282C1241006F1360 /* UIFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFactory.swift; sourceTree = "<group>"; };
 		FE1F31E0282C1A0C006F1360 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		FE1F31E2282C1D41006F1360 /* YouTubeMainViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeMainViewAssembly.swift; sourceTree = "<group>"; };
+		FE282BE528377ABB0097AA91 /* CustomSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSliderView.swift; sourceTree = "<group>"; };
+		FE282BE728377D290097AA91 /* PlayerCustomSliderViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCustomSliderViewAssembly.swift; sourceTree = "<group>"; };
 		FE2FB47728340166003F96B4 /* String+splitIntoThousandParts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+splitIntoThousandParts.swift"; sourceTree = "<group>"; };
 		FE491B04282B912100738677 /* SwinjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwinjectManager.swift; sourceTree = "<group>"; };
 		FE491B07282B917100738677 /* YouTubeViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeViewModelAssembly.swift; sourceTree = "<group>"; };
@@ -405,6 +409,7 @@
 				FEB22F6F28353BBF00D89842 /* PlayerView.swift */,
 				FEA15C4B2836AE4000A4A4E0 /* ControlPanelView.swift */,
 				FEA15C4D2836BC6B00A4A4E0 /* CustomProgressView.swift */,
+				FE282BE528377ABB0097AA91 /* CustomSliderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -455,6 +460,7 @@
 				FEE6CC5E2836202800FD26A7 /* PlayerViewModelAssembly.swift */,
 				FEA15C4F2836C7EC00A4A4E0 /* PlayerControlPanelViewAssembly.swift */,
 				FEA15C512836C88400A4A4E0 /* PlayerCustomProgressViewAssembly.swift */,
+				FE282BE728377D290097AA91 /* PlayerCustomSliderViewAssembly.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -600,6 +606,7 @@
 			files = (
 				FECBED48282C2BA800B57DDA /* fonts.swift in Sources */,
 				FE877229282A830A006111CB /* YouTubeViewController.swift in Sources */,
+				FE282BE628377ABB0097AA91 /* CustomSliderView.swift in Sources */,
 				FEA15C4E2836BC6B00A4A4E0 /* CustomProgressView.swift in Sources */,
 				FE1F31E3282C1D41006F1360 /* YouTubeMainViewAssembly.swift in Sources */,
 				FEB22F7028353BC000D89842 /* PlayerView.swift in Sources */,
@@ -631,6 +638,7 @@
 				FE877227282A830A006111CB /* SceneDelegate.swift in Sources */,
 				FEB22F4D2834C92900D89842 /* UIViewController+showAlert.swift in Sources */,
 				FE776C0A282D057F00F37DBF /* UIFont+CustomFonts.swift in Sources */,
+				FE282BE828377D290097AA91 /* PlayerCustomSliderViewAssembly.swift in Sources */,
 				FEE6CC5C2836201700FD26A7 /* PlayerViewAssembly.swift in Sources */,
 				FE87725B282AA382006111CB /* assets.swift in Sources */,
 				FE8F2252282BD7A600177DA9 /* PlaylistItemsDataWrapper.swift in Sources */,

@@ -14,7 +14,8 @@ final class PlayerControlPanelViewAssembly: Assembly {
             let viewModel = r.resolve(PlayerViewModel.self)
             let uiFactory = r.resolve(UIFactory.self)
             let progressView = r.resolve(CustomProgressView.self)
-            let controlPanelView = ControlPanelView(viewModel: viewModel, uiFactory: uiFactory, progressView: progressView)
+            let sliderView = r.resolve(CustomSliderView.self)
+            let controlPanelView = ControlPanelView(viewModel: viewModel, uiFactory: uiFactory, progressView: progressView, sliderView: sliderView)
             return controlPanelView
         }
     }

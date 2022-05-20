@@ -20,6 +20,7 @@ final class SwinjectManager {
         PlayerViewModelAssembly(),
         PlayerControlPanelViewAssembly(),
         PlayerCustomProgressViewAssembly(),
+        PlayerCustomSliderViewAssembly(),
     ])
     
     var mainVC: UIViewController? {

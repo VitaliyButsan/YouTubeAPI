@@ -26,6 +26,8 @@ internal enum Asset {
     internal static let background = ColorAsset(name: "Colors/Background")
     internal static let channelTitleTextColor = ColorAsset(name: "Colors/ChannelTitleTextColor")
     internal static let playerLowerBoundGradient = ColorAsset(name: "Colors/PlayerLowerBoundGradient")
+    internal static let playerTransparentWhite35 = ColorAsset(name: "Colors/PlayerTransparentWhite35")
+    internal static let playerTransparentWhite70 = ColorAsset(name: "Colors/PlayerTransparentWhite70")
     internal static let playerUpperBoundGradient = ColorAsset(name: "Colors/PlayerUpperBoundGradient")
   }
   internal enum Player {

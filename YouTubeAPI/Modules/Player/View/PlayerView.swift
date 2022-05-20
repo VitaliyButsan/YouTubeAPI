@@ -41,7 +41,8 @@ class PlayerView: UIView {
         
         guard let viewModel = viewModel,
               let uiFactory = uiFactory,
-              let controlPanel = controlPanel else {
+              let controlPanel = controlPanel
+        else {
             fatalError("MainView init")
         }
         self.playerViewModel = viewModel

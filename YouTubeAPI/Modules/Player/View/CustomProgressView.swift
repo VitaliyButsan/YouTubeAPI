@@ -20,8 +20,18 @@ class CustomProgressView: UIView {
     
     private lazy var progressView = UIProgressView()
     
-    private lazy var leftTimeLabel = uiFactory.newLabel(text: "0:00", font: .SFPro.Text.Regular(size: 11).font)
-    private lazy var rightTimeLabel = uiFactory.newLabel(text: "-9:99", font: .SFPro.Text.Medium(size: 11).font)
+    private lazy var leftTimeLabel = uiFactory
+        .newLabel(
+            text: "0:00",
+            font: .SFPro.Text.Regular(size: 11).font,
+            textColor: Asset.Colors.playerTransparentWhite70.color
+        )
+    private lazy var rightTimeLabel = uiFactory
+        .newLabel(
+            text: "-9:99",
+            font: .SFPro.Text.Medium(size: 11).font,
+            textColor: Asset.Colors.playerTransparentWhite70.color
+        )
     
     // MARK: - Lifecycle
     
@@ -31,7 +41,6 @@ class CustomProgressView: UIView {
         guard let viewModel = viewModel, let uiFactory = uiFactory else {
             fatalError("CustomProgressView init")
         }
-        translatesAutoresizingMaskIntoConstraints = false
         self.playerViewModel = viewModel
         self.uiFactory = uiFactory
         setup()
@@ -45,12 +54,6 @@ class CustomProgressView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override var intrinsicContentSize: CGSize {
-        let width = super.intrinsicContentSize.width
-        let height = 40.0
-        return CGSize(width: width, height: height)
-    }
-    
     private func setup() {
         setupViews()
         addConstraints()
@@ -58,7 +61,10 @@ class CustomProgressView: UIView {
     }
     
     private func setupViews() {
-        backgroundColor = .white
+        progressView.progressTintColor = .white
+        progressView.trackTintColor = Asset.Colors.playerTransparentWhite35.color
+        progressView.progress = 0.5
+        
         addSubview(progressView)
         addSubview(leftTimeLabel)
         addSubview(rightTimeLabel)
@@ -66,17 +72,17 @@ class CustomProgressView: UIView {
     
     private func addConstraints() {
         progressView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(19)
+            $0.top.equalToSuperview().offset(5)
             $0.leading.equalToSuperview().offset(13)
             $0.trailing.equalToSuperview().inset(13)
         }
         leftTimeLabel.snp.makeConstraints {
             $0.leading.equalTo(progressView)
-            $0.top.equalTo(progressView.snp.bottom)
+            $0.top.equalTo(progressView.snp.bottom).offset(7)
         }
         rightTimeLabel.snp.makeConstraints {
             $0.trailing.equalTo(progressView)
-            $0.top.equalTo(progressView.snp.bottom)
+            $0.top.equalTo(progressView.snp.bottom).offset(7)
         }
     }
     

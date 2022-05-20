@@ -51,12 +51,12 @@ final class UIFactory {
         return view
     }
     
-    func newImageView(cornerRadius: CGFloat = 0.0) -> UIImageView {
+    func newImageView(image: UIImage? = nil, cornerRadius: CGFloat = 0.0) -> UIImageView {
         let imageView = UIImageView()
-        imageView.backgroundColor = .gray
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = cornerRadius
+        imageView.image = image
         return imageView
     }
     
@@ -103,5 +103,20 @@ final class UIFactory {
         button.setTitle(title, for: .normal)
         button.setImage(image, for: .normal)
         return button
+    }
+    
+    func newStackView(axis: NSLayoutConstraint.Axis = .vertical, alignment: UIStackView.Alignment = .center, distribution: UIStackView.Distribution = .fill, spacing: CGFloat = 0.0) -> UIStackView {
+        let stack = UIStackView()
+        stack.axis = axis
+        stack.spacing = spacing
+        stack.alignment = alignment
+        stack.distribution = distribution
+        return stack
+    }
+    
+    func newSliderView() -> UISlider {
+        let slider = UISlider()
+        slider.maximumTrackTintColor = Asset.Colors.playerTransparentWhite35.color
+        return slider
     }
 }
