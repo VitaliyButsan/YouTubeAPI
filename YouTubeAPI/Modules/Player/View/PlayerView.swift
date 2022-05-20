@@ -125,12 +125,10 @@ class PlayerView: UIView {
                 switch event {
                 case .open:
                     self.playerViewModel.state.accept(.play)
-//                    self.getVideoDuration()
-//                    self.startVideoTimeTracking()
                 case .close:
                     self.playerViewModel.state.accept(.stop)
                 }
-                openCloseButton.rotate()
+                self.openCloseButton.rotate()
             })
             .disposed(by: bag)
         
@@ -179,11 +177,16 @@ class PlayerView: UIView {
     
     @objc private func detectPan(_ recognizer: UIPanGestureRecognizer) {
         let point = recognizer.translation(in: self)
+        
         switch recognizer.state {
         case .changed:
             yOffset.accept(point.y)
         case .ended:
-            isPlayerOpened.accept(.close)
+            if frame.minY >= (Constants.halfScreenHeight / 2) {
+                isPlayerOpened.accept(.close)
+            } else {
+                isPlayerOpened.accept(.open)
+            }
         default:
             break
         }
