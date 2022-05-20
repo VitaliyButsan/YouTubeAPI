@@ -14,6 +14,7 @@
 		FE1F31E3282C1D41006F1360 /* YouTubeMainViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1F31E2282C1D41006F1360 /* YouTubeMainViewAssembly.swift */; };
 		FE282BE628377ABB0097AA91 /* CustomSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE282BE528377ABB0097AA91 /* CustomSliderView.swift */; };
 		FE282BE828377D290097AA91 /* PlayerCustomSliderViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE282BE728377D290097AA91 /* PlayerCustomSliderViewAssembly.swift */; };
+		FE282BEB2837BBED0097AA91 /* MPVolumeView+setVolume.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE282BEA2837BBED0097AA91 /* MPVolumeView+setVolume.swift */; };
 		FE2FB47828340166003F96B4 /* String+splitIntoThousandParts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2FB47728340166003F96B4 /* String+splitIntoThousandParts.swift */; };
 		FE491B05282B912100738677 /* SwinjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE491B04282B912100738677 /* SwinjectManager.swift */; };
 		FE491B08282B917100738677 /* YouTubeViewModelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE491B07282B917100738677 /* YouTubeViewModelAssembly.swift */; };
@@ -68,6 +69,7 @@
 		FE1F31E2282C1D41006F1360 /* YouTubeMainViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeMainViewAssembly.swift; sourceTree = "<group>"; };
 		FE282BE528377ABB0097AA91 /* CustomSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSliderView.swift; sourceTree = "<group>"; };
 		FE282BE728377D290097AA91 /* PlayerCustomSliderViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCustomSliderViewAssembly.swift; sourceTree = "<group>"; };
+		FE282BEA2837BBED0097AA91 /* MPVolumeView+setVolume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MPVolumeView+setVolume.swift"; sourceTree = "<group>"; };
 		FE2FB47728340166003F96B4 /* String+splitIntoThousandParts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+splitIntoThousandParts.swift"; sourceTree = "<group>"; };
 		FE491B04282B912100738677 /* SwinjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwinjectManager.swift; sourceTree = "<group>"; };
 		FE491B07282B917100738677 /* YouTubeViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeViewModelAssembly.swift; sourceTree = "<group>"; };
@@ -159,6 +161,14 @@
 			path = UIFactory;
 			sourceTree = "<group>";
 		};
+		FE282BE92837BBCE0097AA91 /* MediaPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				FE282BEA2837BBED0097AA91 /* MPVolumeView+setVolume.swift */,
+			);
+			path = MediaPlayer;
+			sourceTree = "<group>";
+		};
 		FE491B01282B909900738677 /* YouTubeService */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,6 +207,7 @@
 		FE776C06282D055600F37DBF /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				FE282BE92837BBCE0097AA91 /* MediaPlayer */,
 				FE776C08282D056100F37DBF /* Foundation */,
 				FE776C07282D055B00F37DBF /* UIKit */,
 			);
@@ -639,6 +650,7 @@
 				FEB22F4D2834C92900D89842 /* UIViewController+showAlert.swift in Sources */,
 				FE776C0A282D057F00F37DBF /* UIFont+CustomFonts.swift in Sources */,
 				FE282BE828377D290097AA91 /* PlayerCustomSliderViewAssembly.swift in Sources */,
+				FE282BEB2837BBED0097AA91 /* MPVolumeView+setVolume.swift in Sources */,
 				FEE6CC5C2836201700FD26A7 /* PlayerViewAssembly.swift in Sources */,
 				FE87725B282AA382006111CB /* assets.swift in Sources */,
 				FE8F2252282BD7A600177DA9 /* PlaylistItemsDataWrapper.swift in Sources */,

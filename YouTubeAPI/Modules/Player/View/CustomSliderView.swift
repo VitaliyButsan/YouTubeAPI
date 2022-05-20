@@ -5,8 +5,10 @@
 //  Created by VitaliyButsan on 20.05.2022.
 //
 
-import UIKit
+import MediaPlayer
 import RxSwift
+import RxCocoa
+import UIKit
 
 class CustomSliderView: UIView {
     
@@ -53,6 +55,7 @@ class CustomSliderView: UIView {
         soundMinImageView.tintColor = Asset.Colors.playerTransparentWhite35.color
         soundMaxImageView.tintColor = Asset.Colors.playerTransparentWhite35.color
         sliderView.minimumTrackTintColor = .white
+        sliderView.value = 0.5
         
         addSubview(soundMinImageView)
         addSubview(sliderView)
@@ -76,6 +79,14 @@ class CustomSliderView: UIView {
     }
     
     private func setupObservers() {
+        sliderView.rx.value
+            .bind(to: playerViewModel.volume)
+            .disposed(by: playerViewModel.bag)
         
+        playerViewModel.volume
+            .subscribe(onNext: { volume in
+                MPVolumeView.setVolume(volume)
+            })
+            .disposed(by: playerViewModel.bag)
     }
 }
