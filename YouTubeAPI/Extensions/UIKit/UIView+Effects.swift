@@ -20,4 +20,15 @@ extension UIView {
         self.transform = self.transform.rotated(by: angle)
     }
     
+    func asImage(frame: CGRect = .zero, bgColor: UIColor = .white) -> UIImage {
+        let thumbView = UIView()
+        thumbView.backgroundColor = bgColor
+        thumbView.frame = frame
+        
+        let renderer = UIGraphicsImageRenderer(bounds: thumbView.bounds)
+        let image = renderer.image { rendererContext in
+            thumbView.layer.render(in: rendererContext.cgContext)
+        }
+        return image
+    }
 }

@@ -21,10 +21,17 @@ class CustomProgressView: UIView {
     
     // MARK: - UI Elements
     
+    private lazy var progressPointer = uiFactory
+        .newView()
+        .asImage(
+            frame: CGRect(x: 0, y: 0, width: 2, height: 12)
+        )
+    
     private lazy var progressView = uiFactory
-        .newProgressView(
-            prognessTingColor: .white,
-            trackTintColor: Asset.Colors.playerTransparentWhite35.color
+        .newSliderView(
+            minimumTrackTintColor: .white,
+            maximumTrackTintColor: Asset.Colors.playerTransparentWhite35.color,
+            value: 0.3
         )
     private lazy var currentTimeLabel = uiFactory
         .newLabel(
@@ -60,8 +67,14 @@ class CustomProgressView: UIView {
     
     private func setup() {
         setupViews()
+        setupProgressView()
         addConstraints()
         setupObservers()
+    }
+    
+    private func setupProgressView() {
+        progressView.setThumbImage(progressPointer, for: .normal)
+        progressView.isUserInteractionEnabled = false
     }
     
     private func setupViews() {
@@ -96,7 +109,7 @@ class CustomProgressView: UIView {
             .disposed(by: bag)
         
         playerViewModel.progress
-            .bind(to: progressView.rx.progress)
+            .bind(to: progressView.rx.value)
             .disposed(by: bag)
     }
     
