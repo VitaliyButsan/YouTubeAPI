@@ -23,24 +23,20 @@ class PlayerView: UIView {
     
     // MARK: - Properties
     
-    private var playerViewModel: PlayerViewModel!
+    private(set) var playerViewModel: PlayerViewModel!
     private var uiFactory: UIFactory!
-    private var controlPanelView: ControlPanelView!
     private let bag = DisposeBag()
-    
-    var didLayoutSubviewsSubject = PublishRelay<Void>()
-    var isPlayerOpened = BehaviorRelay<PlayerOpenCloseState>(value: .close)
-    var yOffset = BehaviorRelay<CGFloat>(value: 0.0)
     
     // MARK: - UI Elements
     
+    private var controlPanelView: PlayerControlPanelView!
     private lazy var openCloseButton = uiFactory.newButton(image: Asset.Player.Controls.chevronDown.image)
     private lazy var panGesture = UIPanGestureRecognizer(target: self, action: #selector(detectPan))
     private lazy var videoPlayer = YouTubePlayerView()
     
     // MARK: - Lifecycle
     
-    convenience init(viewModel: PlayerViewModel?, uiFactory: UIFactory?, controlPanel: ControlPanelView?) {
+    convenience init(viewModel: PlayerViewModel?, uiFactory: UIFactory?, controlPanel: PlayerControlPanelView?) {
         self.init(frame: .zero)
         
         guard let viewModel = viewModel,
@@ -67,7 +63,8 @@ class PlayerView: UIView {
         setupViews()
         addConstraints()
         setupObservers()
-        videoPlayer.delegate = self
+        setupVideoPlayer()
+        setupPreviousPlayerOpenedState()
     }
     
     private func setGradientBackground() {
@@ -93,8 +90,6 @@ class PlayerView: UIView {
         videoPlayer.backgroundColor = .gray
         
         addSubview(controlPanelView)
-        
-        openCloseButton.isUserInteractionEnabled = false
     }
     
     private func addConstraints() {
@@ -113,22 +108,38 @@ class PlayerView: UIView {
         }
     }
     
+    private func setupVideoPlayer() {
+        videoPlayer.delegate = self
+    }
+    
+    private func setupPreviousPlayerOpenedState() {
+        switch playerViewModel.isPlayerOpened.value {
+        case .open:
+            playerViewModel.previousPlayerOpenedState = .close
+        case .close:
+            playerViewModel.previousPlayerOpenedState = .open
+        }
+    }
+    
     private func setupObservers() {
-        didLayoutSubviewsSubject
+        playerViewModel.didLayoutSubviewsSubject
             .subscribe { [unowned self] _ in
                 setGradientBackground()
             }
             .disposed(by: bag)
         
-        isPlayerOpened
-            .subscribe(onNext: { [unowned self] event in
-                switch event {
+        playerViewModel.isPlayerOpened
+            .subscribe(onNext: { [unowned self] state in
+                switch state {
                 case .open:
                     self.playerViewModel.state.accept(.play)
                 case .close:
                     self.playerViewModel.state.accept(.stop)
                 }
-                self.openCloseButton.rotate()
+                if playerViewModel.previousPlayerOpenedState != state {
+                    self.openCloseButton.rotate()
+                }
+                playerViewModel.previousPlayerOpenedState = state
             })
             .disposed(by: bag)
         
@@ -167,7 +178,7 @@ class PlayerView: UIView {
     }
     
     private func startVideoTimeTracking() {
-        Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).bind { timePassed in
+        Observable<Int>.interval(.milliseconds(100), scheduler: MainScheduler.instance).bind { _ in
             self.videoPlayer.getCurrentTime { time in
                 guard let time = time else { return }
                 self.playerViewModel.currentTime.accept(time)
@@ -180,12 +191,12 @@ class PlayerView: UIView {
         
         switch recognizer.state {
         case .changed:
-            yOffset.accept(point.y)
+            playerViewModel.yOffset.accept(point.y)
         case .ended:
-            if frame.minY >= (Constants.halfScreenHeight / 2) {
-                isPlayerOpened.accept(.close)
+            if frame.minY > Constants.halfScreenHeight {
+                playerViewModel.isPlayerOpened.accept(.close)
             } else {
-                isPlayerOpened.accept(.open)
+                playerViewModel.isPlayerOpened.accept(.open)
             }
         default:
             break

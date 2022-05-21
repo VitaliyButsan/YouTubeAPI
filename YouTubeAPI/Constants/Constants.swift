@@ -26,6 +26,5 @@ struct Constants {
     static let playerOpenHeight: CGFloat = screenHeight - 97.0
     static let playerCloseHeight: CGFloat = 50.0
     
-    
     static let playerViewCornerRadius: CGFloat = 20.0
 }

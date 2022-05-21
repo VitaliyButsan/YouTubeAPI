@@ -35,7 +35,7 @@
 		FE87725D282AA4F6006111CB /* YouTubeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE87725C282AA4F6006111CB /* YouTubeAPI.swift */; };
 		FE8F2252282BD7A600177DA9 /* PlaylistItemsDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8F2251282BD7A600177DA9 /* PlaylistItemsDataWrapper.swift */; };
 		FE8F2254282BE25B00177DA9 /* VideoDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8F2253282BE25B00177DA9 /* VideoDataWrapper.swift */; };
-		FEA15C4C2836AE4000A4A4E0 /* ControlPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA15C4B2836AE4000A4A4E0 /* ControlPanelView.swift */; };
+		FEA15C4C2836AE4000A4A4E0 /* PlayerControlPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA15C4B2836AE4000A4A4E0 /* PlayerControlPanelView.swift */; };
 		FEA15C4E2836BC6B00A4A4E0 /* CustomProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA15C4D2836BC6B00A4A4E0 /* CustomProgressView.swift */; };
 		FEA15C502836C7EC00A4A4E0 /* PlayerControlPanelViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA15C4F2836C7EC00A4A4E0 /* PlayerControlPanelViewAssembly.swift */; };
 		FEA15C522836C88400A4A4E0 /* PlayerCustomProgressViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA15C512836C88400A4A4E0 /* PlayerCustomProgressViewAssembly.swift */; };
@@ -93,7 +93,7 @@
 		FE87725C282AA4F6006111CB /* YouTubeAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YouTubeAPI.swift; sourceTree = "<group>"; };
 		FE8F2251282BD7A600177DA9 /* PlaylistItemsDataWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistItemsDataWrapper.swift; sourceTree = "<group>"; };
 		FE8F2253282BE25B00177DA9 /* VideoDataWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDataWrapper.swift; sourceTree = "<group>"; };
-		FEA15C4B2836AE4000A4A4E0 /* ControlPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanelView.swift; sourceTree = "<group>"; };
+		FEA15C4B2836AE4000A4A4E0 /* PlayerControlPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlPanelView.swift; sourceTree = "<group>"; };
 		FEA15C4D2836BC6B00A4A4E0 /* CustomProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressView.swift; sourceTree = "<group>"; };
 		FEA15C4F2836C7EC00A4A4E0 /* PlayerControlPanelViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlPanelViewAssembly.swift; sourceTree = "<group>"; };
 		FEA15C512836C88400A4A4E0 /* PlayerCustomProgressViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCustomProgressViewAssembly.swift; sourceTree = "<group>"; };
@@ -421,7 +421,7 @@
 			isa = PBXGroup;
 			children = (
 				FEB22F6F28353BBF00D89842 /* PlayerView.swift */,
-				FEA15C4B2836AE4000A4A4E0 /* ControlPanelView.swift */,
+				FEA15C4B2836AE4000A4A4E0 /* PlayerControlPanelView.swift */,
 				FEA15C4D2836BC6B00A4A4E0 /* CustomProgressView.swift */,
 				FE282BE528377ABB0097AA91 /* CustomSliderView.swift */,
 			);
@@ -637,7 +637,7 @@
 				FEE6CC5F2836202800FD26A7 /* PlayerViewModelAssembly.swift in Sources */,
 				FEA15C522836C88400A4A4E0 /* PlayerCustomProgressViewAssembly.swift in Sources */,
 				FE491B0F282BA53A00738677 /* PlaylistDataWrapper.swift in Sources */,
-				FEA15C4C2836AE4000A4A4E0 /* ControlPanelView.swift in Sources */,
+				FEA15C4C2836AE4000A4A4E0 /* PlayerControlPanelView.swift in Sources */,
 				FEA15C502836C7EC00A4A4E0 /* PlayerControlPanelViewAssembly.swift in Sources */,
 				FEA6DEF5282AAC3D00F67D61 /* YouTubeService.swift in Sources */,
 				FEA2F2C0282E3BA100CF531A /* CellModel.swift in Sources */,

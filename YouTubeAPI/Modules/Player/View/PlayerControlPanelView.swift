@@ -1,5 +1,5 @@
 //
-//  ControlPanelView.swift
+//  PlayerControlPanelView.swift
 //  YouTubeAPI
 //
 //  Created by VitaliyButsan on 19.05.2022.
@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class ControlPanelView: UIView {
+class PlayerControlPanelView: UIView {
     
     // MARK: - Properties
     

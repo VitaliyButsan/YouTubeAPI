@@ -143,7 +143,7 @@ class MainView: UIView {
             .bind(to: playerViewHeightConstraint.rx.animated.layout(duration: 0.2).constant)
             .disposed(by: youTubeViewModel.bag)
         
-        playerView.yOffset
+        playerView.playerViewModel.yOffset
             .subscribe(onNext: { [unowned self] y in
                 let playerHeight = playerViewHeight.value
                 if abs(playerHeight + y) < playerViewOpenHeight,
@@ -155,12 +155,12 @@ class MainView: UIView {
 
         didLayoutSubviewsSubject
             .subscribe { _ in
-                self.playerView.didLayoutSubviewsSubject.accept(())
+                self.playerView.playerViewModel.didLayoutSubviewsSubject.accept(())
                 self.addConstraints()
             }
             .disposed(by: youTubeViewModel.bag)
         
-        playerView.isPlayerOpened
+        playerView.playerViewModel.isPlayerOpened
             .subscribe(onNext: { [unowned self] state in
                 setupBackground(with: state)
                 setupTopBarTitle(with: state)
@@ -290,7 +290,7 @@ extension MainView: PageControlCellDelegate {
     }
     
     func channelDidSelect(_ channel: Channel) {
-        playerView.isPlayerOpened.accept(.open)
+        playerView.playerViewModel.isPlayerOpened.accept(.open)
         stopTimer()
     }
 }

@@ -10,12 +10,12 @@ import Swinject
 final class PlayerControlPanelViewAssembly: Assembly {
     
     func assemble(container: Container) {
-        container.register(ControlPanelView.self) { r in
+        container.register(PlayerControlPanelView.self) { r in
             let viewModel = r.resolve(PlayerViewModel.self)
             let uiFactory = r.resolve(UIFactory.self)
             let progressView = r.resolve(CustomProgressView.self)
             let sliderView = r.resolve(CustomSliderView.self)
-            let controlPanelView = ControlPanelView(viewModel: viewModel, uiFactory: uiFactory, progressView: progressView, sliderView: sliderView)
+            let controlPanelView = PlayerControlPanelView(viewModel: viewModel, uiFactory: uiFactory, progressView: progressView, sliderView: sliderView)
             return controlPanelView
         }
     }

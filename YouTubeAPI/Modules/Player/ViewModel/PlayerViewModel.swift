@@ -12,6 +12,13 @@ class PlayerViewModel {
     
     let bag = DisposeBag()
     
+    // state
+    var previousPlayerOpenedState: PlayerOpenCloseState = .close
+    let isPlayerOpened = BehaviorRelay<PlayerOpenCloseState>(value: .close)
+    let yOffset = BehaviorRelay<CGFloat>(value: 0.0)
+    
+    let didLayoutSubviewsSubject = PublishRelay<Void>()
+    
     // time
     var duration = 0.0
     
