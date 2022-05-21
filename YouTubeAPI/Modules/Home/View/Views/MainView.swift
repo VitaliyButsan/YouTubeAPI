@@ -142,7 +142,7 @@ class MainView: UIView {
             .disposed(by: youTubeViewModel.bag)
         
         youTubeViewModel.playerViewHeight
-            .bind(to: playerViewHeightConstraint.rx.animated.layout(duration: 0.2).constant)
+            .bind(to: playerViewHeightConstraint.rx.animated.layout(duration: 0.3).constant)
             .disposed(by: youTubeViewModel.bag)
         
         playerView.playerViewModel.yOffset

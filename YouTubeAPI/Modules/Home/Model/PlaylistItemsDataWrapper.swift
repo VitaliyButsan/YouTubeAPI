@@ -34,3 +34,13 @@ struct PlaylistItem: Decodable {
         }
     }
 }
+
+// MARK: - Equatable
+
+extension PlaylistItem: Equatable {
+    
+    static func == (lhs: PlaylistItem, rhs: PlaylistItem) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+}

@@ -26,6 +26,7 @@ class PlayerView: UIView {
     private(set) var playerViewModel: PlayerViewModel!
     private var uiFactory: UIFactory!
     private let bag = DisposeBag()
+    private var timeTrackerBag = DisposeBag()
     
     // MARK: - UI Elements
     
@@ -45,6 +46,7 @@ class PlayerView: UIView {
         else {
             fatalError("MainView init")
         }
+        self.timeTrackerBag = DisposeBag()
         self.playerViewModel = viewModel
         self.uiFactory = uiFactory
         self.controlPanelView = controlPanel
@@ -128,17 +130,14 @@ class PlayerView: UIView {
                 switch state {
                 case .open:
                     if playerViewModel.previousPlayerOpenedState != state {
-                        self.setPlaylistsToPlayer()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            self.playerViewModel.state.accept(.play)
-                        }
+                        self.setVideoToPlayer()
+                        self.playerViewModel.state.accept(.play)
                     }
                 case .close:
                     self.playerViewModel.state.accept(.stop)
+                    self.stopVideoTimeTracking()
                 }
-                if playerViewModel.previousPlayerOpenedState != state {
-                    self.openCloseButton.rotate()
-                }
+                self.rotateOpenCloseButton(by: state)
                 playerViewModel.previousPlayerOpenedState = state
             })
             .disposed(by: bag)
@@ -150,24 +149,30 @@ class PlayerView: UIView {
             .disposed(by: playerViewModel.bag)
     }
     
-    private func setPlaylistsToPlayer() {
-        guard let firstVideo = playerViewModel.videos.first else { return }
-        let videoID = firstVideo.snippet.resourceId.videoId
-        videoPlayer.loadVideoID(videoID)
+    private func setVideoToPlayer() {
+//        let videoID = playerViewModel.getStartedVideoId()
+//        videoPlayer.loadVideoID(videoID)
+        videoPlayer.loadVideoID("Jo9yksmQRrk")
     }
     
+    private func rotateOpenCloseButton(by state: PlayerOpenCloseState) {
+        if playerViewModel.previousPlayerOpenedState != state {
+            self.openCloseButton.rotate()
+        }
+    }
+     
     private func setPlayerState(_ state: PlayerWorkState) {
         switch state {
         case .play:
-            videoPlayer.play()
+            play()
         case .pause:
-            videoPlayer.pause()
+            pause()
         case .stop:
-            videoPlayer.stop()
+            stop()
         case .prev:
-            videoPlayer.previousVideo()
+            playPrevious()
         case .next:
-            videoPlayer.nextVideo()
+            playNext()
         }
     }
     
@@ -184,7 +189,37 @@ class PlayerView: UIView {
                 guard let time = time else { return }
                 self.playerViewModel.currentTime.accept(time)
             }
-        }.disposed(by: bag)
+        }.disposed(by: timeTrackerBag)
+    }
+    
+    private func stopVideoTimeTracking() {
+        timeTrackerBag = DisposeBag()
+    }
+    
+    private func play() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.videoPlayer.play()
+        }
+    }
+    
+    private func pause() {
+        videoPlayer.pause()
+    }
+    
+    private func stop() {
+        videoPlayer.stop()
+    }
+    
+    private func playPrevious() {
+        let videoID = playerViewModel.getPreviousVideoId()
+        videoPlayer.loadVideoID(videoID)
+        setPlayerState(.play)
+    }
+    
+    private func playNext() {
+        let videoID = playerViewModel.getNextVideoId()
+        videoPlayer.loadVideoID(videoID)
+        setPlayerState(.play)
     }
     
     @objc private func detectPan(_ recognizer: UIPanGestureRecognizer) {
