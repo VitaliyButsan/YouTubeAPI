@@ -53,14 +53,14 @@ class YouTubeViewModel {
         self.youTubeService = service
         self.bag = DisposeBag()
         self.timerBag = DisposeBag()
-        addMockData(by: 0)
+//        addMockData(by: 0)
     }
     
     func startTimer() {
         Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).bind { timePassed in
             self.timerCounter.accept(timePassed)
         }
-        .disposed(by: bag)
+        .disposed(by: timerBag)
     }
     
     func stopTimer() {
@@ -82,9 +82,9 @@ class YouTubeViewModel {
     }
     
     func updateData(for channelIndex: Int) {
-//        let sections = self.createSections(for: channelIndex)
-//        self.dataSource.accept(sections)
-        addMockData(by: channelIndex)
+        let sections = self.createSections(for: channelIndex)
+        self.dataSource.accept(sections)
+//        addMockData(by: channelIndex)
     }
     
     func getData() {
@@ -253,7 +253,7 @@ class YouTubeViewModel {
     }
     
     private func getChannel(by index: Int) -> Channel? {
-        if index > channels.count - 1 || index < 0 {
+        if index > channels.count - 1, index < 0 {
             return nil
         }
         let channel = channels[index]

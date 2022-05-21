@@ -124,12 +124,24 @@ class PlayerControlPanelView: UIView {
             playButton.setImage(Asset.Player.Controls.pause.image, for: .normal)
         case .pause:
             playButton.setImage(Asset.Player.Controls.play.image, for: .normal)
-        case .stop:
+        default:
             break
         }
     }
     
     private func setupObservers() {
+        prevButton.rx.tap
+            .bind {
+                self.playerViewModel.state.accept(.prev)
+            }
+            .disposed(by: bag)
+        
+        nextButton.rx.tap
+            .bind {
+                self.playerViewModel.state.accept(.next)
+            }
+            .disposed(by: bag)
+        
         playButton.rx.tap
             .bind {
                 switch self.playerViewModel.state.value {
@@ -137,7 +149,7 @@ class PlayerControlPanelView: UIView {
                     self.playerViewModel.state.accept(.pause)
                 case .pause:
                     self.playerViewModel.state.accept(.play)
-                case .stop:
+                default:
                     break
                 }
             }

@@ -16,7 +16,7 @@ enum PlayerOpenCloseState {
 }
 
 enum PlayerWorkState {
-    case play, stop, pause
+    case play, pause, stop, prev, next
 }
 
 class PlayerView: UIView {
@@ -62,9 +62,9 @@ class PlayerView: UIView {
     private func setup() {
         setupViews()
         addConstraints()
-        setupObservers()
         setupVideoPlayer()
         setupPreviousPlayerOpenedState()
+        setupObservers()
     }
     
     private func setGradientBackground() {
@@ -81,14 +81,8 @@ class PlayerView: UIView {
         layer.masksToBounds = true
         
         addGestureRecognizer(panGesture)
-        
         addSubview(openCloseButton)
-        
         addSubview(videoPlayer)
-//        videoPlayer.loadVideoID("5ww7JyxV1ds")
-        videoPlayer.loadVideoID("v6EjmbMgv80")
-        videoPlayer.backgroundColor = .gray
-        
         addSubview(controlPanelView)
     }
     
@@ -110,6 +104,7 @@ class PlayerView: UIView {
     
     private func setupVideoPlayer() {
         videoPlayer.delegate = self
+        videoPlayer.backgroundColor = .black
     }
     
     private func setupPreviousPlayerOpenedState() {
@@ -133,6 +128,7 @@ class PlayerView: UIView {
                 switch state {
                 case .open:
                     if playerViewModel.previousPlayerOpenedState != state {
+                        self.setPlaylistsToPlayer()
                         self.playerViewModel.state.accept(.play)
                     }
                 case .close:
@@ -148,17 +144,14 @@ class PlayerView: UIView {
         playerViewModel.state
             .subscribe(onNext: { state in
                 self.setPlayerState(state)
-                
-                switch state {
-                case .play:
-                    break
-                case .pause:
-                    break
-                case .stop:
-                    break
-                }
             })
             .disposed(by: playerViewModel.bag)
+    }
+    
+    private func setPlaylistsToPlayer() {
+        if let playlistID = playerViewModel.playlists.first?.id {
+            videoPlayer.loadPlaylistID(playlistID)
+        }
     }
     
     private func setPlayerState(_ state: PlayerWorkState) {
@@ -169,6 +162,10 @@ class PlayerView: UIView {
             videoPlayer.pause()
         case .stop:
             videoPlayer.stop()
+        case .prev:
+            videoPlayer.previousVideo()
+        case .next:
+            videoPlayer.nextVideo()
         }
     }
     
@@ -218,7 +215,10 @@ extension PlayerView: YouTubePlayerDelegate {
     func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {
         switch playerState {
         case .Playing:
+            playerViewModel.state.accept(.play)
             startVideoTimeTracking()
+        case .Paused:
+            playerViewModel.state.accept(.pause)
         default:
             break
         }

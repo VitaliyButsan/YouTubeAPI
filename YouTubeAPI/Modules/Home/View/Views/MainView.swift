@@ -18,14 +18,11 @@ class MainView: UIView {
     
     private(set) var youTubeViewModel: YouTubeViewModel!
     private var uiFactory: UIFactory!
-    private var playerView: PlayerView!
+    
+    private var playerViewHeightConstraint: NSLayoutConstraint!
     
     typealias DataSource = RxTableViewSectionedReloadDataSource<ResourcesSection>
     private lazy var dataSource: DataSource = .init(configureCell: configureCell)
-    
-    private var playerViewCloseHeight = Constants.playerCloseHeight
-    private var playerViewOpenHeight = Constants.playerOpenHeight
-    private var playerViewHeightConstraint: NSLayoutConstraint!
     
     // MARK: - UI Elements
     
@@ -50,6 +47,8 @@ class MainView: UIView {
         tableView.register(PlaylistCell.self, forCellReuseIdentifier: PlaylistCell.reuseID)
         return tableView
     }()
+    
+    private var playerView: PlayerView!
     
     // MARK: - Lifecycle
     
@@ -79,10 +78,9 @@ class MainView: UIView {
     private func setup() {
         setupViews()
         addConstraints()
-        setPlayerViewHeight()
         bindUI()
         bindObservers()
-//        startTimer()
+        startTimer()
     }
     
     private func setupViews() {
@@ -126,10 +124,6 @@ class MainView: UIView {
         playerViewHeightConstraint.isActive = true
     }
     
-    private func setPlayerViewHeight() {
-        youTubeViewModel.playerViewHeight.accept(-playerViewCloseHeight)
-    }
-    
     private func bindUI() {
         tableView.rx
             .setDelegate(self)
@@ -141,6 +135,12 @@ class MainView: UIView {
     }
     
     private func bindObservers() {
+        youTubeViewModel.isLoadedData
+            .filter { $0 }
+            .map { _ in -Constants.playerCloseHeight }
+            .bind(to: youTubeViewModel.playerViewHeight)
+            .disposed(by: youTubeViewModel.bag)
+        
         youTubeViewModel.playerViewHeight
             .bind(to: playerViewHeightConstraint.rx.animated.layout(duration: 0.2).constant)
             .disposed(by: youTubeViewModel.bag)
@@ -148,8 +148,8 @@ class MainView: UIView {
         playerView.playerViewModel.yOffset
             .subscribe(onNext: { [unowned self] y in
                 let playerHeight = youTubeViewModel.playerViewHeight.value
-                if abs(playerHeight + y) < playerViewOpenHeight,
-                   abs(playerHeight + y) > playerViewCloseHeight {
+                if abs(playerHeight + y) < Constants.playerOpenHeight,
+                   abs(playerHeight + y) > Constants.playerCloseHeight {
                     youTubeViewModel.playerViewHeight.accept(playerHeight + y)
                 }
             })
@@ -166,7 +166,9 @@ class MainView: UIView {
             .subscribe(onNext: { [unowned self] state in
                 setupBackground(with: state)
                 setupTopBarTitle(with: state)
-                openClosePlayer(with: state)
+                if youTubeViewModel.isLoadedData.value {
+                    openClosePlayer(with: state)
+                }
             })
             .disposed(by: youTubeViewModel.bag)
     }
@@ -174,9 +176,9 @@ class MainView: UIView {
     private func openClosePlayer(with state: PlayerOpenCloseState) {
         switch state {
         case .open:
-            youTubeViewModel.playerViewHeight.accept(-playerViewOpenHeight)
+            youTubeViewModel.playerViewHeight.accept(-Constants.playerOpenHeight)
         case .close:
-            youTubeViewModel.playerViewHeight.accept(-playerViewCloseHeight)
+            youTubeViewModel.playerViewHeight.accept(-Constants.playerCloseHeight)
         }
     }
     
@@ -292,6 +294,7 @@ extension MainView: PageControlCellDelegate {
     }
     
     func channelDidSelect(_ channel: Channel) {
+        playerView.playerViewModel.playlists = channel.playlists ?? []
         playerView.playerViewModel.isPlayerOpened.accept(.open)
         stopTimer()
     }

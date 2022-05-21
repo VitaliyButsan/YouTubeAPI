@@ -36,11 +36,12 @@ class PlayerViewModel {
     
     // controls
     let state = BehaviorRelay<PlayerWorkState>(value: .stop)
-    let prew = BehaviorRelay(value: false)
-    let next = BehaviorRelay(value: false)
     
     // volume
     let volume = BehaviorRelay<Float>(value: 0.0)
+    
+    // storage
+    var playlists: [Playlist] = []
     
     init() {
         subscribeObservers()
