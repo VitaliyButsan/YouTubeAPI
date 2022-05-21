@@ -23,9 +23,12 @@ class YouTubeViewModel {
     private let youTubeService: YouTubeService
     
     //state
-    private(set) var isLoadedData = BehaviorRelay(value: false)
-    private(set) var errorSubject = PublishRelay<String>()
-    private(set) var timerCounter = BehaviorRelay(value: 0)
+    let isLoadedData = BehaviorRelay(value: false)
+    let errorSubject = PublishRelay<String>()
+    let timerCounter = BehaviorRelay(value: 0)
+    
+    let didLayoutSubviewsSubject = PublishRelay<Void>()
+    let playerViewHeight = BehaviorRelay<CGFloat>(value: 0.0)
     
     // storage
     private var channels = [Channel]()

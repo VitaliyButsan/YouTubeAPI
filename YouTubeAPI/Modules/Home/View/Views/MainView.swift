@@ -16,7 +16,7 @@ class MainView: UIView {
     
     // MARK: - Properties
     
-    private var youTubeViewModel: YouTubeViewModel!
+    private(set) var youTubeViewModel: YouTubeViewModel!
     private var uiFactory: UIFactory!
     private var playerView: PlayerView!
     
@@ -26,9 +26,6 @@ class MainView: UIView {
     private var playerViewCloseHeight = Constants.playerCloseHeight
     private var playerViewOpenHeight = Constants.playerOpenHeight
     private var playerViewHeightConstraint: NSLayoutConstraint!
-    private lazy var playerViewHeight = BehaviorRelay(value: -playerViewCloseHeight)
-    
-    var didLayoutSubviewsSubject = PublishRelay<Void>()
     
     // MARK: - UI Elements
     
@@ -82,6 +79,7 @@ class MainView: UIView {
     private func setup() {
         setupViews()
         addConstraints()
+        setPlayerViewHeight()
         bindUI()
         bindObservers()
 //        startTimer()
@@ -128,6 +126,10 @@ class MainView: UIView {
         playerViewHeightConstraint.isActive = true
     }
     
+    private func setPlayerViewHeight() {
+        youTubeViewModel.playerViewHeight.accept(-playerViewCloseHeight)
+    }
+    
     private func bindUI() {
         tableView.rx
             .setDelegate(self)
@@ -139,21 +141,21 @@ class MainView: UIView {
     }
     
     private func bindObservers() {
-        playerViewHeight
+        youTubeViewModel.playerViewHeight
             .bind(to: playerViewHeightConstraint.rx.animated.layout(duration: 0.2).constant)
             .disposed(by: youTubeViewModel.bag)
         
         playerView.playerViewModel.yOffset
             .subscribe(onNext: { [unowned self] y in
-                let playerHeight = playerViewHeight.value
+                let playerHeight = youTubeViewModel.playerViewHeight.value
                 if abs(playerHeight + y) < playerViewOpenHeight,
                    abs(playerHeight + y) > playerViewCloseHeight {
-                    playerViewHeight.accept(playerHeight + y)
+                    youTubeViewModel.playerViewHeight.accept(playerHeight + y)
                 }
             })
             .disposed(by: youTubeViewModel.bag)
 
-        didLayoutSubviewsSubject
+        youTubeViewModel.didLayoutSubviewsSubject
             .subscribe { _ in
                 self.playerView.playerViewModel.didLayoutSubviewsSubject.accept(())
                 self.addConstraints()
@@ -172,9 +174,9 @@ class MainView: UIView {
     private func openClosePlayer(with state: PlayerOpenCloseState) {
         switch state {
         case .open:
-            playerViewHeight.accept(-playerViewOpenHeight)
+            youTubeViewModel.playerViewHeight.accept(-playerViewOpenHeight)
         case .close:
-            playerViewHeight.accept(-playerViewCloseHeight)
+            youTubeViewModel.playerViewHeight.accept(-playerViewCloseHeight)
         }
     }
     

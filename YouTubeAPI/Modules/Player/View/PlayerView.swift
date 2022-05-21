@@ -132,7 +132,9 @@ class PlayerView: UIView {
             .subscribe(onNext: { [unowned self] state in
                 switch state {
                 case .open:
-                    self.playerViewModel.state.accept(.play)
+                    if playerViewModel.previousPlayerOpenedState != state {
+                        self.playerViewModel.state.accept(.play)
+                    }
                 case .close:
                     self.playerViewModel.state.accept(.stop)
                 }
