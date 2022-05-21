@@ -19,25 +19,19 @@ class PlayerViewModel {
     
     let didLayoutSubviewsSubject = PublishRelay<Void>()
     
-    var currentPlayingVideo: PlaylistItem?
+    var currentVideo = BehaviorRelay(value: PlaylistItem.placeholder)
+    
+    let videoTitle = BehaviorRelay(value: "")
+    let videoViewsCounter = BehaviorRelay(value: "")
     
     // time
     var duration = 0.0
     
-    let secondsInHour = 60 * 60
-    let secondsInMinute = 60
-    
     let currentTime = BehaviorRelay(value: 0.0)
     let currentTimeFormatted = BehaviorRelay(value: "")
-    private var currMinutes = 0
-    private var currSeconds = 0
-    private var currHours = 0
     
     let remainTime = BehaviorRelay(value: 0.0)
     let remainTimeFormatted = BehaviorRelay(value: "")
-    private var remainSeconds = 0
-    private var remainMinutes = 0
-    private var remainHours = 0
     
     let progress = BehaviorRelay<Float>(value: 0.0)
     
@@ -55,42 +49,33 @@ class PlayerViewModel {
     }
     
     func getStartedVideoId() -> String {
-        if let currentPlayingVideo = currentPlayingVideo {
-            return currentPlayingVideo.snippet.resourceId.videoId
-        } else {
-            guard let firstVideo = videos.first else { return "" }
-            currentPlayingVideo = firstVideo
-            let videoID = firstVideo.snippet.resourceId.videoId
-            return videoID
-        }
+        guard let firstVideo = videos.first else { return "" }
+        currentVideo.accept(firstVideo)
+        return firstVideo.snippet.resourceId.videoId
     }
     
     func getPreviousVideoId() -> String {
-        guard let currentVideo = currentPlayingVideo else { return "" }
         var videoID = ""
-        
-        if currentVideo == videos.first {
-            videoID = currentVideo.snippet.resourceId.videoId
+        if currentVideo.value == videos.first {
+            videoID = currentVideo.value.snippet.resourceId.videoId
         } else {
-            guard let currVideoIndex = videos.firstIndex(where: { $0 == currentVideo }) else { return "" }
+            guard let currVideoIndex = videos.firstIndex(where: { $0 == currentVideo.value }) else { return "" }
             let previousVideo = videos[currVideoIndex - 1]
             videoID = previousVideo.snippet.resourceId.videoId
-            currentPlayingVideo = previousVideo
+            currentVideo.accept(previousVideo)
         }
         return videoID
     }
     
     func getNextVideoId() -> String {
-        guard let currentVideo = currentPlayingVideo else { return "" }
         var videoID = ""
-        
-        if currentVideo == videos.last {
-            videoID = currentVideo.snippet.resourceId.videoId
+        if currentVideo.value == videos.last {
+            videoID = currentVideo.value.snippet.resourceId.videoId
         } else {
-            guard let currVideoIndex = videos.firstIndex(where: { $0 == currentVideo }) else { return "" }
+            guard let currVideoIndex = videos.firstIndex(where: { $0 == currentVideo.value }) else { return "" }
             let nextVideo = videos[currVideoIndex + 1]
             videoID = nextVideo.snippet.resourceId.videoId
-            currentPlayingVideo = nextVideo
+            currentVideo.accept(nextVideo)
         }
         return videoID
     }
@@ -102,9 +87,7 @@ class PlayerViewModel {
             .disposed(by: bag)
         
         currentTime
-            .map { time in
-                self.formattedTime(by: time)
-            }
+            .map { self.formattedTime(by: $0) }
             .bind(to: currentTimeFormatted)
             .disposed(by: bag)
         
@@ -117,10 +100,20 @@ class PlayerViewModel {
             .disposed(by: bag)
             
         remainTime
-            .map { time in
-                "-" + self.formattedTime(by: time)
-            }
+            .map { "-" + self.formattedTime(by: $0) }
             .bind(to: remainTimeFormatted)
+            .disposed(by: bag)
+        
+        currentVideo
+            .map { $0.snippet.title }
+            .bind(to: videoTitle)
+            .disposed(by: bag)
+        
+        currentVideo
+            .compactMap(\.snippet.viewCount)
+            .compactMap { $0.splitIntoThounsandParts }
+            .map { "\($0) просмотра"}
+            .bind(to: videoViewsCounter)
             .disposed(by: bag)
     }
     
@@ -134,7 +127,9 @@ class PlayerViewModel {
     }
     
     private func formattedTimeBy(_ hours: Int, _ minutes: Int, _ seconds: Int) -> String {
-        if Int(duration) >= secondsInHour {
+        let secondsInHour = (60 * 60)
+        let duration = Int(duration)
+        if duration >= secondsInHour {
             return String(format: "%01i:%02i:%02i", hours, minutes, seconds)
         } else {
             return String(format: "%01i:%02i", minutes, seconds)

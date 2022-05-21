@@ -44,3 +44,14 @@ extension PlaylistItem: Equatable {
     }
     
 }
+
+extension PlaylistItem {
+    
+    static var placeholder: PlaylistItem {
+        let resourceId = PlaylistItem.Snippet.Resource(videoId: "")
+        let snippetThumbInfo = PlaylistItem.Snippet.Thumbnail.Info(url: "")
+        let thumbnails = PlaylistItem.Snippet.Thumbnail(default: snippetThumbInfo, medium: snippetThumbInfo, high: snippetThumbInfo)
+        let snippet = PlaylistItem.Snippet(title: "", resourceId: resourceId, viewCount: nil, thumbnails: thumbnails)
+        return PlaylistItem(id: "", snippet: snippet)
+    }
+}

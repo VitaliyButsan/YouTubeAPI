@@ -73,9 +73,6 @@ class PlayerControlPanelView: UIView {
         setupViews()
         addConstraints()
         setupObservers()
-        
-        videoTitleLabel.text = "Video track title description info"
-        videoViewsCountLabel.text = ("3440304040".splitIntoThounsandParts ?? "0") + " просмотра"
     }
     
     private func setupViews() {
@@ -160,5 +157,13 @@ class PlayerControlPanelView: UIView {
                 self.setupPlayButton(by: state)
             })
             .disposed(by: playerViewModel.bag)
+        
+        playerViewModel.videoTitle
+            .bind(to: videoTitleLabel.rx.text)
+            .disposed(by: bag)
+        
+        playerViewModel.videoViewsCounter
+            .bind(to: videoViewsCountLabel.rx.text)
+            .disposed(by: bag)
     }
 }
