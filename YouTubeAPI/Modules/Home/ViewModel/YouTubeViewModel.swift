@@ -53,6 +53,8 @@ class YouTubeViewModel {
         self.youTubeService = service
         self.bag = DisposeBag()
         self.timerBag = DisposeBag()
+        
+//        isLoadedData.accept(true)
 //        addMockData(by: 0)
     }
     
@@ -274,7 +276,7 @@ class YouTubeViewModel {
         let section3Cells = [MockCell().playlistMock(index)]
         let section3 = ResourcesSection(model: "Section 3", items: section3Cells)
         sections.append(section3)
-
+        
         dataSource.accept(sections)
     }
     

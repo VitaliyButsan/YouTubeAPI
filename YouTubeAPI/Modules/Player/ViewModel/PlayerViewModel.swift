@@ -41,7 +41,7 @@ class PlayerViewModel {
     let volume = BehaviorRelay<Float>(value: 0.0)
     
     // storage
-    var playlists: [Playlist] = []
+    var videos: [PlaylistItem] = []
     
     init() {
         subscribeObservers()

@@ -129,7 +129,9 @@ class PlayerView: UIView {
                 case .open:
                     if playerViewModel.previousPlayerOpenedState != state {
                         self.setPlaylistsToPlayer()
-                        self.playerViewModel.state.accept(.play)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.playerViewModel.state.accept(.play)
+                        }
                     }
                 case .close:
                     self.playerViewModel.state.accept(.stop)
@@ -149,9 +151,9 @@ class PlayerView: UIView {
     }
     
     private func setPlaylistsToPlayer() {
-        if let playlistID = playerViewModel.playlists.first?.id {
-            videoPlayer.loadPlaylistID(playlistID)
-        }
+        guard let firstVideo = playerViewModel.videos.first else { return }
+        let videoID = firstVideo.snippet.resourceId.videoId
+        videoPlayer.loadVideoID(videoID)
     }
     
     private func setPlayerState(_ state: PlayerWorkState) {
@@ -215,8 +217,8 @@ extension PlayerView: YouTubePlayerDelegate {
     func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {
         switch playerState {
         case .Playing:
-            playerViewModel.state.accept(.play)
             startVideoTimeTracking()
+            playerViewModel.state.accept(.play)
         case .Paused:
             playerViewModel.state.accept(.pause)
         default:

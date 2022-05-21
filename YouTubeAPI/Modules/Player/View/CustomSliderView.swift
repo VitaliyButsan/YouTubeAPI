@@ -25,7 +25,7 @@ class CustomSliderView: UIView {
         .newSliderView(
             minimumTrackTintColor: .white,
             maximumTrackTintColor: Asset.Colors.playerTransparentWhite35.color,
-            value: 0.5
+            value: 0.3
         )
     private lazy var soundMinImageView = uiFactory
         .newImageView(

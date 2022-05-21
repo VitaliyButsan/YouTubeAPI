@@ -294,8 +294,18 @@ extension MainView: PageControlCellDelegate {
     }
     
     func channelDidSelect(_ channel: Channel) {
-        playerView.playerViewModel.playlists = channel.playlists ?? []
+        let videos = getPlaylistItems(from: channel.playlists)
+        playerView.playerViewModel.videos = videos
         playerView.playerViewModel.isPlayerOpened.accept(.open)
         stopTimer()
+    }
+    
+    private func getPlaylistItems(from playlists: [Playlist]?) -> [PlaylistItem] {
+        guard let playlists = playlists else { return [] }
+        var playlistItems: [PlaylistItem] = []
+        for playlist in playlists {
+            playlistItems.append(contentsOf: playlist.playlistItems ?? [])
+        }
+        return playlistItems
     }
 }

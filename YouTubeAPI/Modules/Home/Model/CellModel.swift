@@ -34,9 +34,12 @@ struct MockCell {
             counter += (count * 2)
         }
         
+        let playlist1 = Playlist(id: "PLPMTgVQ-QjJP_khz2zdxibqiurJrkwCos", snippet: .init(title: ""), playlistItems: [])
+        let playlist2 = Playlist(id: "PLTU3J-plh1fAvqJDKepiDKduIeJ64IupT", snippet: .init(title: ""), playlistItems: [])
+        
         var channels: [Channel] = []
         for index in 0..<urls.count {
-            let channel = Channel(id: "", statistics: .init(subscriberCount: "7777777"), brandingSettings: .init(channel: .init(title: "Amazing Channel"), image: .init(bannerExternalUrl: urls[index])), playlists: [])
+            let channel = Channel(id: "", statistics: .init(subscriberCount: "7777777"), brandingSettings: .init(channel: .init(title: "Amazing Channel"), image: .init(bannerExternalUrl: urls[index])), playlists: [playlist1, playlist2])
             channels.append(channel)
         }
         let cell = CellModel(title: "", typeOfCell: .pageControl(model: channels))
@@ -45,14 +48,17 @@ struct MockCell {
     
     func playlistMock(_ count: Int) -> CellModel {
         var url = ""
+        var playlistID = ""
         
         switch count {
         case 0:
             url = "https://i.ytimg.com/vi/5ww7JyxV1ds/default.jpg"
+            playlistID = "PLPMTgVQ-QjJPE28AwAsMRACs99UyDqJXE"
         case 1:
             url = "https://i.ytimg.com/vi/NsQBW809MeQ/default.jpg"
+            playlistID = "PLTU3J-plh1fAvqJDKepiDKduIeJ64IupT"
         default:
-            url = ""
+            break
         }
         
         var counter = 2
@@ -76,7 +82,7 @@ struct MockCell {
         let playlistItemsSections = BehaviorRelay(value: [section])
         
         let playlistSnippet = RxPlaylist.Snippet(title: "playlist name")
-        let playlist = RxPlaylist(id: "111", snippet: playlistSnippet, playlistItems: playlistItemsSections)
+        let playlist = RxPlaylist(id: playlistID, snippet: playlistSnippet, playlistItems: playlistItemsSections)
         
         return CellModel(title: "Playlist", typeOfCell: .playlist(model: playlist))
     }
