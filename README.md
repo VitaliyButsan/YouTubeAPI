@@ -1,6 +1,6 @@
 # YouTubeAPI
 
-###### Youtube Player based on YouTube API
+### Youtube Player based on YouTube API
 - Layout - SnapKit
 - Bindings - RxSwift, RxCocoa, RxDataSources
 - Networking - Moya
