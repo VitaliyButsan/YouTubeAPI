@@ -53,9 +53,6 @@ class YouTubeViewModel {
         self.youTubeService = service
         self.bag = DisposeBag()
         self.timerBag = DisposeBag()
-        
-        isLoadedData.accept(true)
-        addMockData(by: 0)
     }
     
     func startTimer() {
@@ -84,9 +81,8 @@ class YouTubeViewModel {
     }
     
     func updateData(for channelIndex: Int) {
-//        let sections = self.createSections(for: channelIndex)
-//        self.dataSource.accept(sections)
-        addMockData(by: channelIndex)
+        let sections = self.createSections(for: channelIndex)
+        self.dataSource.accept(sections)
     }
     
     func getData() {
@@ -259,24 +255,6 @@ class YouTubeViewModel {
         }
         let channel = channels[index]
         return channel
-    }
-    
-    private func addMockData(by index: Int) {
-        var sections: [ResourcesSection] = []
-        
-        let section1Cells = [MockCell().channelsMock(index)]
-        let section1 = ResourcesSection(model: "Section 1", items: section1Cells)
-        sections.append(section1)
-
-        let section2Cells = [MockCell().playlistMock(index)]
-        let section2 = ResourcesSection(model: "Section 2", items: section2Cells)
-        sections.append(section2)
-
-        let section3Cells = [MockCell().playlistMock(index)]
-        let section3 = ResourcesSection(model: "Section 3", items: section3Cells)
-        sections.append(section3)
-        
-        dataSource.accept(sections)
     }
     
     private func rxPlaylist(from playlist: Playlist) -> RxPlaylist {

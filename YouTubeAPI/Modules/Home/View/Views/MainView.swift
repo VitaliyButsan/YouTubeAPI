@@ -251,7 +251,7 @@ extension MainView: UITableViewDelegate {
         textLabel.snp.makeConstraints { make in
             make.height.equalTo(headerHeight)
             make.leading.equalToSuperview().inset(youTubeViewModel.defaultPadding)
-            make.width.equalTo(headerWidth)
+            make.width.equalTo(headerWidth * 0.9)
         }
         return headerView
     }

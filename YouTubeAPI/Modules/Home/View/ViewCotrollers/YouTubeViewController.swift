@@ -43,7 +43,7 @@ class YouTubeViewController: UIViewController {
         
         setupNavBar()
         setupObservers()
-//        getData()
+        getData()
     }
     
     override func viewDidLayoutSubviews() {
