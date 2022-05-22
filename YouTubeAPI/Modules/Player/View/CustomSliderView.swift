@@ -5,11 +5,9 @@
 //  Created by VitaliyButsan on 20.05.2022.
 //
 
-import MediaPlayer
 import RxSwift
 import RxCocoa
 import UIKit
-//import Combine
 
 class CustomSliderView: UIView {
     
@@ -20,6 +18,8 @@ class CustomSliderView: UIView {
     private let bag = DisposeBag()
     
     // MARK: - UI Elements
+    
+    private lazy var systemVolumeView = uiFactory.newSystemVolumeView()
     
     private lazy var sliderView = uiFactory
         .newSliderView(
@@ -69,6 +69,7 @@ class CustomSliderView: UIView {
         addSubview(soundMinImageView)
         addSubview(sliderView)
         addSubview(soundMaxImageView)
+        addSubview(systemVolumeView)
     }
     
     private func addConstraints() {
@@ -94,7 +95,7 @@ class CustomSliderView: UIView {
         
         playerViewModel.volume
             .subscribe(onNext: { volume in
-                MPVolumeView.setVolume(volume)
+                self.systemVolumeView.setVolume(volume)
             })
             .disposed(by: playerViewModel.bag)
         
@@ -112,6 +113,17 @@ class CustomSliderView: UIView {
                 }
             })
             .disposed(by: playerViewModel.bag)
+        
+        playerViewModel.isPlayerOpened
+            .subscribe(onNext: { state in
+                switch state {
+                case .open:
+                    self.systemVolumeView.alpha = 0.001
+                case .close:
+                    self.systemVolumeView.alpha = 0.0
+                }
+            })
+            .disposed(by: bag)
         
         NotificationCenter.default.rx.notification(.volumeChanging)
             .subscribe(onNext: { notification in

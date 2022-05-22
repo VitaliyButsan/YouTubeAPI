@@ -13,6 +13,7 @@ struct Constants {
     static let screenHeight: CGFloat = UIScreen.main.bounds.height
     static let halfScreenWidth: CGFloat = screenWidth / 2
     static let halfScreenHeight: CGFloat = screenHeight / 2
+    static let quarterScreenHeight: CGFloat = halfScreenHeight / 2
     
     static let topBarHeight: CGFloat = 92.0
     

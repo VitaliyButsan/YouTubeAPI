@@ -7,7 +7,6 @@
 
 import RxCocoa
 import RxSwift
-import RxAnimated
 import SnapKit
 import UIKit
 

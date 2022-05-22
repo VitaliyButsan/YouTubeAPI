@@ -7,6 +7,7 @@
 
 import UIKit
 import SDWebImage
+import MediaPlayer
 
 final class UIFactory {
     
@@ -129,5 +130,10 @@ final class UIFactory {
         progressView.trackTintColor = trackTintColor
         progressView.progress = progress
         return progressView
+    }
+    
+    func newSystemVolumeView() -> MPVolumeView {
+        let volumeView = MPVolumeView()
+        return volumeView
     }
 }

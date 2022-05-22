@@ -86,7 +86,6 @@ class PlayerControlPanelView: UIView {
         controlButtonsStackView.addArrangedSubview(playButton)
         controlButtonsStackView.addArrangedSubview(nextButton)
         addSubview(controlButtonsStackView)
-        
         addSubview(sliderView)
     }
     

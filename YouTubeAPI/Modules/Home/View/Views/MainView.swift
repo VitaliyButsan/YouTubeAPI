@@ -289,15 +289,10 @@ extension MainView: PageControlCellDelegate {
         youTubeViewModel.updateData(for: pageIndex)
     }
     
-    func stopTimer() {
-        youTubeViewModel.stopTimer()
-    }
-    
     func channelDidSelect(_ channel: Channel) {
         let videos = getPlaylistItems(from: channel.playlists)
         playerView.playerViewModel.videos = videos
         playerView.playerViewModel.isPlayerOpened.accept(.open)
-        stopTimer()
     }
     
     private func getPlaylistItems(from playlists: [Playlist]?) -> [PlaylistItem] {

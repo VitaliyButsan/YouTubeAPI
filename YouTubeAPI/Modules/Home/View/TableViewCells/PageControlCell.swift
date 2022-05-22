@@ -11,7 +11,6 @@ import RxCocoa
 
 protocol PageControlCellDelegate: AnyObject {
     func switchChannel(by pageIndex: Int)
-    func stopTimer()
     func channelDidSelect(_ channel: Channel)
 }
 
@@ -19,7 +18,7 @@ class PageControlCell: UITableViewCell {
     
     // MARK: - Properties
     
-    weak var delegate: MainView?
+    weak var delegate: PageControlCellDelegate?
     
     static let reuseID = "PageControlCell"
     
@@ -174,7 +173,6 @@ class PageControlCell: UITableViewCell {
         guard let currentIndex = currentIndex else { return }
         let channel = channels[currentIndex]
         delegate.channelDidSelect(channel)
-        delegate.stopTimer()
     }
 }
 

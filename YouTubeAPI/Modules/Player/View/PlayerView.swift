@@ -228,7 +228,7 @@ class PlayerView: UIView {
         case .changed:
             playerViewModel.yOffset.accept(point.y)
         case .ended:
-            if frame.minY > Constants.halfScreenHeight {
+            if frame.minY > Constants.quarterScreenHeight {
                 playerViewModel.isPlayerOpened.accept(.close)
             } else {
                 playerViewModel.isPlayerOpened.accept(.open)

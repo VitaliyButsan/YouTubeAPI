@@ -9,8 +9,8 @@ import Moya
 
 enum YouTubeAPI {
     case getChannels(id: String)
-    case getPlaylists(channelId: String, max: Int = 2)
-    case getPlaylistItems(playlistId: String, max: Int = 10)
+    case getPlaylists(channelId: String, max: Int)
+    case getPlaylistItems(playlistId: String, max: Int)
     case getVideos(videoId: String)
 }
 
