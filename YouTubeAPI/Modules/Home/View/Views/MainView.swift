@@ -157,7 +157,7 @@ class MainView: UIView {
 
         youTubeViewModel.didLayoutSubviewsSubject
             .subscribe { _ in
-                self.playerView.playerViewModel.didLayoutSubviewsSubject.accept(())
+                self.playerView.playerViewModel.didLayoutSubviewsSubject.accept(Void())
                 self.addConstraints()
             }
             .disposed(by: youTubeViewModel.bag)
@@ -251,7 +251,7 @@ extension MainView: UITableViewDelegate {
         textLabel.snp.makeConstraints { make in
             make.height.equalTo(headerHeight)
             make.leading.equalToSuperview().inset(youTubeViewModel.defaultPadding)
-            make.width.equalTo(headerWidth / 2)
+            make.width.equalTo(headerWidth)
         }
         return headerView
     }

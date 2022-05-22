@@ -91,7 +91,7 @@ class CustomSliderView: UIView {
         sliderView.rx.value
             .bind(to: playerViewModel.volume)
             .disposed(by: playerViewModel.bag)
-        
+
         playerViewModel.volume
             .subscribe(onNext: { volume in
                 self.systemVolumeView.setVolume(volume)
@@ -101,27 +101,23 @@ class CustomSliderView: UIView {
         playerViewModel.volume
             .bind(to: sliderView.rx.value)
             .disposed(by: playerViewModel.bag)
-                
+        
         playerViewModel.isPlayerOpened
             .subscribe(onNext: { state in
                 switch state {
                 case .open:
-                    let currentSystemVolume = self.systemVolumeView.getVolume()
-                    self.playerViewModel.volume.accept(currentSystemVolume)
+                    self.setCurrentSystemVolume(by: state)
                     self.systemVolumeView.alpha = 0.001
                 case .close:
                     self.systemVolumeView.alpha = 0.0
                 }
             })
             .disposed(by: bag)
-        
-        NotificationCenter.default.rx.notification(.volumeChanging)
-            .subscribe(onNext: { notification in
-                guard let userInfo = notification.userInfo else { return }
-                guard let anyValue = userInfo[NSNotification.Name.audioVolume] else { return }
-                guard let volume = anyValue as? Float else { return }
-                self.playerViewModel.volume.accept(volume)
-            })
-            .disposed(by: playerViewModel.bag)
+    }
+    
+    private func setCurrentSystemVolume(by state: PlayerOpenCloseState) {
+        guard playerViewModel.previousPlayerOpenedState != state else { return }
+        let currentSystemVolume = self.systemVolumeView.getVolume()
+        self.playerViewModel.volume.accept(currentSystemVolume)
     }
 }

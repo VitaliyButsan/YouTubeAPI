@@ -50,7 +50,7 @@ class YouTubeViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         if let mainView = mainView as? MainView {
-            mainView.youTubeViewModel.didLayoutSubviewsSubject.accept(())
+            mainView.youTubeViewModel.didLayoutSubviewsSubject.accept(Void())
         }
     }
     

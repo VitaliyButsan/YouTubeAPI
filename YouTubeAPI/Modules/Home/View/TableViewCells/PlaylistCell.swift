@@ -78,6 +78,7 @@ class PlaylistCell: UITableViewCell {
         playlistCollectionView.snp.makeConstraints {
             $0.height.equalTo(height)
         }
+        contentView.layoutIfNeeded()
     }
     
     private func addConstraints() {

@@ -128,7 +128,7 @@ class PageControlCell: UITableViewCell {
             $0.leading.equalTo(contentView).offset(defaultPadding)
             $0.trailing.equalTo(contentView).inset(defaultPadding)
             $0.bottom.equalTo(contentView).inset(defaultPadding)
-            $0.height.equalTo(200)
+            $0.height.equalTo(190)
         }
         pageViewController.view.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview()
@@ -138,7 +138,7 @@ class PageControlCell: UITableViewCell {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(pageViewController.view.snp.bottom)
             $0.width.equalTo(140)
-            $0.height.equalTo(30)
+            $0.height.equalTo(40)
         }
     }
     

@@ -80,6 +80,7 @@ class PlaylistItemCell: UICollectionViewCell {
         photoImageView.snp.makeConstraints {
             $0.height.equalTo(height)
         }
+        containerView.layoutIfNeeded()
     }
     
     private func setupLayout() {
@@ -103,7 +104,7 @@ class PlaylistItemCell: UICollectionViewCell {
         }
         titleVideoLabel.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(photoImageView.snp.bottom).offset(10)
+            $0.top.equalTo(photoImageView.snp.bottom).offset(7)
         }
         viewsCounterLabel.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()

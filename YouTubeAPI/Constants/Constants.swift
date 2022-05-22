@@ -18,7 +18,7 @@ struct Constants {
     static let topBarHeight: CGFloat = 92.0
     
     static let defaultPadding: CGFloat = 18.0
-    static let firstSectionHeight: CGFloat = 150.0
+    static let firstSectionHeight: CGFloat = 130.0
     static let secondSectionHeight: CGFloat = 220.0
     
     static let firstSectionCellWidth: CGFloat = 160.0
