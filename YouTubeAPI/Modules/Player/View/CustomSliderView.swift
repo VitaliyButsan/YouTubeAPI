@@ -7,6 +7,7 @@
 
 import RxSwift
 import RxCocoa
+import SnapKit
 import UIKit
 
 class CustomSliderView: UIView {
