@@ -164,7 +164,7 @@ class MainView: UIView {
         
         playerView.playerViewModel.isPlayerOpened
             .subscribe(onNext: { [unowned self] state in
-                setupBackground(with: state)
+                setupShadowBackground(with: state)
                 setupTopBarTitle(with: state)
                 if youTubeViewModel.isLoadedData.value {
                     openClosePlayer(with: state)
@@ -191,7 +191,7 @@ class MainView: UIView {
         }
     }
     
-    private func setupBackground(with state: PlayerOpenCloseState) {
+    private func setupShadowBackground(with state: PlayerOpenCloseState) {
         switch state {
         case .open:
             addSubview(shadowView)

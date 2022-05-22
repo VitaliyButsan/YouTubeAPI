@@ -7,14 +7,11 @@
 
 import Foundation
 
-
 extension NSNotification.Name {
     
-    // tracking on
     static var volumeChanging =
     NSNotification.Name(rawValue: "AVSystemController_SystemVolumeDidChangeNotification")
     
-    // output
     static var audioVolume =
     NSNotification.Name(rawValue: "AVSystemController_AudioVolumeNotificationParameter")
     

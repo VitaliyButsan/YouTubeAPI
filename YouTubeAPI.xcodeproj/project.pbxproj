@@ -181,20 +181,20 @@
 			path = YouTubeService;
 			sourceTree = "<group>";
 		};
-		FE491B02282B90A900738677 /* Assembler */ = {
+		FE491B02282B90A900738677 /* DI */ = {
 			isa = PBXGroup;
 			children = (
 				FE491B04282B912100738677 /* SwinjectManager.swift */,
 				FE491B06282B914C00738677 /* Assembly */,
 			);
-			path = Assembler;
+			path = DI;
 			sourceTree = "<group>";
 		};
 		FE491B03282B90D900738677 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
 				FE1F31DD282C122D006F1360 /* UIFactory */,
-				FE491B02282B90A900738677 /* Assembler */,
+				FE491B02282B90A900738677 /* DI */,
 			);
 			path = Managers;
 			sourceTree = "<group>";

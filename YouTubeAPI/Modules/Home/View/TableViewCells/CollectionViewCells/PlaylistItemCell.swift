@@ -5,9 +5,9 @@
 //  Created by VitaliyButsan on 13.05.2022.
 //
 
-import UIKit
-import SnapKit
 import SDWebImage
+import SnapKit
+import UIKit
 
 class PlaylistItemCell: UICollectionViewCell {
     
@@ -80,7 +80,6 @@ class PlaylistItemCell: UICollectionViewCell {
         photoImageView.snp.makeConstraints {
             $0.height.equalTo(height)
         }
-        contentView.layoutIfNeeded()
     }
     
     private func setupLayout() {

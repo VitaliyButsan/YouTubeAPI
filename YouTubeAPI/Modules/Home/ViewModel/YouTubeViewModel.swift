@@ -6,8 +6,8 @@
 //
 
 import RxCocoa
-import RxSwift
 import RxDataSources
+import RxSwift
 
 typealias ResourcesSection = SectionModel<String, CellModel>
 
@@ -90,7 +90,6 @@ class YouTubeViewModel {
     }
     
     func getData() {
-        dataSource.accept([])
         getChannels()
     }
     

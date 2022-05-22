@@ -5,10 +5,10 @@
 //  Created by VitaliyButsan on 10.05.2022.
 //
 
-import UIKit
-import SnapKit
-import RxCocoa
 import ProgressHUD
+import RxCocoa
+import SnapKit
+import UIKit
 
 class YouTubeViewController: UIViewController {
     
@@ -43,7 +43,7 @@ class YouTubeViewController: UIViewController {
         
         setupNavBar()
         setupObservers()
-        getData()
+//        getData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -66,6 +66,7 @@ class YouTubeViewController: UIViewController {
     private func setupObservers() {
         youTubeViewModel.errorSubject
             .subscribe(onNext: { error in
+                ProgressHUD.hideHUD()
                 self.showAlert(message: error)
             })
             .disposed(by: youTubeViewModel.bag)

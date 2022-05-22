@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SDWebImage
 import MediaPlayer
 
 final class UIFactory {

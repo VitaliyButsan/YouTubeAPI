@@ -5,10 +5,10 @@
 //  Created by VitaliyButsan on 19.05.2022.
 //
 
-import UIKit
 import RxSwift
 import RxCocoa
 import SnapKit
+import UIKit
 
 class PlayerControlPanelView: UIView {
     

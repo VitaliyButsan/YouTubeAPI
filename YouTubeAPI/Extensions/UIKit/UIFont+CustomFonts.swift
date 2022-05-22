@@ -10,6 +10,7 @@ import UIKit
 extension UIFont {
     
     enum SFPro {
+        
         enum Display {
             case Bold(size: CGFloat)
             
@@ -20,6 +21,7 @@ extension UIFont {
                 }
             }
         }
+        
         enum Text {
             case Regular(size: CGFloat)
             case Medium(size: CGFloat)
@@ -36,6 +38,7 @@ extension UIFont {
                 }
             }
         }
+        
     }
     
 }

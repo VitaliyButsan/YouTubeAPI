@@ -5,9 +5,9 @@
 //  Created by VitaliyButsan on 12.05.2022.
 //
 
-import SnapKit
-import RxSwift
 import RxCocoa
+import RxSwift
+import SnapKit
 
 protocol PageControlCellDelegate: AnyObject {
     func switchChannel(by pageIndex: Int)

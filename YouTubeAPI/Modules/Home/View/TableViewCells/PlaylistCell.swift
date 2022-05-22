@@ -5,11 +5,11 @@
 //  Created by VitaliyButsan on 12.05.2022.
 //
 
-import SnapKit
-import SDWebImage
-import RxSwift
 import RxCocoa
 import RxDataSources
+import RxSwift
+import SDWebImage
+import SnapKit
 
 class PlaylistCell: UITableViewCell {
     
@@ -78,7 +78,6 @@ class PlaylistCell: UITableViewCell {
         playlistCollectionView.snp.makeConstraints {
             $0.height.equalTo(height)
         }
-        contentView.layoutIfNeeded()
     }
     
     private func addConstraints() {
