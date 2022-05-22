@@ -14,5 +14,12 @@ extension MPVolumeView {
         slider?.value = volume
     }
     
+    func getVolume() -> Float {
+        if let slider = subviews.first(where: { $0 is UISlider }) as? UISlider {
+            return slider.value
+        }
+        return 0.0
+    }
+    
 }
 

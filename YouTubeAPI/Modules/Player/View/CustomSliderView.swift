@@ -24,8 +24,7 @@ class CustomSliderView: UIView {
     private lazy var sliderView = uiFactory
         .newSliderView(
             minimumTrackTintColor: .white,
-            maximumTrackTintColor: Asset.Colors.playerTransparentWhite35.color,
-            value: 0.3
+            maximumTrackTintColor: Asset.Colors.playerTransparentWhite35.color
         )
     private lazy var soundMinImageView = uiFactory
         .newImageView(
@@ -102,22 +101,13 @@ class CustomSliderView: UIView {
         playerViewModel.volume
             .bind(to: sliderView.rx.value)
             .disposed(by: playerViewModel.bag)
-        
-        playerViewModel.state
-            .subscribe(onNext: { state in
-                switch state {
-                case .play:
-                    self.playerViewModel.volume.accept(self.sliderView.value)
-                default:
-                    break
-                }
-            })
-            .disposed(by: playerViewModel.bag)
-        
+                
         playerViewModel.isPlayerOpened
             .subscribe(onNext: { state in
                 switch state {
                 case .open:
+                    let currentVolume = self.systemVolumeView.getVolume()
+                    self.playerViewModel.volume.accept(currentVolume)
                     self.systemVolumeView.alpha = 0.001
                 case .close:
                     self.systemVolumeView.alpha = 0.0
