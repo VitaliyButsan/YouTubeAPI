@@ -54,8 +54,8 @@ class YouTubeViewModel {
         self.bag = DisposeBag()
         self.timerBag = DisposeBag()
         
-//        isLoadedData.accept(true)
-//        addMockData(by: 0)
+        isLoadedData.accept(true)
+        addMockData(by: 0)
     }
     
     func startTimer() {
@@ -84,9 +84,9 @@ class YouTubeViewModel {
     }
     
     func updateData(for channelIndex: Int) {
-        let sections = self.createSections(for: channelIndex)
-        self.dataSource.accept(sections)
-//        addMockData(by: channelIndex)
+//        let sections = self.createSections(for: channelIndex)
+//        self.dataSource.accept(sections)
+        addMockData(by: channelIndex)
     }
     
     func getData() {

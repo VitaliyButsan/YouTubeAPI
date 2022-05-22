@@ -9,9 +9,16 @@ import MediaPlayer
 
 extension MPVolumeView {
     
-    func setVolume(_ volume: Float) {
-        let slider = subviews.first { $0 is UISlider } as? UISlider
-        slider?.value = volume
+    public func setVolume(_ value: Float, duration: Double = 0.01) {
+        guard let slider = subviews.first(where: { $0 is UISlider }) as? UISlider else { return }
+        
+        UIView.animate(withDuration: duration) {
+            slider.setValue(value, animated: true)
+        } completion: { _ in
+            UIView.animate(withDuration: duration) {
+                slider.setValue(value, animated: true)
+            }
+        }
     }
     
     func getVolume() -> Float {

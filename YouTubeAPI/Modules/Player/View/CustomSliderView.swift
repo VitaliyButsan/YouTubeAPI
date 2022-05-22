@@ -106,8 +106,8 @@ class CustomSliderView: UIView {
             .subscribe(onNext: { state in
                 switch state {
                 case .open:
-                    let currentVolume = self.systemVolumeView.getVolume()
-                    self.playerViewModel.volume.accept(currentVolume)
+                    let currentSystemVolume = self.systemVolumeView.getVolume()
+                    self.playerViewModel.volume.accept(currentSystemVolume)
                     self.systemVolumeView.alpha = 0.001
                 case .close:
                     self.systemVolumeView.alpha = 0.0

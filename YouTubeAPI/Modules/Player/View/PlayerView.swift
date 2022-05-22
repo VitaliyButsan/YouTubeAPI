@@ -151,7 +151,7 @@ class PlayerView: UIView {
     
     private func setVideoToPlayer() {
         let videoID = playerViewModel.getStartedVideoId()
-        videoPlayer.loadVideoID(videoID)
+        videoPlayer.loadVideoID("jjNT5lMaq9k")
     }
     
     private func rotateOpenCloseButton(by state: PlayerOpenCloseState) {
