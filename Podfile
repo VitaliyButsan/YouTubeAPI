@@ -24,4 +24,7 @@ target 'YouTubeAPI' do
   # youtube
   pod 'YouTubePlayer'
   
+  # progressHUD
+  pod 'ProgressHUD'
+  
 end

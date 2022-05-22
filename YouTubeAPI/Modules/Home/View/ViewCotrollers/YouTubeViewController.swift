@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import RxCocoa
+import ProgressHUD
 
 class YouTubeViewController: UIViewController {
     
@@ -42,7 +43,7 @@ class YouTubeViewController: UIViewController {
         
         setupNavBar()
         setupObservers()
-//        getData()
+        getData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -59,6 +60,7 @@ class YouTubeViewController: UIViewController {
     
     private func getData() {
         youTubeViewModel.getData()
+        ProgressHUD.showRotationHUD()
     }
     
     private func setupObservers() {
@@ -66,6 +68,11 @@ class YouTubeViewController: UIViewController {
             .subscribe(onNext: { error in
                 self.showAlert(message: error)
             })
+            .disposed(by: youTubeViewModel.bag)
+        
+        youTubeViewModel.isLoadedData
+            .filter { $0 }
+            .subscribe { _ in ProgressHUD.hideHUD() }
             .disposed(by: youTubeViewModel.bag)
     }
 }

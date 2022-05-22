@@ -40,6 +40,7 @@
 		FEA15C502836C7EC00A4A4E0 /* PlayerControlPanelViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA15C4F2836C7EC00A4A4E0 /* PlayerControlPanelViewAssembly.swift */; };
 		FEA15C522836C88400A4A4E0 /* PlayerCustomProgressViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA15C512836C88400A4A4E0 /* PlayerCustomProgressViewAssembly.swift */; };
 		FEA2F2C0282E3BA100CF531A /* CellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA2F2BF282E3BA100CF531A /* CellModel.swift */; };
+		FEA5F161283A76EB00BC3DE6 /* UIView+ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA5F160283A76EB00BC3DE6 /* UIView+ProgressHUD.swift */; };
 		FEA6DEF5282AAC3D00F67D61 /* YouTubeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA6DEF4282AAC3D00F67D61 /* YouTubeService.swift */; };
 		FEA6DEFC282AAFE800F67D61 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FEA6DEFA282AAFE800F67D61 /* Localizable.strings */; };
 		FEA6DF02282AB06C00F67D61 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEA6DF00282AB06C00F67D61 /* LaunchScreen.storyboard */; };
@@ -98,6 +99,7 @@
 		FEA15C4F2836C7EC00A4A4E0 /* PlayerControlPanelViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlPanelViewAssembly.swift; sourceTree = "<group>"; };
 		FEA15C512836C88400A4A4E0 /* PlayerCustomProgressViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCustomProgressViewAssembly.swift; sourceTree = "<group>"; };
 		FEA2F2BF282E3BA100CF531A /* CellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellModel.swift; sourceTree = "<group>"; };
+		FEA5F160283A76EB00BC3DE6 /* UIView+ProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ProgressHUD.swift"; sourceTree = "<group>"; };
 		FEA6DEF4282AAC3D00F67D61 /* YouTubeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeService.swift; sourceTree = "<group>"; };
 		FEA6DEFB282AAFE800F67D61 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = YouTubeAPI/Base.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		FEA6DF01282AB06C00F67D61 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = YouTubeAPI/Base.lproj/LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
@@ -222,6 +224,7 @@
 				FE776C09282D057F00F37DBF /* UIFont+CustomFonts.swift */,
 				FEB22F4C2834C92900D89842 /* UIViewController+showAlert.swift */,
 				FEE6CC60283658D000FD26A7 /* UIView+Effects.swift */,
+				FEA5F160283A76EB00BC3DE6 /* UIView+ProgressHUD.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -650,6 +653,7 @@
 				FE87725D282AA4F6006111CB /* YouTubeAPI.swift in Sources */,
 				FE1F31DF282C1241006F1360 /* UIFactory.swift in Sources */,
 				FE491B05282B912100738677 /* SwinjectManager.swift in Sources */,
+				FEA5F161283A76EB00BC3DE6 /* UIView+ProgressHUD.swift in Sources */,
 				FE877227282A830A006111CB /* SceneDelegate.swift in Sources */,
 				FEB22F4D2834C92900D89842 /* UIViewController+showAlert.swift in Sources */,
 				FE776C0A282D057F00F37DBF /* UIFont+CustomFonts.swift in Sources */,

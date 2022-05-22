@@ -29,6 +29,9 @@ internal enum Asset {
     internal static let playerTransparentWhite70 = ColorAsset(name: "Colors/PlayerTransparentWhite70")
     internal static let playerUpperBoundGradient = ColorAsset(name: "Colors/PlayerUpperBoundGradient")
   }
+  internal enum LaunchScreen {
+    internal static let launchIcon = ImageAsset(name: "LaunchScreen/launchIcon")
+  }
   internal enum Player {
     internal enum Controls {
       internal static let chevronDown = ImageAsset(name: "Player/Controls/ChevronDown")
