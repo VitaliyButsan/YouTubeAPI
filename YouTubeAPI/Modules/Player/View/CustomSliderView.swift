@@ -98,7 +98,7 @@ class CustomSliderView: UIView {
             })
             .disposed(by: playerViewModel.bag)
         
-        playerViewModel.volume
+        playerViewModel.systemVolume
             .bind(to: sliderView.rx.value)
             .disposed(by: playerViewModel.bag)
         
@@ -106,7 +106,7 @@ class CustomSliderView: UIView {
             .subscribe(onNext: { state in
                 switch state {
                 case .open:
-                    self.setCurrentSystemVolume(by: state)
+                    self.setSystemVolume(by: state)
                     self.systemVolumeView.alpha = 0.001
                 case .close:
                     self.systemVolumeView.alpha = 0.0
@@ -115,9 +115,10 @@ class CustomSliderView: UIView {
             .disposed(by: bag)
     }
     
-    private func setCurrentSystemVolume(by state: PlayerOpenCloseState) {
+    private func setSystemVolume(by state: PlayerOpenCloseState) {
         guard playerViewModel.previousPlayerOpenedState != state else { return }
-        let currentSystemVolume = self.systemVolumeView.getVolume()
-        self.playerViewModel.volume.accept(currentSystemVolume)
+        let systemVolume = systemVolumeView.getVolume()
+        playerViewModel.volume.accept(systemVolume)
+        sliderView.value = systemVolume
     }
 }

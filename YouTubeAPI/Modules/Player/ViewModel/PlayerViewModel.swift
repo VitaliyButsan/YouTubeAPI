@@ -40,6 +40,7 @@ class PlayerViewModel {
     
     // volume
     let volume = BehaviorRelay<Float>(value: 0.0)
+    let systemVolume = BehaviorRelay<Float>(value: 0.0)
     
     // storage
     var videos: [PlaylistItem] = []
@@ -114,6 +115,14 @@ class PlayerViewModel {
             .compactMap { $0.splitIntoThounsandParts }
             .map { "\($0) просмотра"}
             .bind(to: videoViewsCounter)
+            .disposed(by: bag)
+        
+        NotificationCenter.default.rx
+            .notification(.volumeChanging)
+            .compactMap(\.userInfo)
+            .compactMap { $0[NSNotification.Name.audioVolume] }
+            .compactMap { $0 as? Float }
+            .bind(to: systemVolume)
             .disposed(by: bag)
     }
     
