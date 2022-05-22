@@ -108,9 +108,9 @@ class CustomSliderView: UIView {
                 switch state {
                 case .open:
                     self.setSystemVolume(by: state)
-                    self.systemVolumeView.alpha = 0.001
+                    self.systemVolumeView.alpha = 0.001 // hide
                 case .close:
-                    self.systemVolumeView.alpha = 0.0
+                    self.systemVolumeView.alpha = 0.0 // show
                 }
             })
             .disposed(by: bag)
