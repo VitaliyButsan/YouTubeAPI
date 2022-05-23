@@ -13,31 +13,24 @@ class PlaylistItemCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    // TO-DO; move to localizable
-    static let reuseID = "PlaylistItemCell"
+    private var playlistItem: PlaylistItem?
+     
+    static let reuseID = L10n.playlistItemCellId
     
     private let uiFactory = UIFactory()
-    
-    private var playlistItem: PlaylistItem?
     
     // MARK: - UI Elements
     
     private lazy var containerView = uiFactory.newView()
-    
     private lazy var photoImageView = uiFactory.newImageView(cornerRadius: 6)
     
     private lazy var titleVideoLabel = uiFactory
         .newLabel(
-            // TO-DO: remove string
-            text: "No title",
             font: .SFPro.Text.Medium(size: 17).font,
             textColor: .white
         )
-    
     private lazy var viewsCounterLabel = uiFactory
         .newLabel(
-            // TO-DO: remove string
-            text: "No title",
             font: .SFPro.Text.Medium(size: 12).font,
             textColor: .gray
         )
@@ -60,6 +53,8 @@ class PlaylistItemCell: UICollectionViewCell {
         setupLayout()
     }
     
+    // MARK: - Public methods
+    
     func setupCell(with playlistItem: PlaylistItem, indexPath: IndexPath) {
         self.playlistItem = playlistItem
         titleVideoLabel.text = playlistItem.snippet.title
@@ -69,6 +64,8 @@ class PlaylistItemCell: UICollectionViewCell {
         let url = playlistItem.snippet.thumbnails.default.url
         photoImageView.sd_setImage(with: URL(string: url))
     }
+    
+    // MARK: - Private methods
     
     private func setupPosterHeight(by sectionIndex: Int) {
         var height: CGFloat = 0.0

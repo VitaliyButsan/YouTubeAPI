@@ -17,7 +17,7 @@ class CustomSliderView: UIView {
     private var playerViewModel: PlayerViewModel!
     
     private let uiFactory = UIFactory()
-    private let bag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     // MARK: - UI Elements
     
@@ -58,6 +58,8 @@ class CustomSliderView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Private methods
     
     private func setup() {
         setupViews()
@@ -113,7 +115,7 @@ class CustomSliderView: UIView {
                     self.systemVolumeView.alpha = 0.0 // show
                 }
             })
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
     }
     
     private func setSystemVolume(by state: PlayerOpenCloseState) {

@@ -12,6 +12,8 @@ class YouTubeService {
     
     private let provider = MoyaProvider<YouTubeAPI>()
     
+    // MARK: - Public methods
+    
     func getChannels(by id: String) -> Single<[Channel]> {
         provider.rx
             .request(.getChannels(id: id))

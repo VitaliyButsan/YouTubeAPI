@@ -17,14 +17,14 @@ class PlayerControlPanelView: UIView {
     private var playerViewModel: PlayerViewModel!
     
     private let uiFactory = UIFactory()
-    private let bag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     // MARK: - UI Elements
     
     private lazy var progressView = CustomProgressView(viewModel: playerViewModel)
     private lazy var sliderView = CustomSliderView(viewModel: playerViewModel)
-    
     private lazy var videoInfoStackView = uiFactory.newStackView(spacing: 5.0)
+    
     private lazy var videoTitleLabel = uiFactory
         .newLabel(
             font: .SFPro.Text.Medium(size: 18).font,
@@ -63,6 +63,8 @@ class PlayerControlPanelView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
+    // MARK: - Private methods
     
     private func setup() {
         setupViews()
@@ -122,16 +124,12 @@ class PlayerControlPanelView: UIView {
     
     private func setupObservers() {
         prevButton.rx.tap
-            .bind {
-                self.playerViewModel.state.accept(.prev)
-            }
-            .disposed(by: bag)
+            .bind { self.playerViewModel.state.accept(.prev) }
+            .disposed(by: disposeBag)
         
         nextButton.rx.tap
-            .bind {
-                self.playerViewModel.state.accept(.next)
-            }
-            .disposed(by: bag)
+            .bind { self.playerViewModel.state.accept(.next) }
+            .disposed(by: disposeBag)
         
         playButton.rx.tap
             .bind {
@@ -154,10 +152,10 @@ class PlayerControlPanelView: UIView {
         
         playerViewModel.videoTitle
             .bind(to: videoTitleLabel.rx.text)
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
         
         playerViewModel.videoViewsCounter
             .bind(to: videoViewsCountLabel.rx.text)
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
     }
 }

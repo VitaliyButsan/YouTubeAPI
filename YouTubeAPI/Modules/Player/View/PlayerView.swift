@@ -28,7 +28,7 @@ class PlayerView: UIView {
     private(set) var playerViewModel: PlayerViewModel!
     
     private let uiFactory = UIFactory()
-    private let bag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     // MARK: - UI Elements
     
@@ -57,6 +57,8 @@ class PlayerView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
+    // MARK: - Private methods
     
     private func setup() {
         setupViews()
@@ -120,7 +122,7 @@ class PlayerView: UIView {
             .subscribe { [unowned self] _ in
                 setGradientBackground()
             }
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
         
         playerViewModel.isPlayerOpened
             .subscribe(onNext: { [unowned self] state in
@@ -137,13 +139,13 @@ class PlayerView: UIView {
                 self.rotateOpenCloseButton(by: state)
                 playerViewModel.previousPlayerOpenedState = state
             })
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
         
         playerViewModel.state
             .subscribe(onNext: { state in
                 self.setPlayerState(state)
             })
-            .disposed(by: playerViewModel.bag)
+            .disposed(by: disposeBag)
     }
     
     private func setVideoToPlayer() {
@@ -258,8 +260,16 @@ extension PlayerView: YouTubePlayerDelegate {
     }
 }
 
+// MARK: - Constants
 
-// TO-DO:
-
-// extension PlayerView
-// private enum Constants
+extension PlayerView {
+    
+    private enum Constants {
+        static let screenWidth: CGFloat = UIScreen.main.bounds.width
+        static let screenHeight: CGFloat = UIScreen.main.bounds.height
+        static let halfScreenWidth: CGFloat = screenWidth / 2
+        static let halfScreenHeight: CGFloat = screenHeight / 2
+        static let quarterScreenHeight: CGFloat = halfScreenHeight / 2
+        static let playerViewCornerRadius: CGFloat = 20.0
+    }
+}

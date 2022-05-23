@@ -10,6 +10,8 @@ import MediaPlayer
 
 final class UIFactory {
     
+    // MARK: - Public methods
+    
     func newPageControl() -> UIPageControl {
         let pageControl = UIPageControl()
         return pageControl
@@ -39,8 +41,9 @@ final class UIFactory {
         return label
     }
     
-    func newView(color: UIColor = .clear) -> UIView {
+    func newView(frame: CGRect = .zero, color: UIColor = .clear) -> UIView {
         let view = UIView()
+        view.frame = frame
         view.backgroundColor = color
         return view
     }

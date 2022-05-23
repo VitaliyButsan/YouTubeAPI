@@ -13,22 +13,19 @@ import SnapKit
 
 class PlaylistCell: UITableViewCell {
     
-    // MARK: - Properties
-    
-    private var indexPath = IndexPath(row: 0, section: 0)
-    
-    private var defaultPadding: CGFloat {
-        return Constants.defaultPadding
-    }
-    
     typealias PlaylistSection = SectionModel<String, PlaylistItem>
     typealias DataSource = RxCollectionViewSectionedReloadDataSource<PlaylistSection>
     
+    // MARK: - Properties
+    
+    private var indexPath = IndexPath(row: 0, section: 0)
+    private var playlist: RxPlaylist?
+    
     private lazy var dataSource: DataSource = .init(configureCell: configureCell)
     
-    static let reuseID = "PlaylistCell"
-    private let bag = DisposeBag()
-    private var playlist: RxPlaylist?
+    static let reuseID = L10n.playlistCellId
+    
+    private let disposeBag = DisposeBag()
     private let uiFactory = UIFactory()
     
     // MARK: - UI Elements
@@ -47,6 +44,8 @@ class PlaylistCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Public methods
+    
     func setupCell(with playlist: RxPlaylist, for indexPath: IndexPath) {
         self.indexPath = indexPath
         self.playlist = playlist
@@ -55,6 +54,8 @@ class PlaylistCell: UITableViewCell {
         playlistCollectionView.dataSource = nil
         bindUI()
     }
+    
+    // MARK: - Private methods
     
     private func setup() {
         setupViews()
@@ -83,7 +84,7 @@ class PlaylistCell: UITableViewCell {
     
     private func addConstraints() {
         playlistCollectionView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(defaultPadding)
+            $0.leading.equalToSuperview().offset(Constants.defaultPadding)
             $0.trailing.equalToSuperview()
             $0.bottom.top.equalToSuperview()
         }
@@ -92,11 +93,11 @@ class PlaylistCell: UITableViewCell {
     private func bindUI() {
         playlistCollectionView.rx
             .setDelegate(self)
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
         
         playlist?.playlistItems?
             .bind(to: playlistCollectionView.rx.items(dataSource: dataSource))
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -131,5 +132,20 @@ extension PlaylistCell: UICollectionViewDelegateFlowLayout {
         default:
             return .zero
         }
+    }
+}
+
+// MARK: - Constants
+
+extension PlaylistCell {
+    
+    private enum Constants {
+        static let firstSectionCellWidth: CGFloat = 160.0
+        static let secondSectionCellWidth: CGFloat = 135.0
+        
+        static let firstSectionHeight: CGFloat = 130.0
+        static let secondSectionHeight: CGFloat = 220.0
+        
+        static let defaultPadding: CGFloat = 18.0
     }
 }

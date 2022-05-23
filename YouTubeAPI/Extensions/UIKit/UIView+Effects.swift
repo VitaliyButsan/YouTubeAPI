@@ -20,9 +20,9 @@ extension UIView {
         self.transform = self.transform.rotated(by: angle)
     }
     
-    func asImage(frame: CGRect = .zero, bgColor: UIColor = .white) -> UIImage {
+    func asImage() -> UIImage {
         let thumbView = UIView()
-        thumbView.backgroundColor = bgColor
+        thumbView.backgroundColor = .white
         thumbView.frame = frame
         
         let renderer = UIGraphicsImageRenderer(bounds: thumbView.bounds)

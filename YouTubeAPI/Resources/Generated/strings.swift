@@ -24,6 +24,12 @@ internal enum L10n {
   internal static let channelId4 = L10n.tr("Localizable", "channelId4")
   /// brandingSettings, statistics
   internal static let channelsRequestParts = L10n.tr("Localizable", "channelsRequestParts")
+  /// PageControlCell
+  internal static let pageControlCellId = L10n.tr("Localizable", "pageControlCellId")
+  /// PlaylistCell
+  internal static let playlistCellId = L10n.tr("Localizable", "playlistCellId")
+  /// PlaylistItemCell
+  internal static let playlistItemCellId = L10n.tr("Localizable", "playlistItemCellId")
   /// snippet
   internal static let playlistItemsRequestParts = L10n.tr("Localizable", "playlistItemsRequestParts")
   /// snippet

@@ -16,7 +16,7 @@ class YouTubeViewModel {
     // MARK: - Properties
     
     // rx
-    let bag: DisposeBag
+    private let bag: DisposeBag
     var timerBag: DisposeBag!
     
     // services
@@ -58,7 +58,7 @@ class YouTubeViewModel {
     
     // public methods
     func startTimer() {
-        Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).bind { timePassed in
+        Observable<Int>.interval(.seconds(5), scheduler: MainScheduler.instance).bind { timePassed in
             self.timerCounter.accept(timePassed)
         }
         .disposed(by: timerBag)

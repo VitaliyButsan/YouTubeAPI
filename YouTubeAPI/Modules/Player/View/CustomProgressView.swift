@@ -17,15 +17,13 @@ class CustomProgressView: UIView {
     private var playerViewModel: PlayerViewModel!
     
     private let uiFactory = UIFactory()
-    private let bag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     // MARK: - UI Elements
     
-    private lazy var trackPointer = uiFactory
-        .newView()
-        .asImage(
-            frame: CGRect(x: 0, y: 0, width: 2, height: 12)
-        )
+    private lazy var progressPointerThumb = uiFactory
+        .newView(frame: CGRect(x: 0, y: 0, width: 2, height: 12))
+        .asImage()
     
     private lazy var progressView = uiFactory
         .newSliderView(
@@ -63,6 +61,8 @@ class CustomProgressView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Private methods
+    
     private func setup() {
         setupViews()
         setupProgressView()
@@ -71,7 +71,7 @@ class CustomProgressView: UIView {
     }
     
     private func setupProgressView() {
-        progressView.setThumbImage(trackPointer, for: .normal)
+        progressView.setThumbImage(progressPointerThumb, for: .normal)
         progressView.isUserInteractionEnabled = false
     }
     
@@ -100,15 +100,14 @@ class CustomProgressView: UIView {
     private func setupObservers() {
         playerViewModel.currentTimeFormatted
             .bind(to: currentTimeLabel.rx.text)
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
         
         playerViewModel.remainTimeFormatted
             .bind(to: remainingTimeLabel.rx.text)
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
         
         playerViewModel.progress
             .bind(to: progressView.rx.value)
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
     }
-    
 }

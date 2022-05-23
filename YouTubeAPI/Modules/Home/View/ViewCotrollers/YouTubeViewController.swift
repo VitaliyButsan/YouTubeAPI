@@ -6,6 +6,7 @@
 //
 
 import ProgressHUD
+import RxSwift
 import RxCocoa
 import SnapKit
 import UIKit
@@ -15,6 +16,8 @@ class YouTubeViewController: UIViewController {
     // MARK: - Properties
     
     private var youTubeViewModel: YouTubeViewModel!
+    
+    private let disposeBag = DisposeBag()
     
     // MARK: - UI Elements
     
@@ -51,6 +54,8 @@ class YouTubeViewController: UIViewController {
         mainView.youTubeViewModel?.didLayoutSubviewsSubject.accept(Void())
     }
     
+    // MARK: - Private methods
+    
     private func setupNavBar() {
         navigationController?.navigationBar.isHidden = true
     }
@@ -66,11 +71,11 @@ class YouTubeViewController: UIViewController {
                 ProgressHUD.hideHUD()
                 self.showAlert(message: error)
             })
-            .disposed(by: youTubeViewModel.bag)
+            .disposed(by: disposeBag)
         
         youTubeViewModel.isLoadedData
             .filter { $0 }
             .subscribe { _ in ProgressHUD.hideHUD() }
-            .disposed(by: youTubeViewModel.bag)
+            .disposed(by: disposeBag)
     }
 }

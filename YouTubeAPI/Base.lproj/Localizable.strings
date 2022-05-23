@@ -23,3 +23,7 @@
 "channelId2" = "UCJhjE7wbdYAae1G25m0tHAA";
 "channelId3" = "UCvmxzBDt6zpM1BhZaGeiV0Q";
 "channelId4" = "UC9_DJQL7CPkR9PhjfRZAnlw";
+
+"playlistItemCellId" = "PlaylistItemCell";
+"pageControlCellId" = "PageControlCell";
+"playlistCellId" = "PlaylistCell";

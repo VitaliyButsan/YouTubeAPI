@@ -20,21 +20,17 @@ class PageControlCell: UITableViewCell {
     
     weak var delegate: PageControlCellDelegate?
     
-    static let reuseID = "PageControlCell"
-    
-    private var currentIndex: Int?
-    private var pendingIndex: Int?
-    
     private var timerCounter = BehaviorRelay(value: 0)
-    private let bag = DisposeBag()
-    
-    private var defaultPadding: CGFloat {
-        return Constants.defaultPadding
-    }
-    
-    private let uiFactory = UIFactory()
+    private var currentIndex = 0
+    private var pendingIndex = 0
     
     private var channels: [Channel] = []
+    private var pages: [UIViewController] = []
+    
+    static let reuseID = L10n.pageControlCellId
+    
+    private let disposeBag = DisposeBag()
+    private let uiFactory = UIFactory()
     
     // MARK: - UI Elements
     
@@ -49,8 +45,6 @@ class PageControlCell: UITableViewCell {
         return viewController
     }()
     
-    private var pages: [UIViewController] = []
-    
     // MARK: - Lifecycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -64,6 +58,8 @@ class PageControlCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Public methods
+    
     func setupCell(with channels: [Channel], bind timerCounter: BehaviorRelay<Int>) {
         self.channels = channels
         if pages.isEmpty {
@@ -73,10 +69,12 @@ class PageControlCell: UITableViewCell {
         }
     }
     
+    // MARK: - Private methods
+    
     private func bind(_ counter: BehaviorRelay<Int>) {
         counter
             .bind(to: timerCounter)
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
     }
     
     private func setupPageControl() {
@@ -102,7 +100,6 @@ class PageControlCell: UITableViewCell {
     private func setupLayout() {
         setupViews()
         addConstraints()
-        currentIndex = 0
     }
     
     private func setupViews() {
@@ -116,8 +113,7 @@ class PageControlCell: UITableViewCell {
             pageViewController.setViewControllers(
                 [firstPage],
                 direction: .forward,
-                animated: true,
-                completion: nil
+                animated: true
             )
         }
     }
@@ -125,9 +121,9 @@ class PageControlCell: UITableViewCell {
     private func addConstraints() {
         pageViewControllerContainer.snp.makeConstraints {
             $0.top.equalTo(contentView).offset(32)
-            $0.leading.equalTo(contentView).offset(defaultPadding)
-            $0.trailing.equalTo(contentView).inset(defaultPadding)
-            $0.bottom.equalTo(contentView).inset(defaultPadding)
+            $0.leading.equalTo(contentView).offset(Constants.defaultPadding)
+            $0.trailing.equalTo(contentView).inset(Constants.defaultPadding)
+            $0.bottom.equalTo(contentView).inset(Constants.defaultPadding)
             $0.height.equalTo(190)
         }
         pageViewController.view.snp.makeConstraints {
@@ -146,32 +142,29 @@ class PageControlCell: UITableViewCell {
         if currentIndex == pages.count - 1 {
             currentIndex = 0
         } else {
-            currentIndex? += 1
+            currentIndex += 1
         }
-        let nextPage = pages[currentIndex ?? 0]
+        let nextPage = pages[currentIndex]
         
         pageViewController.setViewControllers([nextPage], direction: .forward, animated: true) { completed in
             if completed {
-                self.delegate?.switchChannel(by: self.currentIndex ?? 0)
-                self.pageControl.currentPage = self.currentIndex ?? 0
+                self.delegate?.switchChannel(by: self.currentIndex)
+                self.pageControl.currentPage = self.currentIndex
             }
         }
     }
     
     private func setupObservers() {
         timerCounter
-            .subscribe(onNext: { time in
-                // TO-DO: Refactor
-                if time > 0, time % 5 == 0 {
-                    self.moveCarousel()
-                }
+            .filter { $0 > 0 }
+            .subscribe(onNext: { _ in
+                self.moveCarousel()
             })
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
     }
     
     @objc private func handleTap() {
         guard let delegate = delegate else { return }
-        guard let currentIndex = currentIndex else { return }
         let channel = channels[currentIndex]
         delegate.channelDidSelect(channel)
     }
@@ -203,17 +196,26 @@ extension PageControlCell: UIPageViewControllerDataSource, UIPageViewControllerD
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             willTransitionTo pendingViewControllers: [UIViewController]) {
-        pendingIndex = pages.firstIndex(of: pendingViewControllers.first!)
+        guard let firstPendingController = pendingViewControllers.first else { return }
+        guard let pendingControllerIndex = pages.firstIndex(of: firstPendingController) else { return }
+        pendingIndex = pendingControllerIndex
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool,
                             previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {
             currentIndex = pendingIndex
-            if let index = currentIndex {
-                pageControl.currentPage = index
-                delegate?.switchChannel(by: index)
-            }
+            pageControl.currentPage = currentIndex
+            delegate?.switchChannel(by: currentIndex)
         }
+    }
+}
+
+// MARK: - Constants
+
+extension PageControlCell {
+    
+    private enum Constants {
+        static let defaultPadding: CGFloat = 18.0
     }
 }
