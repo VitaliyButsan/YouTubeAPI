@@ -208,7 +208,7 @@ class YouTubeViewModel {
     }
     
     private func getVideos(by itemResource: PlaylistItemResource, with group: DispatchGroup) {
-        youTubeService.getVideos(by: itemResource.id)
+        youTubeService.getVideos(by: itemResource.videoId)
             .subscribe(onSuccess: { [weak self] videos in
                 guard let self = self else { return }
                 group.leave()
