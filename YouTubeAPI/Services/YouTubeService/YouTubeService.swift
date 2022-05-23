@@ -8,12 +8,9 @@
 import Moya
 import RxSwift
 
-final class YouTubeService {
+class YouTubeService {
     
-    static let instance = YouTubeService()
     private let provider = MoyaProvider<YouTubeAPI>()
-    
-    private init() { }
     
     func getChannels(by id: String) -> Single<[Channel]> {
         provider.rx

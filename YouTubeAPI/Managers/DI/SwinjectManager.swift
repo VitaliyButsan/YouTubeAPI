@@ -10,17 +10,8 @@ import Swinject
 final class SwinjectManager {
     
     let assembler = Assembler([
-        YouTubeServiceAssembly(),
         YouTubeViewModelAssembly(),
-        YouTubeMainViewUIFactoryAssembly(),
-        YouTubeMainViewAssembly(),
         YouTubeViewControllerAssembly(),
-        
-        PlayerViewAssembly(),
-        PlayerViewModelAssembly(),
-        PlayerControlPanelViewAssembly(),
-        PlayerCustomProgressViewAssembly(),
-        PlayerCustomSliderViewAssembly(),
     ])
     
     var mainVC: UIViewController? {

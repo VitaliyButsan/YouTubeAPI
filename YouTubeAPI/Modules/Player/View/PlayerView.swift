@@ -23,33 +23,30 @@ class PlayerView: UIView {
     
     // MARK: - Properties
     
-    private(set) var playerViewModel: PlayerViewModel!
-    private var uiFactory: UIFactory!
-    private let bag = DisposeBag()
     private var timeTrackerBag = DisposeBag()
+    
+    private(set) var playerViewModel: PlayerViewModel!
+    
+    private let uiFactory = UIFactory()
+    private let bag = DisposeBag()
     
     // MARK: - UI Elements
     
-    private var controlPanelView: PlayerControlPanelView!
     private lazy var openCloseButton = uiFactory.newButton(image: Asset.Player.Controls.chevronDown.image)
     private lazy var panGesture = UIPanGestureRecognizer(target: self, action: #selector(detectPan))
     private lazy var videoPlayer = YouTubePlayerView()
+    private lazy var controlPanelView = PlayerControlPanelView(viewModel: playerViewModel)
     
     // MARK: - Lifecycle
     
-    convenience init(viewModel: PlayerViewModel?, uiFactory: UIFactory?, controlPanel: PlayerControlPanelView?) {
+    convenience init(viewModel: PlayerViewModel?) {
         self.init(frame: .zero)
         
-        guard let viewModel = viewModel,
-              let uiFactory = uiFactory,
-              let controlPanel = controlPanel
-        else {
+        guard let viewModel = viewModel else {
             fatalError("MainView init")
         }
-        self.timeTrackerBag = DisposeBag()
-        self.playerViewModel = viewModel
-        self.uiFactory = uiFactory
-        self.controlPanelView = controlPanel
+        timeTrackerBag = DisposeBag()
+        playerViewModel = viewModel
         setup()
     }
     
@@ -260,3 +257,9 @@ extension PlayerView: YouTubePlayerDelegate {
         }
     }
 }
+
+
+// TO-DO:
+
+// extension PlayerView
+// private enum Constants

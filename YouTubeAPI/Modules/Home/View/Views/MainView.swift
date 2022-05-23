@@ -17,7 +17,7 @@ class MainView: UIView {
     // MARK: - Properties
     
     private(set) var youTubeViewModel: YouTubeViewModel!
-    private var uiFactory: UIFactory!
+    private var uiFactory = UIFactory()
     
     private var playerViewHeightConstraint: NSLayoutConstraint!
     
@@ -48,22 +48,17 @@ class MainView: UIView {
         return tableView
     }()
     
-    private var playerView: PlayerView!
+    private lazy var playerView = PlayerView(viewModel: PlayerViewModel())
     
     // MARK: - Lifecycle
     
-    convenience init(viewModel: YouTubeViewModel?, uiFactory: UIFactory?, playerView: PlayerView?) {
+    convenience init(viewModel: YouTubeViewModel?) {
         self.init(frame: .zero)
         
-        guard let viewModel = viewModel,
-              let uiFactory = uiFactory,
-              let playerView = playerView
-        else {
+        guard let viewModel = viewModel else {
             fatalError("MainView init")
         }
-        self.youTubeViewModel = viewModel
-        self.uiFactory = uiFactory
-        self.playerView = playerView
+        youTubeViewModel = viewModel
         setup()
     }
     
@@ -113,7 +108,7 @@ class MainView: UIView {
         }
         
         playerViewHeightConstraint = NSLayoutConstraint(
-            item: playerView ?? UIView(),
+            item: playerView,
             attribute: .top,
             relatedBy: .equal,
             toItem: self,

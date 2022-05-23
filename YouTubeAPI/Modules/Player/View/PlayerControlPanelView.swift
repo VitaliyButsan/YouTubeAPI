@@ -15,12 +15,14 @@ class PlayerControlPanelView: UIView {
     // MARK: - Properties
     
     private var playerViewModel: PlayerViewModel!
-    private var uiFactory: UIFactory!
-    private var progressView: CustomProgressView!
-    private var sliderView: CustomSliderView!
+    
+    private let uiFactory = UIFactory()
     private let bag = DisposeBag()
     
     // MARK: - UI Elements
+    
+    private lazy var progressView = CustomProgressView(viewModel: playerViewModel)
+    private lazy var sliderView = CustomSliderView(viewModel: playerViewModel)
     
     private lazy var videoInfoStackView = uiFactory.newStackView(spacing: 5.0)
     private lazy var videoTitleLabel = uiFactory
@@ -44,20 +46,13 @@ class PlayerControlPanelView: UIView {
     
     // MARK: - Lifecycle
     
-    convenience init(viewModel: PlayerViewModel?, uiFactory: UIFactory?, progressView: CustomProgressView?, sliderView: CustomSliderView?) {
+    convenience init(viewModel: PlayerViewModel?) {
         self.init(frame: .zero)
 
-        guard let viewModel = viewModel,
-              let uiFactory = uiFactory,
-              let progressView = progressView,
-              let sliderView = sliderView
-        else {
+        guard let viewModel = viewModel else {
             fatalError("ControlPanelView init")
         }
-        self.playerViewModel = viewModel
-        self.uiFactory = uiFactory
-        self.progressView = progressView
-        self.sliderView = sliderView
+        playerViewModel = viewModel
         setup()
     }
     

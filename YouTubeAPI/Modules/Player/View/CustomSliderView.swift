@@ -15,7 +15,8 @@ class CustomSliderView: UIView {
     // MARK: - Properties
     
     private var playerViewModel: PlayerViewModel!
-    private var uiFactory: UIFactory!
+    
+    private let uiFactory = UIFactory()
     private let bag = DisposeBag()
     
     // MARK: - UI Elements
@@ -40,14 +41,13 @@ class CustomSliderView: UIView {
     
     // MARK: - Lifecycle
     
-    convenience init(viewModel: PlayerViewModel?, uiFactory: UIFactory?) {
+    convenience init(viewModel: PlayerViewModel?) {
         self.init(frame: .zero)
         
-        guard let viewModel = viewModel, let uiFactory = uiFactory else {
+        guard let viewModel = viewModel else {
             fatalError("CustomProgressView init")
         }
-        self.playerViewModel = viewModel
-        self.uiFactory = uiFactory
+        playerViewModel = viewModel
         setup()
     }
     

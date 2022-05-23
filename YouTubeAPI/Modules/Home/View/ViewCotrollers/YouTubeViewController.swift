@@ -18,18 +18,17 @@ class YouTubeViewController: UIViewController {
     
     // MARK: - UI Elements
     
-    private var mainView: UIView!
+    private lazy var mainView = MainView(viewModel: youTubeViewModel)
     
     // MARK: - Lifecycle
     
-    convenience init(viewModel: YouTubeViewModel?, view: UIView?) {
+    convenience init(viewModel: YouTubeViewModel?) {
         self.init(nibName: nil, bundle: nil)
         
-        guard let viewModel = viewModel, let view = view else {
+        guard let viewModel = viewModel else {
             fatalError("YouTubeViewController init")
         }
         self.youTubeViewModel = viewModel
-        self.mainView = view
     }
     
     override func loadView() {
@@ -49,9 +48,7 @@ class YouTubeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if let mainView = mainView as? MainView {
-            mainView.youTubeViewModel.didLayoutSubviewsSubject.accept(Void())
-        }
+        mainView.youTubeViewModel?.didLayoutSubviewsSubject.accept(Void())
     }
     
     private func setupNavBar() {
@@ -65,7 +62,7 @@ class YouTubeViewController: UIViewController {
     
     private func setupObservers() {
         youTubeViewModel.errorSubject
-            .subscribe(onNext: { error in
+            .subscribe(onNext: { [unowned self] error in
                 ProgressHUD.hideHUD()
                 self.showAlert(message: error)
             })

@@ -161,6 +161,7 @@ class PageControlCell: UITableViewCell {
     private func setupObservers() {
         timerCounter
             .subscribe(onNext: { time in
+                // TO-DO: Refactor
                 if time > 0, time % 5 == 0 {
                     self.moveCarousel()
                 }

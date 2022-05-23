@@ -19,7 +19,7 @@ class YouTubeViewModel {
     let bag: DisposeBag
     var timerBag: DisposeBag!
     
-    // managers
+    // services
     private let youTubeService: YouTubeService
     
     //state
@@ -41,6 +41,7 @@ class YouTubeViewModel {
         L10n.channelId4,
     ]
     
+    // To-Do move to Constants
     let sectionHeaderHeight: CGFloat = 60.0
     let defaultPadding: CGFloat = 18.0
     
@@ -55,6 +56,7 @@ class YouTubeViewModel {
         self.timerBag = DisposeBag()
     }
     
+    // public methods
     func startTimer() {
         Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).bind { timePassed in
             self.timerCounter.accept(timePassed)
@@ -85,10 +87,12 @@ class YouTubeViewModel {
         self.dataSource.accept(sections)
     }
     
+    // To-Do delete getData()
     func getData() {
         getChannels()
     }
     
+    // private methods
     private func getChannels() {
         let group = DispatchGroup()
         
@@ -145,6 +149,7 @@ class YouTubeViewModel {
         channels = tmpChannels
     }
     
+    // TO-DO - forEach functions iteraciotn
     private func getPlaylistsItems() {
         let group = DispatchGroup()
         
@@ -153,6 +158,7 @@ class YouTubeViewModel {
             for playlist in playlists {
                 group.enter()
                 
+                // TO-DO : subscribe: OnSeccess, sebcribe: OnFailure
                 youTubeService.getPlaylistItems(by: playlist.id)
                     .subscribe { [weak self] event in
                         guard let self = self else { return }
@@ -165,6 +171,7 @@ class YouTubeViewModel {
                             self.errorSubject.accept(error.localizedDescription)
                         }
                     }
+                // rename to disposeBag
                     .disposed(by: bag)
             }
         }
@@ -173,6 +180,8 @@ class YouTubeViewModel {
         }
     }
     
+    
+    // To-Do refactor guards
     private func addPlaylistItemsToChannelPlaylist(_ playlistItems: [PlaylistItem], by playlistId: String, in channelId: String) {
         guard let channelIndex = channels.firstIndex(where: { $0.id == channelId }) else { return }
         var tempChannels = channels
@@ -181,6 +190,7 @@ class YouTubeViewModel {
         channels = tempChannels
     }
     
+    // TO-DO - forEach functions iteraciotn
     private func addPlaylistVideosViewCount() {
         let group = DispatchGroup()
         
@@ -193,6 +203,7 @@ class YouTubeViewModel {
                 for playlistItem in playlistItems {
                     group.enter()
                     
+                    // TO-DO : subscribe: OnSeccess, sebcribe: OnFailure
                     youTubeService.getVideos(by: playlistItem.snippet.resourceId.videoId)
                         .subscribe { [weak self] event in
                             guard let self = self else { return }
@@ -221,6 +232,7 @@ class YouTubeViewModel {
         }
     }
     
+    // TO-DO: Refactor -
     private func addVideoViewCountToPlaylistItem(viewCount: String, with playlistItemId: String, by playlistId: String, in channelId: String) {
         var tempChannels = channels
         guard let channelIndex = channels.firstIndex(where: { $0.id == channelId }) else { return }

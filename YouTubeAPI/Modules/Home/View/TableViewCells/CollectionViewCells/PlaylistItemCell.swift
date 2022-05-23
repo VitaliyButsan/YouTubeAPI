@@ -13,6 +13,7 @@ class PlaylistItemCell: UICollectionViewCell {
     
     // MARK: - Properties
     
+    // TO-DO; move to localizable
     static let reuseID = "PlaylistItemCell"
     
     private let uiFactory = UIFactory()
@@ -27,6 +28,7 @@ class PlaylistItemCell: UICollectionViewCell {
     
     private lazy var titleVideoLabel = uiFactory
         .newLabel(
+            // TO-DO: remove string
             text: "No title",
             font: .SFPro.Text.Medium(size: 17).font,
             textColor: .white
@@ -34,6 +36,7 @@ class PlaylistItemCell: UICollectionViewCell {
     
     private lazy var viewsCounterLabel = uiFactory
         .newLabel(
+            // TO-DO: remove string
             text: "No title",
             font: .SFPro.Text.Medium(size: 12).font,
             textColor: .gray

@@ -10,22 +10,18 @@ import RxSwift
 
 class PlayerViewModel {
     
-    let bag = DisposeBag()
-    
-    // state
+    var duration = 0.0
+    var videos: [PlaylistItem] = []
     var previousPlayerOpenedState: PlayerOpenCloseState = .close
+    var currentVideo = BehaviorRelay(value: PlaylistItem.placeholder)
+    
+    let bag = DisposeBag()
     let isPlayerOpened = BehaviorRelay<PlayerOpenCloseState>(value: .close)
     let yOffset = BehaviorRelay<CGFloat>(value: 0.0)
-    
     let didLayoutSubviewsSubject = PublishRelay<Void>()
-    
-    var currentVideo = BehaviorRelay(value: PlaylistItem.placeholder)
     
     let videoTitle = BehaviorRelay(value: "")
     let videoViewsCounter = BehaviorRelay(value: "")
-    
-    // time
-    var duration = 0.0
     
     let currentTime = BehaviorRelay(value: 0.0)
     let currentTimeFormatted = BehaviorRelay(value: "")
@@ -34,16 +30,11 @@ class PlayerViewModel {
     let remainTimeFormatted = BehaviorRelay(value: "")
     
     let progress = BehaviorRelay<Float>(value: 0.0)
-    
-    // controls
     let state = BehaviorRelay<PlayerWorkState>(value: .stop)
     
-    // volume
     let volume = BehaviorRelay<Float>(value: 0.0)
     let systemVolume = BehaviorRelay<Float>(value: 0.0)
     
-    // storage
-    var videos: [PlaylistItem] = []
     
     init() {
         subscribeObservers()
@@ -127,12 +118,15 @@ class PlayerViewModel {
     }
     
     private func formattedTime(by time: Double) -> String {
-        let (hours, minutes, seconds) = secondsToHoursMinutesSeconds(Int(time))
+        let (hours, minutes, seconds) = secondsConvertToHoursMinutesSeconds(Int(time))
         return formattedTimeBy(hours, minutes, seconds)
     }
     
-    private func secondsToHoursMinutesSeconds(_ seconds: Int) -> (Int, Int, Int) {
-        return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+    private func secondsConvertToHoursMinutesSeconds(_ seconds: Int) -> (Int, Int, Int) {
+        let hours = seconds / 3600
+        let minutes = (seconds % 3600) / 60
+        let seconds = (seconds % 3600) % 60
+        return (hours, minutes, seconds)
     }
     
     private func formattedTimeBy(_ hours: Int, _ minutes: Int, _ seconds: Int) -> String {
