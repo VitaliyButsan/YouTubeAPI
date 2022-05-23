@@ -32,4 +32,14 @@ struct RxPlaylist {
     struct Snippet {
         let title: String
     }
+    
+    init(playlist: Playlist) {
+        let playlistSnippetTitle = playlist.snippet.title
+        let playlistItems = playlist.playlistItems ?? []
+        let section = PlaylistItemsSection(model: "", items: playlistItems)
+        
+        self.id = playlist.id
+        self.snippet = RxPlaylist.Snippet(title: playlistSnippetTitle)
+        self.playlistItems = BehaviorRelay(value: [section])
+    }
 }

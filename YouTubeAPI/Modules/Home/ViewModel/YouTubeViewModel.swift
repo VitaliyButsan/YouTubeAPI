@@ -82,160 +82,182 @@ class YouTubeViewModel {
     }
     
     func getChannels() {
-        let group = DispatchGroup()
-        
-        for channelId in channelsIDs {
-            group.enter()
-            
-            youTubeService.getChannels(by: channelId)
-                .subscribe(onSuccess: { channels in
-                    group.leave()
-                    guard let newChannel = channels.first else { return }
-                    self.channels.append(newChannel)
-                }, onFailure: { error in
-                    self.errorSubject.accept(error.localizedDescription)
-                })
-                .disposed(by: disposeBag)
-        }
-        group.notify(queue: .main) {
-            self.getPlaylists()
-        }
-    }
-    
-    // MARK: Private methods
-    
-    private func getPlaylists() {
-        let group = DispatchGroup()
-        
-        for channelId in channelsIDs {
-            group.enter()
-            getPlaylists(by: channelId, with: group)
-        }
-        group.notify(queue: .main) {
-            self.getPlaylistsItems()
-        }
-    }
-    
-    private func getPlaylists(by channelId: String, with group: DispatchGroup) {
-        youTubeService.getPlaylists(by: channelId)
-            .subscribe(onSuccess: { [weak self] playlists in
-                guard let self = self else { return }
-                group.leave()
-                self.addPlaylistsToChannel(playlists, by: channelId)
-            }, onFailure: { error in
+        zipChannels()
+            .subscribe { channels in
+                self.channels = channels
+                let sections = self.createSections(for: 0)
+                self.dataSource.accept(sections)
+                self.isLoadedData.accept(true)
+            } onError: { error in
                 self.errorSubject.accept(error.localizedDescription)
-            })
-            .disposed(by: disposeBag)
-    }
-    
-    private func addPlaylistsToChannel(_ playlists: [Playlist], by channelId: String) {
-        guard let index = channels.firstIndex(where: { $0.id == channelId }) else { return }
-        var tmpChannels = channels
-        tmpChannels[index].playlists = playlists
-        channels = tmpChannels
-    }
-    
-    private func getPlaylistsItems() {
-        let group = DispatchGroup()
-        
-        for channel in channels {
-            guard let playlists = channel.playlists else { return }
-            for playlist in playlists {
-                group.enter()
-                getPlaylistsItems(by: playlist.id, for: channel.id, with: group)
             }
-        }
-        group.notify(queue: .main) {
-            self.addPlaylistVideosViewCount()
-        }
-    }
-    
-    private func getPlaylistsItems(by playlistId: String, for channelId: String, with group: DispatchGroup) {
-        youTubeService.getPlaylistItems(by: playlistId)
-            .subscribe(onSuccess: { [weak self] playlistItems in
-                guard let self = self else { return }
-                group.leave()
-                self.addPlaylistItemsToPlaylist(playlistItems, by: playlistId, for: channelId)
-            }, onFailure: { error in
-                self.errorSubject.accept(error.localizedDescription)
-            })
             .disposed(by: disposeBag)
     }
     
-    private func addPlaylistItemsToPlaylist(_ playlistItems: [PlaylistItem], by playlistId: String, for channelId: String) {
-        guard let channelIndex = channels.firstIndex(where: { $0.id == channelId }) else { return }
-        guard let playlists = channels[channelIndex].playlists else { return }
-        guard let playlistIndex = playlists.firstIndex(where: { $0.id == playlistId }) else { return }
-        channels[channelIndex].playlists?[playlistIndex].playlistItems = playlistItems
+    func zipChannels() -> Observable<[Channel]> {
+        Observable.zip(
+            channelsIDs.map { self.populateChannel(by: $0) }
+        )
     }
     
-    private func addPlaylistVideosViewCount() {
-        let group = DispatchGroup()
-        
-        for channel in channels {
-            setVideosViewCount(to: channel, with: group)
-        }
-        group.notify(queue: .main) {
-            self.isLoadedData.accept(true)
-            let sections = self.createSections(for: 0)
-            self.dataSource.accept(sections)
-        }
-    }
-    
-    private func setVideosViewCount(to channel: Channel, with group: DispatchGroup) {
-        guard let playlists = channel.playlists else { return }
-        
-        for playlist in playlists {
-            setVideosViewCount(to: playlist, with: group, for: channel)
-        }
-    }
-    
-    private func setVideosViewCount(to playlist: Playlist, with group: DispatchGroup, for channel: Channel) {
-        guard let playlistItems = playlist.playlistItems else { return }
-        
-        for playlistItem in playlistItems {
-            group.enter()
+    func populateChannel(by channelId: String) -> Observable<Channel> {
+        Observable<Channel>.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
             
-            let itemResource = PlaylistItemResource(
-                id: playlistItem.id,
-                videoId: playlistItem.snippet.resourceId.videoId,
-                playlistId: playlist.id,
-                channelId: channel.id,
-                viewCount: ""
-            )
-            getVideos(by: itemResource, with: group)
+            return self.getChannel(by: channelId)
+                .flatMap { self.addPlaylists(to: $0) }
+                .flatMap { self.addPlaylistsItems(to: $0) }
+                .flatMap { self.addPlaylistsItemsViewCount(to: $0) }
+                .subscribe { channel in
+                    observer.onNext(channel)
+                } onError: { error in
+                    observer.onError(error)
+                }
         }
     }
     
-    private func getVideos(by itemResource: PlaylistItemResource, with group: DispatchGroup) {
-        youTubeService.getVideos(by: itemResource.videoId)
-            .subscribe(onSuccess: { [weak self] videos in
-                guard let self = self else { return }
-                group.leave()
-                
-                guard let video = videos.first else { return }
-                var tempItemResource = itemResource
-                tempItemResource.viewCount = video.statistics.viewCount
-                
-                self.addVideoViewCountToPlaylistItem(by: tempItemResource)
-            }, onFailure: { error in
-                self.errorSubject.accept(error.localizedDescription)
-            })
-            .disposed(by: disposeBag)
+    func getChannel(by channelId: String) -> Observable<Channel> {
+        Observable<Channel>.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            
+            return self.youTubeService.getChannels(by: channelId)
+                .subscribe(onSuccess: { channels in
+                    guard let newChannel = channels.first else { return }
+                    observer.onNext(newChannel)
+                }, onFailure: { error in
+                    observer.onError(error)
+                })
+        }
     }
     
-    private func addVideoViewCountToPlaylistItem(by itemResource: PlaylistItemResource) {
-        let playlistItemId = itemResource.id
-        let playlistId = itemResource.playlistId
-        let channelId = itemResource.channelId
-        let viewCount = itemResource.viewCount
-        
-        guard let channelIndex = channels.firstIndex(where: { $0.id == channelId }) else { return }
-        guard let playlists = channels[channelIndex].playlists else { return }
-        guard let playlistIndex = playlists.firstIndex(where: { $0.id == playlistId }) else { return }
-        guard let playlistItems = channels[channelIndex].playlists?[playlistIndex].playlistItems else { return }
-        guard let playlistItemIndex = playlistItems.firstIndex(where: { $0.id == playlistItemId }) else { return }
-        channels[channelIndex].playlists?[playlistIndex].playlistItems?[playlistItemIndex].snippet.viewCount = viewCount
+    func addPlaylists(to channel: Channel) -> Observable<Channel> {
+        Observable<Channel>.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            
+            return self.youTubeService.getPlaylists(by: channel.id)
+                .subscribe(onSuccess: { playlists in
+                    var tempChannel = channel
+                    tempChannel.playlists = playlists
+                    observer.onNext(tempChannel)
+                }, onFailure: { error in
+                    observer.onError(error)
+                })
+        }
+    }
+    
+    func addPlaylistsItems(to channel: Channel) -> Observable<Channel> {
+        Observable<Channel>.create { [weak self] observer in
+            guard let self = self, let playlists = channel.playlists else {
+                return Disposables.create()
+            }
+            return self.zipPlaylistsItems(by: playlists)
+                .subscribe { playlists in
+                    var tempChannel = channel
+                    tempChannel.playlists = playlists
+                    observer.onNext(tempChannel)
+                } onError: { error in
+                    observer.onError(error)
+                }
+        }
+    }
+    
+    func zipPlaylistsItems(by playlists: [Playlist]) -> Observable<[Playlist]> {
+        Observable.zip(
+            playlists.map { playlist in
+                self.getPlaylistItems(by: playlist)
+            }
+        )
+    }
+    
+    func getPlaylistItems(by playlist: Playlist) -> Observable<Playlist> {
+        Observable<Playlist>.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            
+            return self.youTubeService.getPlaylistItems(by: playlist.id)
+                .subscribe(onSuccess: { playlistItems in
+                    var tempPlaylist = playlist
+                    tempPlaylist.playlistItems = playlistItems
+                    observer.onNext(tempPlaylist)
+                }, onFailure: { error in
+                    observer.onError(error)
+                })
+        }
+    }
+    
+    func addPlaylistsItemsViewCount(to channel: Channel) -> Observable<Channel> {
+        Observable<Channel>.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            
+            return self.zipPlaylists(with: channel.playlists ?? [])
+                .subscribe { playlists in
+                    var tempChannel = channel
+                    tempChannel.playlists = playlists
+                    observer.onNext(tempChannel)
+                } onError: { error in
+                    observer.onError(error)
+                }
+        }
+    }
+    
+    func zipPlaylists(with playlists: [Playlist]) -> Observable<[Playlist]> {
+        Observable.zip(
+            playlists.map { playlist in
+                self.addPlaylistItemsViewsCount(by: playlist)
+            }
+        )
+    }
+    
+    func addPlaylistItemsViewsCount(by playlist: Playlist) -> Observable<Playlist> {
+        Observable<Playlist>.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            
+            return self.zipPlaylistItemsViewCount(by: playlist)
+                .subscribe { playlistItem in
+                    var tempPlaylist = playlist
+                    tempPlaylist.playlistItems = playlistItem
+                    observer.onNext(tempPlaylist)
+                } onError: { error in
+                    observer.onError(error)
+                }
+        }
+    }
+    
+    func zipPlaylistItemsViewCount(by playlist: Playlist) -> Observable<[PlaylistItem]> {
+        guard let playlistItems = playlist.playlistItems else { return .just([]) }
+        return Observable.zip(
+            playlistItems.map { playlistItem in
+                self.addPlaylistItemViewCount(by: playlistItem)
+            }
+        )
+    }
+    
+    func addPlaylistItemViewCount(by playlistItem: PlaylistItem) -> Observable<PlaylistItem> {
+        Observable<PlaylistItem>.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            
+            return self.addViewCount(to: playlistItem)
+                .subscribe { playlistItem in
+                    observer.onNext(playlistItem)
+                } onError: { error in
+                    observer.onError(error)
+                }
+        }
+    }
+    
+    func addViewCount(to playlistItem: PlaylistItem) -> Observable<PlaylistItem> {
+        Observable<PlaylistItem>.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            
+            return self.youTubeService.getVideos(by: playlistItem.snippet.resourceId.videoId)
+                .subscribe(onSuccess: { videos in
+                    guard let newVideo = videos.first else { return }
+                    var tempIPlaylistItem = playlistItem
+                    tempIPlaylistItem.snippet.viewCount = newVideo.statistics.viewCount
+                    observer.onNext(tempIPlaylistItem)
+                }, onFailure: { error in
+                    observer.onError(error)
+                })
+        }
     }
     
     private func createSections(for channelIndex: Int) -> [ResourcesSection] {
@@ -249,7 +271,8 @@ class YouTubeViewModel {
         
         // add sections depends of playlists count
         for playlist in channel.playlists ?? [] {
-            let rxPlaylist = rxPlaylist(from: playlist)
+            
+            let rxPlaylist = RxPlaylist(playlist: playlist)
             let cell = CellModel(title: "", typeOfCell: .playlist(model: rxPlaylist))
             let section = ResourcesSection(model: playlist.snippet.title, items: [cell])
             sections.append(section)
@@ -262,18 +285,5 @@ class YouTubeViewModel {
             return nil
         }
         return channels[index]
-    }
-    
-    private func rxPlaylist(from playlist: Playlist) -> RxPlaylist {
-        let playlistId = playlist.id
-        let playlistSnippetTitle = playlist.snippet.title
-        let playlistItems = playlist.playlistItems ?? []
-        
-        let rxSection = PlaylistItemsSection(model: "", items: playlistItems)
-        let rxSections = BehaviorRelay(value: [rxSection])
-        let rxSnippet = RxPlaylist.Snippet(title: playlistSnippetTitle)
-        let rxPlaylist = RxPlaylist(id: playlistId, snippet: rxSnippet, playlistItems: rxSections)
-        
-        return rxPlaylist
     }
 }
