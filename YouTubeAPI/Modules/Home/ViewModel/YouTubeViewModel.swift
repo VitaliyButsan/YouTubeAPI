@@ -15,14 +15,12 @@ class YouTubeViewModel {
     
     // MARK: - Properties
     
-    // rx
-    private let bag: DisposeBag
     var timerBag: DisposeBag!
     
-    // services
-    private let youTubeService: YouTubeService
+    private(set) var dataSource = BehaviorRelay(value: [ResourcesSection]())
     
-    //state
+    private var channels = [Channel]()
+    
     let isLoadedData = BehaviorRelay(value: false)
     let errorSubject = PublishRelay<String>()
     let timerCounter = BehaviorRelay(value: 0)
@@ -30,9 +28,8 @@ class YouTubeViewModel {
     let didLayoutSubviewsSubject = PublishRelay<Void>()
     let playerViewHeight = BehaviorRelay<CGFloat>(value: 0.0)
     
-    // storage
-    private var channels = [Channel]()
-    private(set) var dataSource = BehaviorRelay(value: [ResourcesSection]())
+    private let disposeBag: DisposeBag
+    private let youTubeService: YouTubeService
     
     private let channelsIDs = [
         L10n.channelId1,
@@ -41,10 +38,6 @@ class YouTubeViewModel {
         L10n.channelId4,
     ]
     
-    // To-Do move to Constants
-    let sectionHeaderHeight: CGFloat = 60.0
-    let defaultPadding: CGFloat = 18.0
-    
     // MARK: - Lifecycle
     
     init(service: YouTubeService?) {
@@ -52,11 +45,12 @@ class YouTubeViewModel {
             fatalError("YouTubeViewModel init")
         }
         self.youTubeService = service
-        self.bag = DisposeBag()
+        self.disposeBag = DisposeBag()
         self.timerBag = DisposeBag()
     }
     
-    // public methods
+    // MARK: - Public methods
+    
     func startTimer() {
         Observable<Int>.interval(.seconds(5), scheduler: MainScheduler.instance).bind { timePassed in
             self.timerCounter.accept(timePassed)
@@ -87,13 +81,7 @@ class YouTubeViewModel {
         self.dataSource.accept(sections)
     }
     
-    // To-Do delete getData()
-    func getData() {
-        getChannels()
-    }
-    
-    // private methods
-    private func getChannels() {
+    func getChannels() {
         let group = DispatchGroup()
         
         for id in channelsIDs {
@@ -111,12 +99,14 @@ class YouTubeViewModel {
                         self.errorSubject.accept(error.localizedDescription)
                     }
                 }
-                .disposed(by: bag)
+                .disposed(by: disposeBag)
         }
         group.notify(queue: .main) {
             self.getPlaylists()
         }
     }
+    
+    // MARK: Private methods
     
     private func getPlaylists() {
         let group = DispatchGroup()
@@ -135,7 +125,7 @@ class YouTubeViewModel {
                         self.errorSubject.accept(error.localizedDescription)
                     }
                 }
-                .disposed(by: bag)
+                .disposed(by: disposeBag)
         }
         group.notify(queue: .main) {
             self.getPlaylistsItems()
@@ -171,8 +161,7 @@ class YouTubeViewModel {
                             self.errorSubject.accept(error.localizedDescription)
                         }
                     }
-                // rename to disposeBag
-                    .disposed(by: bag)
+                    .disposed(by: disposeBag)
             }
         }
         group.notify(queue: .main) {
@@ -221,7 +210,7 @@ class YouTubeViewModel {
                                 self.errorSubject.accept(error.localizedDescription)
                             }
                         }
-                        .disposed(by: bag)
+                        .disposed(by: disposeBag)
                 }
             }
         }

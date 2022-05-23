@@ -10,6 +10,8 @@ import RxSwift
 
 class YouTubeService {
     
+    // MARK: - Properties
+    
     private let provider = MoyaProvider<YouTubeAPI>()
     
     // MARK: - Public methods

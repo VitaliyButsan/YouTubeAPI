@@ -238,7 +238,7 @@ extension MainView: UITableViewDelegate {
     
     private func setupSectionHeaderView(for section: Int) -> UIView {
         let headerWidth = tableView.frame.width
-        let headerHeight = youTubeViewModel.sectionHeaderHeight
+        let headerHeight = Constants.sectionHeaderHeight
         let headerRect = CGRect(x: 0, y: 0, width: headerWidth, height: headerHeight)
         let headerView = UIView(frame: headerRect)
         
@@ -252,7 +252,7 @@ extension MainView: UITableViewDelegate {
         
         textLabel.snp.makeConstraints { make in
             make.height.equalTo(headerHeight)
-            make.leading.equalToSuperview().inset(youTubeViewModel.defaultPadding)
+            make.leading.equalToSuperview().inset(Constants.defaultPadding)
             make.width.equalTo(headerWidth * 0.9)
         }
         return headerView
@@ -262,7 +262,7 @@ extension MainView: UITableViewDelegate {
         if section == 0 {
             return CGFloat.leastNormalMagnitude
         } else {
-            return youTubeViewModel.sectionHeaderHeight
+            return Constants.sectionHeaderHeight
         }
     }
     
@@ -314,8 +314,13 @@ extension MainView {
     private enum Constants {
         static let screenWidth: CGFloat = UIScreen.main.bounds.width
         static let screenHeight: CGFloat = UIScreen.main.bounds.height
+        
         static let playerOpenHeight: CGFloat = screenHeight - 97.0
         static let playerCloseHeight: CGFloat = 50.0
+        
         static let topBarHeight: CGFloat = 92.0
+        static let sectionHeaderHeight: CGFloat = 60.0
+        
+        static let defaultPadding: CGFloat = 18.0
     }
 }

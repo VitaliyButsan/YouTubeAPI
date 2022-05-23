@@ -142,13 +142,13 @@ class PlayerControlPanelView: UIView {
                     break
                 }
             }
-            .disposed(by: playerViewModel.bag)
+            .disposed(by: disposeBag)
         
         playerViewModel.state
             .subscribe(onNext: { state in
                 self.setupPlayButton(by: state)
             })
-            .disposed(by: playerViewModel.bag)
+            .disposed(by: disposeBag)
         
         playerViewModel.videoTitle
             .bind(to: videoTitleLabel.rx.text)

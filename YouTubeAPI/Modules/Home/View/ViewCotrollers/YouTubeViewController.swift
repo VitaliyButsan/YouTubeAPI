@@ -61,7 +61,7 @@ class YouTubeViewController: UIViewController {
     }
     
     private func getData() {
-        youTubeViewModel.getData()
+        youTubeViewModel.getChannels()
         ProgressHUD.showRotationHUD()
     }
     

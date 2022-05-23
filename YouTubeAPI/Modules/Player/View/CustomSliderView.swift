@@ -93,17 +93,17 @@ class CustomSliderView: UIView {
     private func setupObservers() {
         sliderView.rx.value
             .bind(to: playerViewModel.volume)
-            .disposed(by: playerViewModel.bag)
+            .disposed(by: disposeBag)
 
         playerViewModel.volume
             .subscribe(onNext: { volume in
                 self.systemVolumeView.setVolume(volume)
             })
-            .disposed(by: playerViewModel.bag)
+            .disposed(by: disposeBag)
         
         playerViewModel.systemVolume
             .bind(to: sliderView.rx.value)
-            .disposed(by: playerViewModel.bag)
+            .disposed(by: disposeBag)
         
         playerViewModel.isPlayerOpened
             .subscribe(onNext: { state in

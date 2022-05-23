@@ -149,7 +149,8 @@ class PlayerView: UIView {
     }
     
     private func setVideoToPlayer() {
-        let videoID = playerViewModel.getStartedVideoId()
+        guard let startedVideo = playerViewModel.getStartedVideo() else { return }
+        let videoID = startedVideo.snippet.resourceId.videoId
         videoPlayer.loadVideoID(videoID)
     }
     

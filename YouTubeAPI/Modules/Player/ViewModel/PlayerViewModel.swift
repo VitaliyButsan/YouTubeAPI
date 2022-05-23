@@ -10,12 +10,13 @@ import RxSwift
 
 class PlayerViewModel {
     
+    // MARK: - Properties
+    
     var duration = 0.0
     var videos: [PlaylistItem] = []
     var previousPlayerOpenedState: PlayerOpenCloseState = .close
     var currentVideo = BehaviorRelay(value: PlaylistItem.placeholder)
     
-    let bag = DisposeBag()
     let isPlayerOpened = BehaviorRelay<PlayerOpenCloseState>(value: .close)
     let yOffset = BehaviorRelay<CGFloat>(value: 0.0)
     let didLayoutSubviewsSubject = PublishRelay<Void>()
@@ -35,15 +36,21 @@ class PlayerViewModel {
     let volume = BehaviorRelay<Float>(value: 0.0)
     let systemVolume = BehaviorRelay<Float>(value: 0.0)
     
+    private let disposeBag = DisposeBag()
+    private let secondsInHour = 60 * 60
+    
+    // MARK: - Init
     
     init() {
         subscribeObservers()
     }
     
-    func getStartedVideoId() -> String {
-        guard let firstVideo = videos.first else { return "" }
+    // MARK: - Public methods
+    
+    func getStartedVideo() -> PlaylistItem? {
+        guard let firstVideo = videos.first else { return nil }
         currentVideo.accept(firstVideo)
-        return firstVideo.snippet.resourceId.videoId
+        return firstVideo
     }
     
     func getPreviousVideoId() -> String {
@@ -72,16 +79,18 @@ class PlayerViewModel {
         return videoID
     }
     
+    // MARK: - Private methods
+    
     private func subscribeObservers() {
         currentTime
             .map { self.duration - $0 }
             .bind(to: remainTime)
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
         
         currentTime
             .map { self.formattedTime(by: $0) }
             .bind(to: currentTimeFormatted)
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
         
         currentTime
             .filter { !$0.isZero }
@@ -89,24 +98,24 @@ class PlayerViewModel {
             .map { 1 / $0 }
             .map { Float($0) }
             .bind(to: progress)
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
             
         remainTime
             .map { "-" + self.formattedTime(by: $0) }
             .bind(to: remainTimeFormatted)
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
         
         currentVideo
             .map { $0.snippet.title }
             .bind(to: videoTitle)
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
         
         currentVideo
             .compactMap(\.snippet.viewCount)
             .compactMap { $0.splitIntoThounsandParts }
             .map { "\($0) просмотра"}
             .bind(to: videoViewsCounter)
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
         
         NotificationCenter.default.rx
             .notification(.volumeChanging)
@@ -114,7 +123,7 @@ class PlayerViewModel {
             .compactMap { $0[NSNotification.Name.audioVolume] }
             .compactMap { $0 as? Float }
             .bind(to: systemVolume)
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
     }
     
     private func formattedTime(by time: Double) -> String {
@@ -123,16 +132,14 @@ class PlayerViewModel {
     }
     
     private func secondsConvertToHoursMinutesSeconds(_ seconds: Int) -> (Int, Int, Int) {
-        let hours = seconds / 3600
-        let minutes = (seconds % 3600) / 60
-        let seconds = (seconds % 3600) % 60
+        let hours = seconds / secondsInHour
+        let minutes = (seconds % secondsInHour) / 60
+        let seconds = (seconds % secondsInHour) % 60
         return (hours, minutes, seconds)
     }
     
     private func formattedTimeBy(_ hours: Int, _ minutes: Int, _ seconds: Int) -> String {
-        let secondsInHour = (60 * 60)
-        let duration = Int(duration)
-        if duration >= secondsInHour {
+        if Int(duration) >= secondsInHour {
             return String(format: "%01i:%02i:%02i", hours, minutes, seconds)
         } else {
             return String(format: "%01i:%02i", minutes, seconds)
