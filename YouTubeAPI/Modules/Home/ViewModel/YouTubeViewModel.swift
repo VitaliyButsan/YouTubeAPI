@@ -164,12 +164,12 @@ class YouTubeViewModel {
     func zipPlaylistsItems(by playlists: [Playlist]) -> Observable<[Playlist]> {
         Observable.zip(
             playlists.map { playlist in
-                self.getPlaylistItems(by: playlist)
+                self.addPlaylistItems(to: playlist)
             }
         )
     }
     
-    func getPlaylistItems(by playlist: Playlist) -> Observable<Playlist> {
+    func addPlaylistItems(to playlist: Playlist) -> Observable<Playlist> {
         Observable<Playlist>.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
             
@@ -247,12 +247,14 @@ class YouTubeViewModel {
     func addViewCount(to playlistItem: PlaylistItem) -> Observable<PlaylistItem> {
         Observable<PlaylistItem>.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
+            let videoId = playlistItem.snippet.resourceId.videoId
             
-            return self.youTubeService.getVideos(by: playlistItem.snippet.resourceId.videoId)
+            return self.youTubeService.getVideos(by: videoId)
                 .subscribe(onSuccess: { videos in
                     guard let newVideo = videos.first else { return }
                     var tempIPlaylistItem = playlistItem
-                    tempIPlaylistItem.snippet.viewCount = newVideo.statistics.viewCount
+                    let viewCount = newVideo.statistics.viewCount
+                    tempIPlaylistItem.snippet.viewCount = viewCount
                     observer.onNext(tempIPlaylistItem)
                 }, onFailure: { error in
                     observer.onError(error)
@@ -281,7 +283,7 @@ class YouTubeViewModel {
     }
     
     private func getChannel(by index: Int) -> Channel? {
-        if index > channels.count - 1, index < 0 {
+        if index < 0, index > channels.count - 1 {
             return nil
         }
         return channels[index]

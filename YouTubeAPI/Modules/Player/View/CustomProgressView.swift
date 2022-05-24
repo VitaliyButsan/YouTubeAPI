@@ -84,8 +84,8 @@ class CustomProgressView: UIView {
     private func addConstraints() {
         progressView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(5)
-            $0.leading.equalToSuperview().offset(13)
-            $0.trailing.equalToSuperview().inset(13)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
         }
         currentTimeLabel.snp.makeConstraints {
             $0.leading.equalTo(progressView)

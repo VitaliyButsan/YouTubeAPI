@@ -35,8 +35,12 @@ class PlayerControlPanelView: UIView {
             font: .SFPro.Text.Regular(size: 16).font,
             textColor: Asset.Colors.playerTransparentWhite70.color
         )
+    private lazy var controlButtonsStackView = uiFactory
+        .newStackView(
+            axis: .horizontal,
+            distribution: .equalCentering
+        )
     
-    private lazy var controlButtonsStackView = uiFactory.newStackView(axis: .horizontal, distribution: .equalCentering)
     private lazy var prevButton = uiFactory.newButton(image: Asset.Player.Controls.prev.image)
     private lazy var nextButton = uiFactory.newButton(image: Asset.Player.Controls.next.image)
     private lazy var playButton = uiFactory.newButton(image: Asset.Player.Controls.play.image)
@@ -89,7 +93,8 @@ class PlayerControlPanelView: UIView {
     private func addConstraints() {
         progressView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(19)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview().offset(13)
+            $0.trailing.equalToSuperview().inset(13)
             $0.height.equalTo(31)
         }
         videoInfoStackView.snp.makeConstraints {
@@ -105,8 +110,8 @@ class PlayerControlPanelView: UIView {
         }
         sliderView.snp.makeConstraints {
             $0.top.equalTo(controlButtonsStackView.snp.bottom).offset(46)
-            $0.leading.equalToSuperview().offset(17)
-            $0.trailing.equalToSuperview().inset(17)
+            $0.leading.equalToSuperview().offset(10)
+            $0.trailing.equalToSuperview().inset(15)
             $0.height.equalTo(21)
         }
     }
