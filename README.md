@@ -1,11 +1,12 @@
 # YouTubeAPI
 
 ### Youtube Player based on YouTube API
-- Layout - SnapKit
-- Bindings - RxSwift, RxCocoa, RxDataSources
-- Networking - Moya
-- Resources - SwiftGen, SDWebImage
-- DI - Swinject
+- Architecture - **MVVM**
+- Layout - **SnapKit**
+- Bindings - **RxSwift, RxCocoa, RxDataSources**
+- Networking - **Moya**
+- Resources - **SwiftGen, SDWebImage**
+- DI - **Swinject**
 ________________________________________________
 
 
