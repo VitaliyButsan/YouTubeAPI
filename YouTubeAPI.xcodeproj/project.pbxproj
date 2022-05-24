@@ -184,6 +184,15 @@
 			path = Assembly;
 			sourceTree = "<group>";
 		};
+		FE6DEA34283CC18600288E50 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FED1585F282E64B800FB4664 /* CollectionViewCells */,
+				FE776C0D282D2B7F00F37DBF /* TableViewCells */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		FE776C06282D055600F37DBF /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,7 +242,6 @@
 		FE776C0D282D2B7F00F37DBF /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
-				FED1585F282E64B800FB4664 /* CollectionViewCells */,
 				FE776C10282D2BD400F37DBF /* PlaylistCell.swift */,
 				FE59F9D4282D61F000AF1505 /* PageControlCell.swift */,
 			);
@@ -380,7 +388,7 @@
 		FEA6DF04282AB28400F67D61 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				FE776C0D282D2B7F00F37DBF /* TableViewCells */,
+				FE6DEA34283CC18600288E50 /* Cells */,
 				FE776C0C282D2B5F00F37DBF /* ViewCotrollers */,
 				FE776C0B282D2B5900F37DBF /* Views */,
 				FE87723C282A84F8006111CB /* Storyboards */,
