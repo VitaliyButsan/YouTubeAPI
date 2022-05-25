@@ -21,9 +21,10 @@
 // channels ids
 "channelId1" = "UC18bHNKD21woNT7G0F4PN7Q";
 "channelId2" = "UCJhjE7wbdYAae1G25m0tHAA";
-"channelId3" = "UCvmxzBDt6zpM1BhZaGeiV0Q";
+"channelId3" = "UCLr_PnLF0aClbzrEnpyxx0A";
 "channelId4" = "UC9_DJQL7CPkR9PhjfRZAnlw";
 
+// cell ids
 "playlistItemCellId" = "PlaylistItemCell";
 "pageControlCellId" = "PageControlCell";
 "playlistCellId" = "PlaylistCell";
