@@ -18,7 +18,7 @@ internal enum L10n {
   internal static let channelId1 = L10n.tr("Localizable", "channelId1")
   /// UCJhjE7wbdYAae1G25m0tHAA
   internal static let channelId2 = L10n.tr("Localizable", "channelId2")
-  /// UCvmxzBDt6zpM1BhZaGeiV0Q
+  /// UCLr_PnLF0aClbzrEnpyxx0A
   internal static let channelId3 = L10n.tr("Localizable", "channelId3")
   /// UC9_DJQL7CPkR9PhjfRZAnlw
   internal static let channelId4 = L10n.tr("Localizable", "channelId4")
