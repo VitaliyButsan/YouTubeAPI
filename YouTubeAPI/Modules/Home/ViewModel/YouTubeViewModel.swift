@@ -251,7 +251,10 @@ class YouTubeViewModel {
             
             return self.youTubeService.getVideos(by: videoId)
                 .subscribe(onSuccess: { videos in
-                    guard let newVideo = videos.first else { return }
+                    guard let newVideo = videos.first else {
+                        observer.onNext(playlistItem)
+                        return
+                    }
                     var tempIPlaylistItem = playlistItem
                     let viewCount = newVideo.statistics.viewCount
                     tempIPlaylistItem.snippet.viewCount = viewCount

@@ -61,8 +61,8 @@ class PlaylistItemCell: UICollectionViewCell {
         let viewsCount = playlistItem.snippet.viewCount?.splitIntoThounsandParts ?? "0"
         viewsCounterLabel.text = viewsCount + " просмотра"
         setupPosterHeight(by: indexPath.section)
-        let url = playlistItem.snippet.thumbnails.default.url
-        photoImageView.sd_setImage(with: URL(string: url))
+        let url = playlistItem.snippet.thumbnails?.default?.url ?? ""
+        photoImageView.sd_setImage(with: URL(string: url), placeholderImage: Asset.placeholder.image)
     }
     
     // MARK: - Private methods

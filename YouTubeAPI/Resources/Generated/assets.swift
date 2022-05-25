@@ -43,6 +43,7 @@ internal enum Asset {
       internal static let soundMin = ImageAsset(name: "Player/Controls/SoundMin")
     }
   }
+  internal static let placeholder = ImageAsset(name: "placeholder")
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
 
