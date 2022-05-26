@@ -42,7 +42,7 @@ class PlayerViewModel {
     // MARK: - Init
     
     init() {
-        subscribeObservers()
+        bindObservers()
     }
     
     // MARK: - Public methods
@@ -81,7 +81,7 @@ class PlayerViewModel {
     
     // MARK: - Private methods
     
-    private func subscribeObservers() {
+    private func bindObservers() {
         currentTime
             .map { self.duration - $0 }
             .bind(to: remainTime)
