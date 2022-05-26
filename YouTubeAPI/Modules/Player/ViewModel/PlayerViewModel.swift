@@ -22,7 +22,7 @@ class PlayerViewModel {
     let didLayoutSubviewsSubject = PublishRelay<Void>()
     
     let videoTitle = BehaviorRelay(value: "")
-    let videoViewsCounter = BehaviorRelay(value: "")
+    let videoViewCounter = BehaviorRelay(value: "")
     
     let currentTime = BehaviorRelay(value: 0.0)
     let currentTimeFormatted = BehaviorRelay(value: "")
@@ -114,7 +114,7 @@ class PlayerViewModel {
             .compactMap(\.snippet.viewCount)
             .compactMap { $0.splitIntoThounsandParts }
             .map { "\($0) просмотра"}
-            .bind(to: videoViewsCounter)
+            .bind(to: videoViewCounter)
             .disposed(by: disposeBag)
         
         NotificationCenter.default.rx

@@ -159,7 +159,7 @@ class PlayerControlPanelView: UIView {
             .bind(to: videoTitleLabel.rx.text)
             .disposed(by: disposeBag)
         
-        playerViewModel.videoViewsCounter
+        playerViewModel.videoViewCounter
             .bind(to: videoViewsCountLabel.rx.text)
             .disposed(by: disposeBag)
     }
