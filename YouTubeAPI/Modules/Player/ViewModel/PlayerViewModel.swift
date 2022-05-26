@@ -126,11 +126,11 @@ class PlayerViewModel {
     }
     
     private func formattedTime(by seconds: Double) -> String {
-        let (hours, minutes, seconds) = secondsConvertToHoursMinutesSeconds(Int(seconds))
+        let (hours, minutes, seconds) = convertToHoursMinutesSeconds(from: Int(seconds))
         return formattedTimeBy(hours, minutes, seconds)
     }
     
-    private func secondsConvertToHoursMinutesSeconds(_ seconds: Int) -> (Int, Int, Int) {
+    private func convertToHoursMinutesSeconds(from seconds: Int) -> (Int, Int, Int) {
         let hours = seconds / secondsInHour
         let minutes = (seconds % secondsInHour) / 60
         let seconds = (seconds % secondsInHour) % 60
