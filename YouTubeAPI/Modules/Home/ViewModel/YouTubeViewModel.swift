@@ -9,13 +9,13 @@ import RxCocoa
 import RxDataSources
 import RxSwift
 
-typealias ResourcesSection = SectionModel<String, CellModel>
+typealias ResourceSection = SectionModel<String, CellModel>
 
 class YouTubeViewModel {
     
     // MARK: - Properties
     
-    private(set) var dataSource = BehaviorRelay(value: [ResourcesSection]())
+    private(set) var dataSource = BehaviorRelay(value: [ResourceSection]())
     
     private var pagesTimerDisposable: Disposable?
     private var channels = [Channel]()
@@ -262,13 +262,13 @@ class YouTubeViewModel {
         }
     }
     
-    private func createSections(for channelIndex: Int) -> [ResourcesSection] {
+    private func createSections(for channelIndex: Int) -> [ResourceSection] {
         guard let channel = getChannel(by: channelIndex) else { return [] }
-        var sections: [ResourcesSection] = []
+        var sections: [ResourceSection] = []
         
         // add first fixed section
         let cell = CellModel(title: "", typeOfCell: .pageControl(model: channels))
-        let section = ResourcesSection(model: "", items: [cell])
+        let section = ResourceSection(model: "", items: [cell])
         sections.append(section)
         
         // add sections depends of playlists count
@@ -276,7 +276,7 @@ class YouTubeViewModel {
             
             let rxPlaylist = RxPlaylist(playlist: playlist)
             let cell = CellModel(title: "", typeOfCell: .playlist(model: rxPlaylist))
-            let section = ResourcesSection(model: playlist.snippet.title, items: [cell])
+            let section = ResourceSection(model: playlist.snippet.title, items: [cell])
             sections.append(section)
         }
         return sections

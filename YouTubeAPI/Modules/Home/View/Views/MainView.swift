@@ -14,7 +14,7 @@ import UIKit
 
 class MainView: UIView {
     
-    typealias DataSource = RxTableViewSectionedReloadDataSource<ResourcesSection>
+    typealias DataSource = RxTableViewSectionedReloadDataSource<ResourceSection>
     
     // MARK: - Properties
     
