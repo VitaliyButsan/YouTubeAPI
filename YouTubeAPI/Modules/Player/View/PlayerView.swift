@@ -23,7 +23,7 @@ class PlayerView: UIView {
     
     // MARK: - Properties
     
-    private var timeTrackerBag = DisposeBag()
+    private var trackerTimerDisposable: Disposable?
     
     private(set) var playerViewModel: PlayerViewModel!
     
@@ -45,7 +45,6 @@ class PlayerView: UIView {
         guard let viewModel = viewModel else {
             fatalError("MainView init")
         }
-        timeTrackerBag = DisposeBag()
         playerViewModel = viewModel
         setup()
     }
@@ -183,16 +182,20 @@ class PlayerView: UIView {
     }
     
     private func startVideoTimeTracking() {
-        Observable<Int>.interval(.milliseconds(100), scheduler: MainScheduler.instance).bind { _ in
-            self.videoPlayer.getCurrentTime { time in
-                guard let time = time else { return }
-                self.playerViewModel.currentTime.accept(time)
+        trackerTimerDisposable = Observable<Int>
+            .interval(.milliseconds(100), scheduler: MainScheduler.instance)
+            .bind { [weak self] _ in
+                self?.videoPlayer.getCurrentTime { time in
+                    guard let time = time else { return }
+                    self?.playerViewModel.currentTime.accept(time)
+                }
             }
-        }.disposed(by: timeTrackerBag)
     }
     
     private func stopVideoTimeTracking() {
-        timeTrackerBag = DisposeBag()
+        trackerTimerDisposable = nil
+        playerViewModel.currentTime.accept(0.0)
+        playerViewModel.duration = 0.0
     }
     
     private func play() {

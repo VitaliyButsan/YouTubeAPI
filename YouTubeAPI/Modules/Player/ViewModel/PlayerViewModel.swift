@@ -93,7 +93,6 @@ class PlayerViewModel {
             .disposed(by: disposeBag)
         
         currentTime
-            .filter { !$0.isZero }
             .map { self.duration / $0 }
             .map { 1 / $0 }
             .map { Float($0) }

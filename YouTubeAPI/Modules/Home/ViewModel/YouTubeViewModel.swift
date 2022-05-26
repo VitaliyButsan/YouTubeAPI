@@ -15,10 +15,9 @@ class YouTubeViewModel {
     
     // MARK: - Properties
     
-    var timerBag: DisposeBag!
-    
     private(set) var dataSource = BehaviorRelay(value: [ResourcesSection]())
     
+    private var pagesTimerDisposable: Disposable?
     private var channels = [Channel]()
     
     let isLoadedData = BehaviorRelay(value: false)
@@ -46,20 +45,18 @@ class YouTubeViewModel {
         }
         self.youTubeService = service
         self.disposeBag = DisposeBag()
-        self.timerBag = DisposeBag()
     }
     
     // MARK: - Public methods
     
     func startTimer() {
-        Observable<Int>.interval(.seconds(5), scheduler: MainScheduler.instance).bind { timePassed in
-            self.timerCounter.accept(timePassed)
-        }
-        .disposed(by: timerBag)
+        pagesTimerDisposable = Observable<Int>
+            .interval(.seconds(5), scheduler: MainScheduler.instance)
+            .bind(to: timerCounter)
     }
     
     func stopTimer() {
-        timerBag = nil
+        pagesTimerDisposable = nil
         timerCounter.accept(0)
     }
     

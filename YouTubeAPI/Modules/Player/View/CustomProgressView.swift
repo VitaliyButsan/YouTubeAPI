@@ -109,16 +109,5 @@ class CustomProgressView: UIView {
         playerViewModel.progress
             .bind(to: progressView.rx.value)
             .disposed(by: disposeBag)
-        
-        playerViewModel.isPlayerOpened
-            .subscribe(onNext: { openState in
-                switch openState {
-                case .close:
-                    self.playerViewModel.progress.accept(0.0)
-                default:
-                    break
-                }
-            })
-            .disposed(by: disposeBag)
     }
 }
