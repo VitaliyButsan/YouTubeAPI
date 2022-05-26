@@ -126,8 +126,8 @@ class PlayerViewModel {
             .disposed(by: disposeBag)
     }
     
-    private func formattedTime(by time: Double) -> String {
-        let (hours, minutes, seconds) = secondsConvertToHoursMinutesSeconds(Int(time))
+    private func formattedTime(by seconds: Double) -> String {
+        let (hours, minutes, seconds) = secondsConvertToHoursMinutesSeconds(Int(seconds))
         return formattedTimeBy(hours, minutes, seconds)
     }
     
