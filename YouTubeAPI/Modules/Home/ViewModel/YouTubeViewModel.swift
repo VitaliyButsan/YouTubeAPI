@@ -252,10 +252,10 @@ class YouTubeViewModel {
                         observer.onNext(playlistItem)
                         return
                     }
-                    var tempIPlaylistItem = playlistItem
+                    var tempPlaylistItem = playlistItem
                     let viewCount = newVideo.statistics.viewCount
-                    tempIPlaylistItem.snippet.viewCount = viewCount
-                    observer.onNext(tempIPlaylistItem)
+                    tempPlaylistItem.snippet.viewCount = viewCount
+                    observer.onNext(tempPlaylistItem)
                 }, onFailure: { error in
                     observer.onError(error)
                 })
