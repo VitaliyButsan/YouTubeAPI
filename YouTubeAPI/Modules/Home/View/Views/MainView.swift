@@ -197,7 +197,7 @@ class MainView: UIView {
         switch state {
         case .open:
             addSubview(shadowView)
-            shadowView.snp.makeConstraints { $0.edges.equalToSuperview() }
+            shadowView.frame = frame
             bringSubviewToFront(playerView)
         case .close:
             shadowView.removeFromSuperview()
