@@ -70,15 +70,15 @@ class CustomProgressView: UIView {
         setupObservers()
     }
     
-    private func setupProgressView() {
-        progressView.setThumbImage(progressPointerThumb, for: .normal)
-        progressView.isUserInteractionEnabled = false
-    }
-    
     private func setupViews() {
         addSubview(progressView)
         addSubview(currentTimeLabel)
         addSubview(remainingTimeLabel)
+    }
+    
+    private func setupProgressView() {
+        progressView.setThumbImage(progressPointerThumb, for: .normal)
+        progressView.isUserInteractionEnabled = false
     }
     
     private func addConstraints() {

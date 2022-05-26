@@ -13,8 +13,8 @@ class PlayerViewModel {
     // MARK: - Properties
     
     var duration = 0.0
-    var videos: [PlaylistItem] = []
-    var previousPlayerOpenedState: PlayerOpenCloseState = .close
+    var videos = [PlaylistItem]()
+    var previousPlayerOpenedState = PlayerOpenCloseState.close
     var currentVideo = BehaviorRelay(value: PlaylistItem.placeholder)
     
     let isPlayerOpened = BehaviorRelay<PlayerOpenCloseState>(value: .close)
