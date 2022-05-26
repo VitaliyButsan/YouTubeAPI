@@ -273,7 +273,6 @@ class YouTubeViewModel {
         
         // add sections depends of playlists count
         for playlist in channel.playlists ?? [] {
-            
             let rxPlaylist = RxPlaylist(playlist: playlist)
             let cell = CellModel(title: "", typeOfCell: .playlist(model: rxPlaylist))
             let section = ResourceSection(model: playlist.snippet.title, items: [cell])
