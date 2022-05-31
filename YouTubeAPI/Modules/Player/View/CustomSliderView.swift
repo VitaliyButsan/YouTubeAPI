@@ -118,7 +118,7 @@ class CustomSliderView: UIView {
             .disposed(by: disposeBag)
     }
     
-    private func setSystemVolume(by state: PlayerOpenCloseState) {
+    private func setSystemVolume(by state: ShowPlayerState) {
         guard playerViewModel.previousPlayerOpenedState != state else { return }
         let systemVolume = systemVolumeView.getVolume()
         playerViewModel.volume.accept(systemVolume)

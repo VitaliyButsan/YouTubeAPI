@@ -22,7 +22,7 @@ class YouTubeViewModel {
     
     let isLoadedData = BehaviorRelay(value: false)
     let errorSubject = PublishRelay<String>()
-    let timerCounter = BehaviorRelay(value: 0)
+    let pagesCounter = BehaviorRelay(value: 0)
     
     let didLayoutSubviewsSubject = PublishRelay<Void>()
     let playerViewHeight = BehaviorRelay<CGFloat>(value: 0.0)
@@ -43,8 +43,8 @@ class YouTubeViewModel {
         guard let service = service else {
             fatalError("YouTubeViewModel init")
         }
-        self.youTubeService = service
-        self.disposeBag = DisposeBag()
+        youTubeService = service
+        disposeBag = DisposeBag()
     }
     
     // MARK: - Public methods
@@ -52,16 +52,12 @@ class YouTubeViewModel {
     func startTimer() {
         pagesTimerDisposable = Observable<Int>
             .interval(.seconds(5), scheduler: MainScheduler.instance)
-            .bind(to: timerCounter)
+            .bind(to: pagesCounter)
     }
     
     func stopTimer() {
         pagesTimerDisposable = nil
-        timerCounter.accept(0)
-    }
-    
-    func channelsIdsCount() -> Int {
-        return channelsIDs.count
+        pagesCounter.accept(0)
     }
     
     func getSectionTitle(by sectionIndex: Int) -> String {
@@ -74,8 +70,8 @@ class YouTubeViewModel {
     }
     
     func updateData(for channelIndex: Int) {
-        let sections = self.createSections(for: channelIndex)
-        self.dataSource.accept(sections)
+        let sections = createSections(for: channelIndex)
+        dataSource.accept(sections)
     }
     
     func getChannels() {

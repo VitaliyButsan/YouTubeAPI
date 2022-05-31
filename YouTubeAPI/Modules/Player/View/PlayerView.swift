@@ -11,7 +11,7 @@ import SnapKit
 import UIKit
 import YouTubePlayer
 
-enum PlayerOpenCloseState {
+enum ShowPlayerState {
     case open, close
 }
 
@@ -128,7 +128,7 @@ class PlayerView: UIView {
                 switch state {
                 case .open:
                     if playerViewModel.previousPlayerOpenedState != state {
-                        self.setVideoToPlayer()
+                        self.setStartedVideoToPlayer()
                         self.playerViewModel.state.accept(.play)
                     }
                 case .close:
@@ -142,24 +142,24 @@ class PlayerView: UIView {
         
         playerViewModel.state
             .subscribe(onNext: { state in
-                self.setPlayerState(state)
+                self.setPlayerWork(by: state)
             })
             .disposed(by: disposeBag)
     }
     
-    private func setVideoToPlayer() {
+    private func setStartedVideoToPlayer() {
         guard let startedVideo = playerViewModel.getStartedVideo() else { return }
         let videoID = startedVideo.snippet.resourceId.videoId
         videoPlayer.loadVideoID(videoID)
     }
     
-    private func rotateOpenCloseButton(by state: PlayerOpenCloseState) {
+    private func rotateOpenCloseButton(by state: ShowPlayerState) {
         if playerViewModel.previousPlayerOpenedState != state {
             self.openCloseButton.rotate()
         }
     }
      
-    private func setPlayerState(_ state: PlayerWorkState) {
+    private func setPlayerWork(by state: PlayerWorkState) {
         switch state {
         case .play:
             play()
@@ -215,13 +215,13 @@ class PlayerView: UIView {
     private func playPrevious() {
         let videoID = playerViewModel.getPreviousVideoId()
         videoPlayer.loadVideoID(videoID)
-        setPlayerState(.play)
+        setPlayerWork(by: .play)
     }
     
     private func playNext() {
         let videoID = playerViewModel.getNextVideoId()
         videoPlayer.loadVideoID(videoID)
-        setPlayerState(.play)
+        setPlayerWork(by: .play)
     }
     
     @objc private func detectPan(_ recognizer: UIPanGestureRecognizer) {

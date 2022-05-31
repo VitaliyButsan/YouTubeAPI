@@ -23,21 +23,20 @@ class MainView: UIView {
     
     private(set) var youTubeViewModel: YouTubeViewModel!
     
-    private lazy var dataSource: DataSource = .init(configureCell: configureCell)
+    private lazy var dataSource: DataSource = .init(configureCell: cellConfiguration)
     
     private let disposeBag = DisposeBag()
     
     // MARK: - UI Elements
     
     private lazy var topBarView = uiFactory.newView(color: .clear)
+    
     private lazy var topBarTitleLabel = uiFactory
         .newLabel(
             text: "",
             font: .SFPro.Display.Bold(size: 34).font,
             textColor: .white
         )
-    
-    private lazy var shadowView = uiFactory.newShadowView(alpha: 0.5)
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -51,6 +50,7 @@ class MainView: UIView {
         return tableView
     }()
     
+    private lazy var shadowView = uiFactory.newShadowView(alpha: 0.5)
     private lazy var playerView = PlayerView(viewModel: PlayerViewModel())
     
     // MARK: - Lifecycle
@@ -158,10 +158,10 @@ class MainView: UIView {
         
         playerView.playerViewModel.isPlayerOpened
             .subscribe(onNext: { [unowned self] state in
-                setupShadowBackground(with: state)
-                setupTopBarTitle(with: state)
+                setupShadowBackground(by: state)
+                setupTopBarTitle(by: state)
                 if youTubeViewModel.isLoadedData.value {
-                    openClosePlayer(with: state)
+                    openClosePlayer(by: state)
                 }
             })
             .disposed(by: disposeBag)
@@ -175,7 +175,7 @@ class MainView: UIView {
         }
     }
     
-    private func openClosePlayer(with state: PlayerOpenCloseState) {
+    private func openClosePlayer(by state: ShowPlayerState) {
         switch state {
         case .open:
             youTubeViewModel.playerViewHeight.accept(-Constants.playerOpenHeight)
@@ -184,7 +184,7 @@ class MainView: UIView {
         }
     }
     
-    private func setupTopBarTitle(with state: PlayerOpenCloseState) {
+    private func setupTopBarTitle(by state: ShowPlayerState) {
         switch state {
         case .open:
             topBarTitleLabel.text = "My Music"
@@ -193,15 +193,23 @@ class MainView: UIView {
         }
     }
     
-    private func setupShadowBackground(with state: PlayerOpenCloseState) {
+    private func setupShadowBackground(by state: ShowPlayerState) {
         switch state {
         case .open:
-            addSubview(shadowView)
-            shadowView.frame = frame
-            bringSubviewToFront(playerView)
+            addShadowView()
         case .close:
-            shadowView.removeFromSuperview()
+            removeShadowView()
         }
+    }
+    
+    private func addShadowView() {
+        addSubview(shadowView)
+        shadowView.frame = frame
+        bringSubviewToFront(playerView)
+    }
+    
+    private func removeShadowView() {
+        shadowView.removeFromSuperview()
     }
     
     private func startTimer() {
@@ -213,14 +221,14 @@ class MainView: UIView {
 
 extension MainView {
     
-    private var configureCell: DataSource.ConfigureCell {
+    private var cellConfiguration: DataSource.ConfigureCell {
         return { _, tableView, indexPath, dataSource in
             switch dataSource.typeOfCell {
             case let .pageControl(channels):
                 let cell = tableView.dequeueReusableCell(withIdentifier: PageControlCell.reuseID, for: indexPath) as! PageControlCell
                 cell.contentView.backgroundColor = Asset.Colors.background.color
                 cell.delegate = self
-                cell.setupCell(with: channels, bind: self.youTubeViewModel.timerCounter)
+                cell.setupCell(with: channels, bind: self.youTubeViewModel.pagesCounter)
                 return cell
             case let .playlist(playlist):
                 let cell = tableView.dequeueReusableCell(withIdentifier: PlaylistCell.reuseID, for: indexPath) as! PlaylistCell
@@ -251,9 +259,8 @@ extension MainView: UITableViewDelegate {
         headerView.addSubview(textLabel)
         
         textLabel.snp.makeConstraints { make in
-            make.height.equalTo(headerHeight)
-            make.leading.equalToSuperview().inset(Constants.defaultPadding)
-            make.width.equalTo(headerWidth * 0.9)
+            make.height.equalToSuperview()
+            make.leading.width.equalToSuperview().inset(Constants.defaultPadding)
         }
         return headerView
     }
@@ -292,18 +299,14 @@ extension MainView: PageControlCellDelegate {
     }
     
     func channelDidSelect(_ channel: Channel) {
-        let videos = getPlaylistItems(from: channel.playlists)
+        let videos = joinedPlaylistsItems(from: channel.playlists)
         playerView.playerViewModel.videos = videos
         playerView.playerViewModel.isPlayerOpened.accept(.open)
     }
     
-    private func getPlaylistItems(from playlists: [Playlist]?) -> [PlaylistItem] {
-        guard let playlists = playlists else { return [] }
-        var playlistItems: [PlaylistItem] = []
-        for playlist in playlists {
-            playlistItems.append(contentsOf: playlist.playlistItems ?? [])
-        }
-        return playlistItems
+    private func joinedPlaylistsItems(from playlists: [Playlist]?) -> [PlaylistItem] {
+        guard let playlistItems2D = playlists?.compactMap(\.playlistItems) else { return [] }
+        return Array(playlistItems2D.joined())
     }
 }
 

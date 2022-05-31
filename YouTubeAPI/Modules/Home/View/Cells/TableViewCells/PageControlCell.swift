@@ -20,7 +20,7 @@ class PageControlCell: UITableViewCell {
     
     weak var delegate: PageControlCellDelegate?
     
-    private var timerCounter = BehaviorRelay(value: 0)
+    private var pagesCounter = BehaviorRelay(value: 0)
     private var currentIndex = 0
     private var pendingIndex = 0
     
@@ -60,12 +60,12 @@ class PageControlCell: UITableViewCell {
     
     // MARK: - Public methods
     
-    func setupCell(with channels: [Channel], bind timerCounter: BehaviorRelay<Int>) {
+    func setupCell(with channels: [Channel], bind pagesCounter: BehaviorRelay<Int>) {
         self.channels = channels
         if pages.isEmpty {
             setupPageViewController(with: channels)
             setupPageControl()
-            bind(timerCounter)
+            bind(pagesCounter)
         }
     }
     
@@ -73,7 +73,7 @@ class PageControlCell: UITableViewCell {
     
     private func bind(_ counter: BehaviorRelay<Int>) {
         counter
-            .bind(to: timerCounter)
+            .bind(to: pagesCounter)
             .disposed(by: disposeBag)
     }
     
@@ -155,7 +155,7 @@ class PageControlCell: UITableViewCell {
     }
     
     private func setupObservers() {
-        timerCounter
+        pagesCounter
             .filter { $0 > 0 }
             .subscribe(onNext: { _ in
                 self.moveCarousel()
@@ -176,29 +176,29 @@ extension PageControlCell: UIPageViewControllerDataSource, UIPageViewControllerD
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let currentIndex = pages.firstIndex(of: viewController) else { return nil }
-        if currentIndex == 0 {
+        guard let currentPageIndex = pages.firstIndex(of: viewController) else { return nil }
+        if currentPageIndex == 0 {
             return nil
         }
-        let previousIndex = abs((currentIndex - 1) % pages.count)
-        return pages[previousIndex]
+        let previousPageIndex = abs((currentPageIndex - 1) % pages.count)
+        return pages[previousPageIndex]
     }
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let currentIndex = pages.firstIndex(of: viewController) else { return nil }
-        if currentIndex == pages.count - 1 {
+        guard let currentPageIndex = pages.firstIndex(of: viewController) else { return nil }
+        if currentPageIndex == pages.count - 1 {
             return nil
         }
-        let nextIndex = abs((currentIndex + 1) % pages.count)
-        return pages[nextIndex]
+        let nextPageIndex = abs((currentPageIndex + 1) % pages.count)
+        return pages[nextPageIndex]
     }
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             willTransitionTo pendingViewControllers: [UIViewController]) {
         guard let firstPendingController = pendingViewControllers.first else { return }
-        guard let pendingControllerIndex = pages.firstIndex(of: firstPendingController) else { return }
-        pendingIndex = pendingControllerIndex
+        guard let pendingPageIndex = pages.firstIndex(of: firstPendingController) else { return }
+        pendingIndex = pendingPageIndex
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool,
