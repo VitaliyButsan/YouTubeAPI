@@ -110,18 +110,26 @@ class CustomSliderView: UIView {
                 switch state {
                 case .open:
                     self.setSystemVolume(by: state)
-                    self.systemVolumeView.alpha = 0.001 // hide
+                    self.hideSystemVolumeView()
                 case .close:
-                    self.systemVolumeView.alpha = 0.0 // show
+                    self.showSystemVolumeView()
                 }
             })
             .disposed(by: disposeBag)
     }
     
     private func setSystemVolume(by state: ShowPlayerState) {
-        guard playerViewModel.previousPlayerOpenedState != state else { return }
-        let systemVolume = systemVolumeView.getVolume()
-        playerViewModel.volume.accept(systemVolume)
-        sliderView.value = systemVolume
+        if playerViewModel.previousPlayerOpenedState != state {
+            sliderView.value = systemVolumeView.getVolume()
+        }
+    }
+    
+    private func hideSystemVolumeView() {
+        self.systemVolumeView.alpha = 0.001
+    }
+    
+    private func showSystemVolumeView() {
+        self.systemVolumeView.alpha = 0.0
     }
 }
+
