@@ -278,7 +278,7 @@ class YouTubeViewModel {
     }
     
     private func getChannel(by index: Int) -> Channel? {
-        if index < 0, index > channels.count - 1 {
+        if index < 0 || index > channels.count - 1 {
             return nil
         }
         return channels[index]
