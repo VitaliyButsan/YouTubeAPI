@@ -128,12 +128,11 @@ class PlayerView: UIView {
                 switch state {
                 case .open:
                     if playerViewModel.previousPlayerOpenedState != state {
-                        self.setStartedVideoToPlayer()
-                        self.playerViewModel.state.accept(.play)
+                        self.playFirstVideo()
                     }
                 case .close:
-                    self.playerViewModel.state.accept(.stop)
-                    self.stopVideoTimeTracking()
+                    stopVideoTimeTracking()
+                    playerViewModel.state.accept(.stop)
                 }
                 self.rotateOpenCloseButton(by: state)
                 playerViewModel.previousPlayerOpenedState = state
@@ -147,7 +146,7 @@ class PlayerView: UIView {
             .disposed(by: disposeBag)
     }
     
-    private func setStartedVideoToPlayer() {
+    private func playFirstVideo() {
         guard let startedVideo = playerViewModel.getStartedVideo() else { return }
         let videoID = startedVideo.snippet.resourceId.videoId
         videoPlayer.loadVideoID(videoID)
@@ -174,7 +173,7 @@ class PlayerView: UIView {
         }
     }
     
-    private func getVideoDuration() {
+    private func getVideoDuration(by videoPlayer: YouTubePlayerView) {
         videoPlayer.getDuration { duration in
             guard let duration = duration else { return }
             self.playerViewModel.duration = duration
@@ -199,9 +198,7 @@ class PlayerView: UIView {
     }
     
     private func play() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.videoPlayer.play()
-        }
+        videoPlayer.play()
     }
     
     private func pause() {
@@ -215,13 +212,11 @@ class PlayerView: UIView {
     private func playPrevious() {
         let videoID = playerViewModel.getPreviousVideoId()
         videoPlayer.loadVideoID(videoID)
-        setPlayerWork(by: .play)
     }
     
     private func playNext() {
         let videoID = playerViewModel.getNextVideoId()
         videoPlayer.loadVideoID(videoID)
-        setPlayerWork(by: .play)
     }
     
     @objc private func detectPan(_ recognizer: UIPanGestureRecognizer) {
@@ -248,7 +243,8 @@ class PlayerView: UIView {
 extension PlayerView: YouTubePlayerDelegate {
     
     func playerReady(_ videoPlayer: YouTubePlayerView) {
-        getVideoDuration()
+        getVideoDuration(by: videoPlayer)
+        play()
     }
     
     func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {

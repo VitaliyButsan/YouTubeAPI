@@ -120,7 +120,7 @@ class PlayerControlPanelView: UIView {
         switch state {
         case .play:
             playButton.setImage(Asset.Player.Controls.pause.image, for: .normal)
-        case .pause:
+        case .pause, .stop:
             playButton.setImage(Asset.Player.Controls.play.image, for: .normal)
         default:
             break

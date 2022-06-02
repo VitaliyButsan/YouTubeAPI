@@ -19,7 +19,6 @@
 		FE491B0A282B91B300738677 /* YouTubeViewControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE491B09282B91B300738677 /* YouTubeViewControllerAssembly.swift */; };
 		FE491B0F282BA53A00738677 /* PlaylistDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE491B0E282BA53A00738677 /* PlaylistDataWrapper.swift */; };
 		FE59F9D5282D61F000AF1505 /* PageControlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE59F9D4282D61F000AF1505 /* PageControlCell.swift */; };
-		FE5E6EDE283BC6F300B8895A /* PlaylistItemResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5E6EDD283BC6F300B8895A /* PlaylistItemResource.swift */; };
 		FE776C0A282D057F00F37DBF /* UIFont+CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE776C09282D057F00F37DBF /* UIFont+CustomFonts.swift */; };
 		FE776C11282D2BD400F37DBF /* PlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE776C10282D2BD400F37DBF /* PlaylistCell.swift */; };
 		FE877225282A830A006111CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE877224282A830A006111CB /* AppDelegate.swift */; };
@@ -68,7 +67,6 @@
 		FE491B09282B91B300738677 /* YouTubeViewControllerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeViewControllerAssembly.swift; sourceTree = "<group>"; };
 		FE491B0E282BA53A00738677 /* PlaylistDataWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistDataWrapper.swift; sourceTree = "<group>"; };
 		FE59F9D4282D61F000AF1505 /* PageControlCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControlCell.swift; sourceTree = "<group>"; };
-		FE5E6EDD283BC6F300B8895A /* PlaylistItemResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistItemResource.swift; sourceTree = "<group>"; };
 		FE776C09282D057F00F37DBF /* UIFont+CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+CustomFonts.swift"; sourceTree = "<group>"; };
 		FE776C10282D2BD400F37DBF /* PlaylistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistCell.swift; sourceTree = "<group>"; };
 		FE877221282A830A006111CB /* YouTubeAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouTubeAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -380,7 +378,6 @@
 				FE8F2251282BD7A600177DA9 /* PlaylistItemsDataWrapper.swift */,
 				FE8F2253282BE25B00177DA9 /* VideoDataWrapper.swift */,
 				FEA2F2BF282E3BA100CF531A /* CellModel.swift */,
-				FE5E6EDD283BC6F300B8895A /* PlaylistItemResource.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -603,7 +600,6 @@
 				FED15861282E64DF00FB4664 /* PlaylistItemCell.swift in Sources */,
 				FE59F9D5282D61F000AF1505 /* PageControlCell.swift in Sources */,
 				FE2FB47828340166003F96B4 /* String+splitIntoThousandParts.swift in Sources */,
-				FE5E6EDE283BC6F300B8895A /* PlaylistItemResource.swift in Sources */,
 				FE282BED2837E4580097AA91 /* NSNotificaiton+names.swift in Sources */,
 				FE87725D282AA4F6006111CB /* YouTubeAPI.swift in Sources */,
 				FE1F31DF282C1241006F1360 /* UIFactory.swift in Sources */,

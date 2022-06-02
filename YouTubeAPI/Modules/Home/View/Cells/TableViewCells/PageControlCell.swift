@@ -170,9 +170,30 @@ class PageControlCell: UITableViewCell {
     }
 }
 
+// MARK: - UIPageViewControllerDelegate
+
+extension PageControlCell: UIPageViewControllerDelegate {
+    
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            willTransitionTo pendingViewControllers: [UIViewController]) {
+        guard let firstPendingController = pendingViewControllers.first else { return }
+        guard let pendingPageIndex = pages.firstIndex(of: firstPendingController) else { return }
+        pendingIndex = pendingPageIndex
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool,
+                            previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if completed {
+            currentIndex = pendingIndex
+            pageControl.currentPage = currentIndex
+            delegate?.switchChannel(by: currentIndex)
+        }
+    }
+}
+
 // MARK: - UIPageViewControllerDataSource
 
-extension PageControlCell: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+extension PageControlCell: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -192,22 +213,6 @@ extension PageControlCell: UIPageViewControllerDataSource, UIPageViewControllerD
         }
         let nextPageIndex = abs((currentPageIndex + 1) % pages.count)
         return pages[nextPageIndex]
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController,
-                            willTransitionTo pendingViewControllers: [UIViewController]) {
-        guard let firstPendingController = pendingViewControllers.first else { return }
-        guard let pendingPageIndex = pages.firstIndex(of: firstPendingController) else { return }
-        pendingIndex = pendingPageIndex
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool,
-                            previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if completed {
-            currentIndex = pendingIndex
-            pageControl.currentPage = currentIndex
-            delegate?.switchChannel(by: currentIndex)
-        }
     }
 }
 

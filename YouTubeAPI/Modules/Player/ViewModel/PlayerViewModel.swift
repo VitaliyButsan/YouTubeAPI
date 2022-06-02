@@ -112,7 +112,7 @@ class PlayerViewModel {
         currentVideo
             .compactMap(\.snippet.viewCount)
             .compactMap { $0.splitIntoThounsandParts }
-            .map { "\($0) просмотра"}
+            .map { "\($0) просмотра" }
             .bind(to: videoViewCounter)
             .disposed(by: disposeBag)
         
