@@ -127,7 +127,8 @@ class PlayerViewModel {
     
     private func formattedTime(by seconds: Double) -> String {
         let (hours, minutes, seconds) = convertToHoursMinutesSeconds(from: Int(seconds))
-        return formattedTimeBy(hours, minutes, seconds)
+        let formattedTimeString = formattedTimeStringBy(hours, minutes, seconds)
+        return formattedTimeString
     }
     
     private func convertToHoursMinutesSeconds(from seconds: Int) -> (Int, Int, Int) {
@@ -137,7 +138,7 @@ class PlayerViewModel {
         return (hours, minutes, seconds)
     }
     
-    private func formattedTimeBy(_ hours: Int, _ minutes: Int, _ seconds: Int) -> String {
+    private func formattedTimeStringBy(_ hours: Int, _ minutes: Int, _ seconds: Int) -> String {
         if Int(duration) >= secondsInHour {
             return String(format: "%01i:%02i:%02i", hours, minutes, seconds)
         } else {
