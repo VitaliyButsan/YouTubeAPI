@@ -305,8 +305,8 @@ extension MainView: PageControlCellDelegate {
     }
     
     private func joinedPlaylistsItems(from playlists: [Playlist]?) -> [PlaylistItem] {
-        guard let playlistItems2D = playlists?.compactMap(\.playlistItems) else { return [] }
-        return Array(playlistItems2D.joined())
+        guard let playlistsItems2D = playlists?.compactMap(\.playlistItems) else { return [] }
+        return Array(playlistsItems2D.joined())
     }
 }
 
