@@ -127,7 +127,7 @@ class MainView: UIView {
             .setDelegate(self)
             .disposed(by: disposeBag)
         
-        youTubeViewModel.dataSource
+        youTubeViewModel.sections
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
     }

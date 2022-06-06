@@ -15,7 +15,7 @@ class YouTubeViewModel {
     
     // MARK: - Properties
     
-    private(set) var dataSource = BehaviorRelay(value: [ResourceSection]())
+    private(set) var sections = BehaviorRelay(value: [ResourceSection]())
     
     private var pagesTimerDisposable: Disposable?
     private var channels = [Channel]()
@@ -61,17 +61,17 @@ class YouTubeViewModel {
     }
     
     func getSectionTitle(by sectionIndex: Int) -> String {
-        if sectionIndex > dataSource.value.count - 1 || sectionIndex < 0 {
+        if (sectionIndex < 0) || (sectionIndex > sections.value.count - 1) {
             return ""
         }
-        let section = dataSource.value[sectionIndex]
+        let section = sections.value[sectionIndex]
         let sectionTitle = section.model
         return sectionTitle
     }
     
     func updateData(for channelIndex: Int) {
         let sections = createSections(for: channelIndex)
-        dataSource.accept(sections)
+        self.sections.accept(sections)
     }
     
     func getChannels() {
@@ -79,7 +79,7 @@ class YouTubeViewModel {
             .subscribe { channels in
                 self.channels = channels
                 let sections = self.createSections(for: 0)
-                self.dataSource.accept(sections)
+                self.sections.accept(sections)
                 self.isLoadedData.accept(true)
             } onError: { error in
                 self.errorSubject.accept(error.localizedDescription)
