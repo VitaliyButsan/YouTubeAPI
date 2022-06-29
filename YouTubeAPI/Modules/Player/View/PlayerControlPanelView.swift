@@ -50,12 +50,9 @@ class PlayerControlPanelView: UIView {
     
     // MARK: - Init
     
-    convenience init(viewModel: PlayerViewModel?) {
+    convenience init(viewModel: PlayerViewModel) {
         self.init(frame: .zero)
-
-        guard let viewModel = viewModel else {
-            fatalError("ControlPanelView init")
-        }
+		
         playerViewModel = viewModel
         setup()
     }

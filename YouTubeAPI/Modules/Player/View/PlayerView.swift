@@ -39,12 +39,9 @@ class PlayerView: UIView {
     
     // MARK: - Init
     
-    convenience init(viewModel: PlayerViewModel?) {
+    convenience init(viewModel: PlayerViewModel) {
         self.init(frame: .zero)
         
-        guard let viewModel = viewModel else {
-            fatalError("MainView init")
-        }
         playerViewModel = viewModel
         setup()
     }
@@ -210,13 +207,19 @@ class PlayerView: UIView {
     }
     
     private func playPrevious() {
-        let videoID = playerViewModel.getPreviousVideoId()
-        videoPlayer.loadVideoID(videoID)
+		if let video = playerViewModel.getPreviousVideo() {
+			let videoID = video.snippet.resourceId.videoId
+			videoPlayer.loadVideoID(videoID)
+			playerViewModel.currentVideo.accept(video)
+		}
     }
     
     private func playNext() {
-        let videoID = playerViewModel.getNextVideoId()
-        videoPlayer.loadVideoID(videoID)
+		if let video = playerViewModel.getNextVideoId() {
+			let videoID = video.snippet.resourceId.videoId
+			videoPlayer.loadVideoID(videoID)
+			playerViewModel.currentVideo.accept(video)
+		}
     }
     
     @objc private func detectPan(_ recognizer: UIPanGestureRecognizer) {

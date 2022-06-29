@@ -86,14 +86,16 @@ class YouTubeViewModel {
             }
             .disposed(by: disposeBag)
     }
+	
+	// MARK: - Private methods
     
-    func zipChannels() -> Observable<[Channel]> {
+    private func zipChannels() -> Observable<[Channel]> {
         Observable.zip(
             channelsIDs.map { self.populateChannel(by: $0) }
         )
     }
     
-    func populateChannel(by channelId: String) -> Observable<Channel> {
+    private func populateChannel(by channelId: String) -> Observable<Channel> {
         Observable<Channel>.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
             
@@ -109,7 +111,7 @@ class YouTubeViewModel {
         }
     }
     
-    func getChannel(by channelId: String) -> Observable<Channel> {
+    private func getChannel(by channelId: String) -> Observable<Channel> {
         Observable<Channel>.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
             
@@ -123,7 +125,7 @@ class YouTubeViewModel {
         }
     }
     
-    func addPlaylists(to channel: Channel) -> Observable<Channel> {
+	private func addPlaylists(to channel: Channel) -> Observable<Channel> {
         Observable<Channel>.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
             
@@ -138,7 +140,7 @@ class YouTubeViewModel {
         }
     }
     
-    func addPlaylistsItems(to channel: Channel) -> Observable<Channel> {
+	private func addPlaylistsItems(to channel: Channel) -> Observable<Channel> {
         Observable<Channel>.create { [weak self] observer in
             guard let self = self, let playlists = channel.playlists else {
                 return Disposables.create()
@@ -153,8 +155,8 @@ class YouTubeViewModel {
                 }
         }
     }
-    
-    func zipPlaylistsItems(by playlists: [Playlist]) -> Observable<[Playlist]> {
+	
+	private func zipPlaylistsItems(by playlists: [Playlist]) -> Observable<[Playlist]> {
         Observable.zip(
             playlists.map { playlist in
                 self.addPlaylistItems(to: playlist)
@@ -162,7 +164,7 @@ class YouTubeViewModel {
         )
     }
     
-    func addPlaylistItems(to playlist: Playlist) -> Observable<Playlist> {
+	private func addPlaylistItems(to playlist: Playlist) -> Observable<Playlist> {
         Observable<Playlist>.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
             
@@ -177,7 +179,7 @@ class YouTubeViewModel {
         }
     }
     
-    func addPlaylistsItemsViewCount(to channel: Channel) -> Observable<Channel> {
+	private func addPlaylistsItemsViewCount(to channel: Channel) -> Observable<Channel> {
         Observable<Channel>.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
             
@@ -192,7 +194,7 @@ class YouTubeViewModel {
         }
     }
     
-    func zipPlaylists(with playlists: [Playlist]) -> Observable<[Playlist]> {
+	private func zipPlaylists(with playlists: [Playlist]) -> Observable<[Playlist]> {
         Observable.zip(
             playlists.map { playlist in
                 self.addPlaylistItemsViewsCount(by: playlist)
@@ -200,7 +202,7 @@ class YouTubeViewModel {
         )
     }
     
-    func addPlaylistItemsViewsCount(by playlist: Playlist) -> Observable<Playlist> {
+	private func addPlaylistItemsViewsCount(by playlist: Playlist) -> Observable<Playlist> {
         Observable<Playlist>.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
             
@@ -215,7 +217,7 @@ class YouTubeViewModel {
         }
     }
     
-    func zipPlaylistItemsViewCount(by playlist: Playlist) -> Observable<[PlaylistItem]> {
+	private func zipPlaylistItemsViewCount(by playlist: Playlist) -> Observable<[PlaylistItem]> {
         guard let playlistItems = playlist.playlistItems else { return .just([]) }
         return Observable.zip(
             playlistItems.map { playlistItem in
@@ -224,7 +226,7 @@ class YouTubeViewModel {
         )
     }
     
-    func addPlaylistItemViewCount(by playlistItem: PlaylistItem) -> Observable<PlaylistItem> {
+	private func addPlaylistItemViewCount(by playlistItem: PlaylistItem) -> Observable<PlaylistItem> {
         Observable<PlaylistItem>.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
             
@@ -237,7 +239,7 @@ class YouTubeViewModel {
         }
     }
     
-    func addViewCount(to playlistItem: PlaylistItem) -> Observable<PlaylistItem> {
+	private func addViewCount(to playlistItem: PlaylistItem) -> Observable<PlaylistItem> {
         Observable<PlaylistItem>.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
             let videoId = playlistItem.snippet.resourceId.videoId

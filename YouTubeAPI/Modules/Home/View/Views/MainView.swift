@@ -55,12 +55,9 @@ class MainView: UIView {
     
     // MARK: - Init
     
-    convenience init(viewModel: YouTubeViewModel?) {
+    convenience init(viewModel: YouTubeViewModel) {
         self.init(frame: .zero)
         
-        guard let viewModel = viewModel else {
-            fatalError("MainView init")
-        }
         youTubeViewModel = viewModel
         setup()
     }

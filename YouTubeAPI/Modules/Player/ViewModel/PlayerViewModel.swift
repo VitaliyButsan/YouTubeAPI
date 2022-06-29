@@ -15,12 +15,13 @@ class PlayerViewModel {
     var duration = 0.0
     var videos = [PlaylistItem]()
     var previousPlayerOpenedState = ShowPlayerState.close
-    var currentVideo = BehaviorRelay(value: PlaylistItem.placeholder)
-    
+	
     let isPlayerOpened = BehaviorRelay<ShowPlayerState>(value: .close)
     let yOffset = BehaviorRelay<CGFloat>(value: 0.0)
     let didLayoutSubviewsSubject = PublishRelay<Void>()
     
+	let currentVideo = BehaviorRelay(value: PlaylistItem.placeholder)
+	
     let videoTitle = BehaviorRelay(value: "")
     let videoViewCounter = BehaviorRelay(value: "")
     
@@ -53,30 +54,22 @@ class PlayerViewModel {
         return firstVideo
     }
     
-    func getPreviousVideoId() -> String {
-        var videoID = ""
+    func getPreviousVideo() -> PlaylistItem? {
         if currentVideo.value == videos.first {
-            videoID = currentVideo.value.snippet.resourceId.videoId
+			return currentVideo.value
         } else {
-            guard let currVideoIndex = videos.firstIndex(where: { $0 == currentVideo.value }) else { return "" }
-            let previousVideo = videos[currVideoIndex - 1]
-            videoID = previousVideo.snippet.resourceId.videoId
-            currentVideo.accept(previousVideo)
+			guard let currVideoIndex = videos.firstIndex(where: { $0 == currentVideo.value }) else { return nil }
+            return videos[currVideoIndex - 1]
         }
-        return videoID
     }
     
-    func getNextVideoId() -> String {
-        var videoID = ""
+    func getNextVideoId() -> PlaylistItem? {
         if currentVideo.value == videos.last {
-            videoID = currentVideo.value.snippet.resourceId.videoId
+            return currentVideo.value
         } else {
-            guard let currVideoIndex = videos.firstIndex(where: { $0 == currentVideo.value }) else { return "" }
-            let nextVideo = videos[currVideoIndex + 1]
-            videoID = nextVideo.snippet.resourceId.videoId
-            currentVideo.accept(nextVideo)
+            guard let currVideoIndex = videos.firstIndex(where: { $0 == currentVideo.value }) else { return nil }
+            return videos[currVideoIndex + 1]
         }
-        return videoID
     }
     
     // MARK: - Private methods
@@ -139,7 +132,7 @@ class PlayerViewModel {
     }
     
     private func formattedTimeStringBy(_ hours: Int, _ minutes: Int, _ seconds: Int) -> String {
-        if Int(duration) >= secondsInHour {
+        if hours > 0 {
             return String(format: "%01i:%02i:%02i", hours, minutes, seconds)
         } else {
             return String(format: "%01i:%02i", minutes, seconds)

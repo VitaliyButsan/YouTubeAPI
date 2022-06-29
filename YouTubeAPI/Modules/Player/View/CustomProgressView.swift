@@ -43,12 +43,9 @@ class CustomProgressView: UIView {
     
     // MARK: - Init
     
-    convenience init(viewModel: PlayerViewModel?) {
+    convenience init(viewModel: PlayerViewModel) {
         self.init(frame: .zero)
-        
-        guard let viewModel = viewModel else {
-            fatalError("CustomProgressView init")
-        }
+		
         playerViewModel = viewModel
         setup()
     }
