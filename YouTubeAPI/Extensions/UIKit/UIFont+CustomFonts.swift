@@ -12,28 +12,28 @@ extension UIFont {
     enum SFPro {
         
         enum Display {
-            case Bold(size: CGFloat)
+            case bold(size: CGFloat)
             
             var font: UIFont {
                 switch self {
-                case let .Bold(size):
+                case let .bold(size):
                     return FontFamily.SFProDisplay.bold.font(size: size)
                 }
             }
         }
         
         enum Text {
-            case Regular(size: CGFloat)
-            case Medium(size: CGFloat)
-            case Semibold(size: CGFloat)
+            case regular(size: CGFloat)
+            case medium(size: CGFloat)
+            case semibold(size: CGFloat)
             
             var font: UIFont {
                 switch self {
-                case let .Regular(size):
+                case let .regular(size):
                     return FontFamily.SFProText.regular.font(size: size)
-                case let .Medium(size):
+                case let .medium(size):
                     return FontFamily.SFProText.medium.font(size: size)
-                case let .Semibold(size):
+                case let .semibold(size):
                     return FontFamily.SFProText.semibold.font(size: size)
                 }
             }

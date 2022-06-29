@@ -27,12 +27,12 @@ class PlayerControlPanelView: UIView {
     
     private lazy var videoTitleLabel = uiFactory
         .newLabel(
-            font: .SFPro.Text.Medium(size: 18).font,
+            font: .SFPro.Text.medium(size: 18).font,
             textColor: .white
         )
     private lazy var videoViewsCountLabel = uiFactory
         .newLabel(
-            font: .SFPro.Text.Regular(size: 16).font,
+            font: .SFPro.Text.regular(size: 16).font,
             textColor: Asset.Colors.playerTransparentWhite70.color
         )
     private lazy var controlButtonsStackView = uiFactory
@@ -48,7 +48,7 @@ class PlayerControlPanelView: UIView {
     private lazy var soundMinImageView = uiFactory.newImageView(image: Asset.Player.Controls.soundMin.image)
     private lazy var soundMaxImageView = uiFactory.newImageView(image: Asset.Player.Controls.soundMax.image)
     
-    // MARK: - Lifecycle
+    // MARK: - Init
     
     convenience init(viewModel: PlayerViewModel?) {
         self.init(frame: .zero)

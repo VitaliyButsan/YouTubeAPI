@@ -34,7 +34,7 @@ class MainView: UIView {
     private lazy var topBarTitleLabel = uiFactory
         .newLabel(
             text: "",
-            font: .SFPro.Display.Bold(size: 34).font,
+            font: .SFPro.Display.bold(size: 34).font,
             textColor: .white
         )
     
@@ -53,7 +53,7 @@ class MainView: UIView {
     private lazy var shadowView = uiFactory.newShadowView(alpha: 0.5)
     private lazy var playerView = PlayerView(viewModel: PlayerViewModel())
     
-    // MARK: - Lifecycle
+    // MARK: - Init
     
     convenience init(viewModel: YouTubeViewModel?) {
         self.init(frame: .zero)
@@ -253,7 +253,7 @@ extension MainView: UITableViewDelegate {
         let textLabel = uiFactory
             .newLabel(
                 text: youTubeViewModel.getSectionTitle(by: section),
-                font: .SFPro.Display.Bold(size: 23).font,
+                font: .SFPro.Display.bold(size: 23).font,
                 textColor: .white
             )
         headerView.addSubview(textLabel)

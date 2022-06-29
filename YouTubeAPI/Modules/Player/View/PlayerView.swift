@@ -37,7 +37,7 @@ class PlayerView: UIView {
     private lazy var videoPlayer = YouTubePlayerView()
     private lazy var controlPanelView = PlayerControlPanelView(viewModel: playerViewModel)
     
-    // MARK: - Lifecycle
+    // MARK: - Init
     
     convenience init(viewModel: PlayerViewModel?) {
         self.init(frame: .zero)

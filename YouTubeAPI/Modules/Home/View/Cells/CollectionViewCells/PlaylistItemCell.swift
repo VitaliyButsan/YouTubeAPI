@@ -26,12 +26,12 @@ class PlaylistItemCell: UICollectionViewCell {
     
     private lazy var titleVideoLabel = uiFactory
         .newLabel(
-            font: .SFPro.Text.Medium(size: 17).font,
+            font: .SFPro.Text.medium(size: 17).font,
             textColor: .white
         )
     private lazy var viewsCounterLabel = uiFactory
         .newLabel(
-            font: .SFPro.Text.Medium(size: 12).font,
+            font: .SFPro.Text.medium(size: 12).font,
             textColor: .gray
         )
     

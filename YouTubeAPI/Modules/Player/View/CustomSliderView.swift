@@ -39,7 +39,7 @@ class CustomSliderView: UIView {
             tintColor: Asset.Colors.playerTransparentWhite35.color
         )
     
-    // MARK: - Lifecycle
+    // MARK: - Init
     
     convenience init(viewModel: PlayerViewModel?) {
         self.init(frame: .zero)

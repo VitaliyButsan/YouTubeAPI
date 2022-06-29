@@ -78,7 +78,7 @@ final class UIFactory {
         // set title label
         let channelTitleLabel = newLabel(
             text: channel.brandingSettings.channel.title,
-            font: .SFPro.Text.Semibold(size: 16).font,
+            font: .SFPro.Text.semibold(size: 16).font,
             textColor: Asset.Colors.channelTitleTextColor.color
         )
         vc.view.addSubview(channelTitleLabel)
@@ -91,7 +91,7 @@ final class UIFactory {
         let viewsCount = channel.statistics.subscriberCount.splitIntoThounsandParts ?? "0"
         let channelSubscribersCounterLabel = newLabel(
             text: viewsCount + " подписчика",
-            font: .SFPro.Text.Regular(size: 10).font,
+            font: .SFPro.Text.regular(size: 10).font,
             textColor: .gray
         )
         vc.view.addSubview(channelSubscribersCounterLabel)

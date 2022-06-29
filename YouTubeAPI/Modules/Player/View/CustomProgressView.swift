@@ -32,16 +32,16 @@ class CustomProgressView: UIView {
         )
     private lazy var currentTimeLabel = uiFactory
         .newLabel(
-            font: .SFPro.Text.Regular(size: 11).font,
+            font: .SFPro.Text.regular(size: 11).font,
             textColor: Asset.Colors.playerTransparentWhite70.color
         )
     private lazy var remainingTimeLabel = uiFactory
         .newLabel(
-            font: .SFPro.Text.Medium(size: 11).font,
+            font: .SFPro.Text.medium(size: 11).font,
             textColor: Asset.Colors.playerTransparentWhite70.color
         )
     
-    // MARK: - Lifecycle
+    // MARK: - Init
     
     convenience init(viewModel: PlayerViewModel?) {
         self.init(frame: .zero)

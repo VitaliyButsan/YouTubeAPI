@@ -20,7 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
 //        YouTubeViewModel().getChannels(by: "UCkhh_JEXUpT9mAJHOATkIeg")
         
-        
         guard let windowScene = (scene as? UIWindowScene) else { fatalError() }
         let window = UIWindow(windowScene: windowScene)
         window.windowScene = windowScene
@@ -60,7 +59,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
+	
 }
 
