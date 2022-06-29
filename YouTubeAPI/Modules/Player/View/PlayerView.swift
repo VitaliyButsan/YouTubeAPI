@@ -144,9 +144,10 @@ class PlayerView: UIView {
     }
     
     private func playFirstVideo() {
-        guard let startedVideo = playerViewModel.getStartedVideo() else { return }
+		guard let startedVideo = playerViewModel.videos.first else { return }
         let videoID = startedVideo.snippet.resourceId.videoId
         videoPlayer.loadVideoID(videoID)
+		playerViewModel.currentVideo.accept(startedVideo)
     }
     
     private func rotateOpenCloseButton(by state: ShowPlayerState) {

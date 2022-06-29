@@ -48,12 +48,6 @@ class PlayerViewModel {
     
     // MARK: - Public methods
     
-    func getStartedVideo() -> PlaylistItem? {
-        guard let firstVideo = videos.first else { return nil }
-        currentVideo.accept(firstVideo)
-        return firstVideo
-    }
-    
     func getPreviousVideo() -> PlaylistItem? {
         if currentVideo.value == videos.first {
 			return currentVideo.value
