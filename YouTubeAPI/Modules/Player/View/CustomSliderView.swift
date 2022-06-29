@@ -102,7 +102,7 @@ class CustomSliderView: UIView {
             .bind(to: sliderView.rx.value)
             .disposed(by: disposeBag)
         
-        playerViewModel.isPlayerOpened
+        playerViewModel.playerOpenState
             .subscribe(onNext: { state in
                 switch state {
                 case .open:

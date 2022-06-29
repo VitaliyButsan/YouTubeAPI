@@ -105,7 +105,7 @@ class PlayerView: UIView {
     }
     
     private func setupPreviousPlayerOpenedState() {
-        switch playerViewModel.isPlayerOpened.value {
+        switch playerViewModel.playerOpenState.value {
         case .open:
             playerViewModel.previousPlayerOpenedState = .close
         case .close:
@@ -120,7 +120,7 @@ class PlayerView: UIView {
             }
             .disposed(by: disposeBag)
         
-        playerViewModel.isPlayerOpened
+        playerViewModel.playerOpenState
             .subscribe(onNext: { [unowned self] state in
                 switch state {
                 case .open:
@@ -231,9 +231,9 @@ class PlayerView: UIView {
             playerViewModel.yOffset.accept(point.y)
         case .ended:
             if frame.minY > Constants.quarterScreenHeight {
-                playerViewModel.isPlayerOpened.accept(.close)
+                playerViewModel.playerOpenState.accept(.close)
             } else {
-                playerViewModel.isPlayerOpened.accept(.open)
+                playerViewModel.playerOpenState.accept(.open)
             }
         default:
             break

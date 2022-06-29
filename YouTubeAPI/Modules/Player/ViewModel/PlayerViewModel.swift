@@ -16,7 +16,7 @@ class PlayerViewModel {
     var videos = [PlaylistItem]()
     var previousPlayerOpenedState = ShowPlayerState.close
 	
-    let isPlayerOpened = BehaviorRelay<ShowPlayerState>(value: .close)
+    let playerOpenState = BehaviorRelay<ShowPlayerState>(value: .close)
     let yOffset = BehaviorRelay<CGFloat>(value: 0.0)
     let didLayoutSubviewsSubject = PublishRelay<Void>()
     

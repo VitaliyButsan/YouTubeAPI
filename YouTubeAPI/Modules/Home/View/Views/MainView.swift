@@ -153,7 +153,7 @@ class MainView: UIView {
             }
             .disposed(by: disposeBag)
         
-        playerView.playerViewModel.isPlayerOpened
+        playerView.playerViewModel.playerOpenState
             .subscribe(onNext: { [unowned self] state in
                 setupShadowBackground(by: state)
                 setupTopBarTitle(by: state)
@@ -298,7 +298,7 @@ extension MainView: PageControlCellDelegate {
     func channelDidSelect(_ channel: Channel) {
         let videos = joinedPlaylistsItems(from: channel.playlists)
         playerView.playerViewModel.videos = videos
-        playerView.playerViewModel.isPlayerOpened.accept(.open)
+        playerView.playerViewModel.playerOpenState.accept(.open)
     }
     
     private func joinedPlaylistsItems(from playlists: [Playlist]?) -> [PlaylistItem] {
