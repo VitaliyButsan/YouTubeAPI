@@ -57,7 +57,7 @@ class PlayerViewModel {
         }
     }
     
-    func getNextVideoId() -> PlaylistItem? {
+    func getNextVideo() -> PlaylistItem? {
         if currentVideo.value == videos.last {
             return currentVideo.value
         } else {

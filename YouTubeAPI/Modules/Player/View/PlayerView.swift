@@ -216,7 +216,7 @@ class PlayerView: UIView {
     }
     
     private func playNext() {
-		if let video = playerViewModel.getNextVideoId() {
+		if let video = playerViewModel.getNextVideo() {
 			let videoID = video.snippet.resourceId.videoId
 			videoPlayer.loadVideoID(videoID)
 			playerViewModel.currentVideo.accept(video)
