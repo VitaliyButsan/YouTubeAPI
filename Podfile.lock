@@ -1,12 +1,12 @@
 PODS:
-  - Alamofire (5.5.0)
+  - Alamofire (5.10.2)
   - Differentiator (5.0.0)
   - Moya/Core (15.0.0):
     - Alamofire (~> 5.0)
   - Moya/RxSwift (15.0.0):
     - Moya/Core
     - RxSwift (~> 6.0)
-  - ProgressHUD (13.6)
+  - ProgressHUD (14.1.1)
   - RxAnimated (0.9.0):
     - RxAnimated/Core (= 0.9.0)
     - RxCocoa (~> 6.0)
@@ -24,12 +24,12 @@ PODS:
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
-  - SDWebImage (5.12.5):
-    - SDWebImage/Core (= 5.12.5)
-  - SDWebImage/Core (5.12.5)
+  - SDWebImage (5.21.1):
+    - SDWebImage/Core (= 5.21.1)
+  - SDWebImage/Core (5.21.1)
   - SnapKit (5.6.0)
-  - SwiftGen (6.5.1)
-  - Swinject (2.8.1)
+  - SwiftGen (6.6.3)
+  - Swinject (2.9.1)
   - YouTubePlayer (0.7.2)
 
 DEPENDENCIES:
@@ -63,21 +63,21 @@ SPEC REPOS:
     - YouTubePlayer
 
 SPEC CHECKSUMS:
-  Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
+  Alamofire: 7193b3b92c74a07f85569e1a6c4f4237291e7496
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
-  ProgressHUD: 4bdaa0d2ddf676b23324b199f9facffb5c3a1620
+  ProgressHUD: abb9136ae23c85204236828562cb9a8ec98efb44
   RxAnimated: e53fb66cafc0539faf881b734f7412a624527f0a
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
-  SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
+  SDWebImage: f29024626962457f3470184232766516dee8dfea
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
-  SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
-  Swinject: 97112918bd7e0785dc2df7036213f3c8cbba6586
+  SwiftGen: 4993cbf71cbc4886f775e26f8d5c3a1188ec9f99
+  Swinject: a827d508c6270da03ec74e558e728917a888fa9b
   YouTubePlayer: 2b5f2830d8f9b2cde942083211291e382c9e6bd5
 
-PODFILE CHECKSUM: f3e3bd9c7c91af9a0a3a1880883744ae7f4ed04b
+PODFILE CHECKSUM: 9b2ea7193b37669c1ca0489630195a76692d1cf6
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.15.2
