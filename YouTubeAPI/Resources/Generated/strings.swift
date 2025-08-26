@@ -17,8 +17,8 @@ internal enum L10n {
   internal static let apiKey = L10n.tr("Localizable", "apiKey", fallback: "AIzaSyBxF4G3kTicXsQwmzspB1yVlMwfMSZDivk")
   /// https://www.googleapis.com/youtube/v3
   internal static let baseURL = L10n.tr("Localizable", "baseURL", fallback: "https://www.googleapis.com/youtube/v3")
-  /// UCxNGwMtZo7ynegilkV8Dbkw
-  internal static let channelId1 = L10n.tr("Localizable", "channelId1", fallback: "UCxNGwMtZo7ynegilkV8Dbkw")
+  /// UCRV1wrztaWRxYIP6MCjv5gg
+  internal static let channelId1 = L10n.tr("Localizable", "channelId1", fallback: "UCRV1wrztaWRxYIP6MCjv5gg")
   /// UCClZiNLIqCqMAiLDLETO6Zw
   internal static let channelId2 = L10n.tr("Localizable", "channelId2", fallback: "UCClZiNLIqCqMAiLDLETO6Zw")
   /// UCIm6Hxg4kwY79VTxQBsO2pA
