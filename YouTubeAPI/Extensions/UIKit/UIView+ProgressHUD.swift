@@ -11,22 +11,18 @@ import ProgressHUD
 extension UIView {
     
     static func showRotationHUD() {
-        ProgressHUD.show()
+        ProgressHUD.animate()
         ProgressHUD.animationType = .circleRotateChase
         ProgressHUD.colorAnimation = .black
     }
     
-    static func showHUD(icon: AlertIcon) {
-        ProgressHUD.show(icon: icon)
-    }
-    
     static func showSuccessHUD() {
-        ProgressHUD.showSucceed()
+        ProgressHUD.succeed()
         ProgressHUD.colorAnimation = .systemGreen
     }
     
     static func showFailedHUD() {
-        ProgressHUD.showFailed()
+        ProgressHUD.failed()
         ProgressHUD.colorAnimation = .systemRed
     }
     

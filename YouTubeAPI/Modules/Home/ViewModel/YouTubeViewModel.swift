@@ -81,7 +81,7 @@ class YouTubeViewModel {
                 let sections = self.createSections(for: 0)
                 self.sections.accept(sections)
                 self.isLoadedData.accept(true)
-            } onError: { error in
+            } onFailure: { error in
                 self.errorSubject.accept(error.localizedDescription)
             }
             .disposed(by: disposeBag)
@@ -89,10 +89,12 @@ class YouTubeViewModel {
 	
 	// MARK: - Private methods
     
-    private func zipChannels() -> Observable<[Channel]> {
-        Observable.zip(
-            channelsIDs.map { self.populateChannel(by: $0) }
-        )
+    private func zipChannels() -> Single<[Channel]> {
+        Observable.from(channelsIDs)
+            .concatMap { id in
+                self.populateChannel(by: id)
+            }
+            .toArray()
     }
     
     private func populateChannel(by channelId: String) -> Observable<Channel> {
@@ -103,11 +105,17 @@ class YouTubeViewModel {
                 .flatMap { self.addPlaylists(to: $0) }
                 .flatMap { self.addPlaylistsItems(to: $0) }
                 .flatMap { self.addPlaylistsItemsViewCount(to: $0) }
-                .subscribe { channel in
-                    observer.onNext(channel)
-                } onError: { error in
-                    observer.onError(error)
-                }
+                .subscribe(
+                    onNext: { channel in
+                        observer.onNext(channel)
+                    },
+                    onError: { error in
+                        observer.onError(error)
+                    },
+                    onCompleted: {
+                        observer.onCompleted()
+                    }
+                )
         }
     }
     
@@ -117,8 +125,10 @@ class YouTubeViewModel {
             
             return self.youTubeService.getChannels(by: channelId)
                 .subscribe(onSuccess: { channels in
-                    guard let newChannel = channels.first else { return }
-                    observer.onNext(newChannel)
+                    if let channel = channels.first {
+                        observer.onNext(channel)
+                    }
+                    observer.onCompleted()
                 }, onFailure: { error in
                     observer.onError(error)
                 })
@@ -134,33 +144,31 @@ class YouTubeViewModel {
                     var tempChannel = channel
                     tempChannel.playlists = playlists
                     observer.onNext(tempChannel)
+                    observer.onCompleted()
                 }, onFailure: { error in
                     observer.onError(error)
                 })
         }
     }
     
-	private func addPlaylistsItems(to channel: Channel) -> Observable<Channel> {
-        Observable<Channel>.create { [weak self] observer in
-            guard let self = self, let playlists = channel.playlists else {
-                return Disposables.create()
-            }
-            return self.zipPlaylistsItems(by: playlists)
-                .subscribe { playlists in
-                    var tempChannel = channel
-                    tempChannel.playlists = playlists
-                    observer.onNext(tempChannel)
-                } onError: { error in
-                    observer.onError(error)
-                }
+    private func addPlaylistsItems(to channel: Channel) -> Observable<Channel> {
+        guard let playlists = channel.playlists, !playlists.isEmpty else {
+            return .just(channel)
         }
-    }
-	
-	private func zipPlaylistsItems(by playlists: [Playlist]) -> Observable<[Playlist]> {
-        Observable.zip(
-            playlists.map { playlist in
-                self.addPlaylistItems(to: playlist)
+        return self.zipPlaylistsItems(by: playlists)
+            .map { playlists in
+                var tempChannel = channel
+                tempChannel.playlists = playlists
+                return tempChannel
             }
+    }
+    
+    private func zipPlaylistsItems(by playlists: [Playlist]) -> Observable<[Playlist]> {
+        if playlists.isEmpty {
+            return .just([])
+        }
+        return Observable.zip(
+            playlists.map { self.addPlaylistItems(to: $0) }
         )
     }
     
@@ -173,32 +181,29 @@ class YouTubeViewModel {
                     var tempPlaylist = playlist
                     tempPlaylist.playlistItems = playlistItems
                     observer.onNext(tempPlaylist)
+                    observer.onCompleted()
                 }, onFailure: { error in
                     observer.onError(error)
                 })
         }
     }
     
-	private func addPlaylistsItemsViewCount(to channel: Channel) -> Observable<Channel> {
-        Observable<Channel>.create { [weak self] observer in
-            guard let self = self else { return Disposables.create() }
-            
-            return self.zipPlaylists(with: channel.playlists ?? [])
-                .subscribe { playlists in
-                    var tempChannel = channel
-                    tempChannel.playlists = playlists
-                    observer.onNext(tempChannel)
-                } onError: { error in
-                    observer.onError(error)
-                }
-        }
+    private func addPlaylistsItemsViewCount(to channel: Channel) -> Observable<Channel> {
+        let playlists = channel.playlists ?? []
+        if playlists.isEmpty { return .just(channel) }
+
+        return self.zipPlaylists(with: playlists)
+            .map { playlists in
+                var tempChannel = channel
+                tempChannel.playlists = playlists
+                return tempChannel
+            }
     }
     
-	private func zipPlaylists(with playlists: [Playlist]) -> Observable<[Playlist]> {
-        Observable.zip(
-            playlists.map { playlist in
-                self.addPlaylistItemsViewsCount(by: playlist)
-            }
+    private func zipPlaylists(with playlists: [Playlist]) -> Observable<[Playlist]> {
+        if playlists.isEmpty { return .just([]) }
+        return Observable.zip(
+            playlists.map { self.addPlaylistItemsViewsCount(by: $0) }
         )
     }
     
@@ -207,23 +212,21 @@ class YouTubeViewModel {
             guard let self = self else { return Disposables.create() }
             
             return self.zipPlaylistItemsViewCount(by: playlist)
-                .subscribe { playlistItem in
+                .subscribe(onNext: { playlistItem in
                     var tempPlaylist = playlist
                     tempPlaylist.playlistItems = playlistItem
                     observer.onNext(tempPlaylist)
-                } onError: { error in
+                    observer.onCompleted()
+                }, onError: { error in
                     observer.onError(error)
-                }
+                })
         }
     }
     
-	private func zipPlaylistItemsViewCount(by playlist: Playlist) -> Observable<[PlaylistItem]> {
-        guard let playlistItems = playlist.playlistItems else { return .just([]) }
-        return Observable.zip(
-            playlistItems.map { playlistItem in
-                self.addPlaylistItemViewCount(by: playlistItem)
-            }
-        )
+    private func zipPlaylistItemsViewCount(by playlist: Playlist) -> Observable<[PlaylistItem]> {
+        let items = playlist.playlistItems ?? []
+        if items.isEmpty { return .just([]) }
+        return Observable.zip(items.map { self.addPlaylistItemViewCount(by: $0) })
     }
     
 	private func addPlaylistItemViewCount(by playlistItem: PlaylistItem) -> Observable<PlaylistItem> {
@@ -233,6 +236,7 @@ class YouTubeViewModel {
             return self.addViewCount(to: playlistItem)
                 .subscribe { playlistItem in
                     observer.onNext(playlistItem)
+                    observer.onCompleted()
                 } onError: { error in
                     observer.onError(error)
                 }
@@ -246,14 +250,12 @@ class YouTubeViewModel {
             
             return self.youTubeService.getVideos(by: videoId)
                 .subscribe(onSuccess: { videos in
-                    guard let newVideo = videos.first else {
-                        observer.onNext(playlistItem)
-                        return
-                    }
                     var tempPlaylistItem = playlistItem
-                    let viewCount = newVideo.statistics.viewCount
-                    tempPlaylistItem.snippet.viewCount = viewCount
+                    if let newVideo = videos.first {
+                        tempPlaylistItem.snippet.viewCount = newVideo.statistics.viewCount
+                    }
                     observer.onNext(tempPlaylistItem)
+                    observer.onCompleted()
                 }, onFailure: { error in
                     observer.onError(error)
                 })

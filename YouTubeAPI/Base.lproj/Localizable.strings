@@ -19,10 +19,10 @@
 "videosRequestParts" = "statistics";
 
 // channels ids
-"channelId1" = "UC18bHNKD21woNT7G0F4PN7Q";
-"channelId2" = "UCJhjE7wbdYAae1G25m0tHAA";
-"channelId3" = "UCLr_PnLF0aClbzrEnpyxx0A";
-"channelId4" = "UC9_DJQL7CPkR9PhjfRZAnlw";
+"channelId1" = "UCRV1wrztaWRxYIP6MCjv5gg";
+"channelId2" = "UCClZiNLIqCqMAiLDLETO6Zw";
+"channelId3" = "UCIm6Hxg4kwY79VTxQBsO2pA";
+"channelId4" = "UCTRLjMPCWRwyTX6-MPlz-Gg";
 
 // cell ids
 "playlistItemCellId" = "PlaylistItemCell";
