@@ -21,10 +21,10 @@ internal enum L10n {
   internal static let channelId1 = L10n.tr("Localizable", "channelId1", fallback: "UCRV1wrztaWRxYIP6MCjv5gg")
   /// UCClZiNLIqCqMAiLDLETO6Zw
   internal static let channelId2 = L10n.tr("Localizable", "channelId2", fallback: "UCClZiNLIqCqMAiLDLETO6Zw")
-  /// UCIm6Hxg4kwY79VTxQBsO2pA
-  internal static let channelId3 = L10n.tr("Localizable", "channelId3", fallback: "UCIm6Hxg4kwY79VTxQBsO2pA")
-  /// UCTRLjMPCWRwyTX6-MPlz-Gg
-  internal static let channelId4 = L10n.tr("Localizable", "channelId4", fallback: "UCTRLjMPCWRwyTX6-MPlz-Gg")
+  /// UCtX85DMU0spTUmlASGKNbIA
+  internal static let channelId3 = L10n.tr("Localizable", "channelId3", fallback: "UCtX85DMU0spTUmlASGKNbIA")
+  /// UCQZpfoYXcjgKwhTFZ3W22Kg
+  internal static let channelId4 = L10n.tr("Localizable", "channelId4", fallback: "UCQZpfoYXcjgKwhTFZ3W22Kg")
   /// brandingSettings, statistics
   internal static let channelsRequestParts = L10n.tr("Localizable", "channelsRequestParts", fallback: "brandingSettings, statistics")
   /// PageControlCell
