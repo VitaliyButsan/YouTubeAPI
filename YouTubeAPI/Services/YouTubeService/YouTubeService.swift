@@ -19,7 +19,7 @@ class YouTubeService {
     func getChannels(by id: String) -> Single<[Channel]> {
         provider.rx
             .request(.getChannels(id: id))
-            .catch { error in .error(error) }
+            .filterSuccessfulStatusCodes()
             .map(ChannelsDataWrapper.self)
             .map(\.items)
     }

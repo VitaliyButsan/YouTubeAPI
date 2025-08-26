@@ -9,6 +9,13 @@ import RxDataSources
 
 struct ChannelsDataWrapper: Decodable {
     let items: [Channel]
+    
+    private enum CodingKeys: String, CodingKey { case items }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.items = try container.decodeIfPresent([Channel].self, forKey: .items) ?? []
+    }
 }
 
 struct Channel: Decodable {
